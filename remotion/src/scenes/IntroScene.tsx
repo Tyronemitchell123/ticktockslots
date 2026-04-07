@@ -29,18 +29,12 @@ export const IntroScene: React.FC = () => {
           marginBottom: 30,
         }}>
           <span style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 8,
-            padding: "8px 20px",
-            borderRadius: 999,
-            border: "1px solid rgba(59,130,246,0.3)",
-            backgroundColor: "rgba(59,130,246,0.08)",
-            fontSize: 14,
-            fontWeight: 700,
-            color: "#60a5fa",
-            letterSpacing: 3,
-            textTransform: "uppercase",
+            display: "inline-flex", alignItems: "center", gap: 8,
+            padding: "8px 20px", borderRadius: 999,
+            border: "1px solid rgba(59,130,246,0.4)",
+            backgroundColor: "rgba(59,130,246,0.12)",
+            fontSize: 14, fontWeight: 700, color: "#93bbfc",
+            letterSpacing: 3, textTransform: "uppercase" as const,
           }}>
             <span style={{ width: 8, height: 8, borderRadius: "50%", backgroundColor: "#4ade80" }} />
             LIVE • ALL VERTICALS
@@ -49,25 +43,17 @@ export const IntroScene: React.FC = () => {
 
         {/* Title */}
         <div style={{
-          fontSize: 90,
-          fontWeight: 900,
-          color: "#f8fafc",
-          lineHeight: 1,
-          opacity: titleOpacity,
-          transform: `translateY(${titleY}px)`,
-          letterSpacing: -3,
+          fontSize: 90, fontWeight: 900, color: "#ffffff",
+          lineHeight: 1, opacity: titleOpacity,
+          transform: `translateY(${titleY}px)`, letterSpacing: -3,
         }}>
           Every Empty Slot
         </div>
         <div style={{
-          fontSize: 90,
-          fontWeight: 900,
-          lineHeight: 1.1,
-          opacity: titleOpacity,
-          transform: `translateY(${titleY}px)`,
-          background: "linear-gradient(135deg, #3b82f6, #60a5fa, #3b82f6)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
+          fontSize: 90, fontWeight: 900, lineHeight: 1.1,
+          opacity: titleOpacity, transform: `translateY(${titleY}px)`,
+          background: "linear-gradient(135deg, #60a5fa, #93c5fd, #60a5fa)",
+          WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
           letterSpacing: -3,
         }}>
           Is Lost Revenue
@@ -75,21 +61,15 @@ export const IntroScene: React.FC = () => {
 
         {/* Accent line */}
         <div style={{
-          width: lineWidth,
-          height: 3,
-          background: "linear-gradient(90deg, transparent, #3b82f6, #eab308, transparent)",
-          margin: "30px auto",
-          borderRadius: 2,
+          width: lineWidth, height: 3,
+          background: "linear-gradient(90deg, transparent, #60a5fa, #fbbf24, transparent)",
+          margin: "30px auto", borderRadius: 2,
         }} />
 
         {/* Subtitle */}
         <div style={{
-          fontSize: 26,
-          color: "#94a3b8",
-          opacity: subtitleOpacity,
-          transform: `translateY(${subtitleY}px)`,
-          fontWeight: 400,
-          letterSpacing: 1,
+          fontSize: 26, color: "#b0bec5", opacity: subtitleOpacity,
+          transform: `translateY(${subtitleY}px)`, fontWeight: 400, letterSpacing: 1,
         }}>
           The Global Liquidity Engine for Perishable Inventory
         </div>
