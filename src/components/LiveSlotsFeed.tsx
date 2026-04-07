@@ -29,11 +29,15 @@ const MOCK_SLOTS: Slot[] = [
   { id: "10", merchant: "Le Jules Verne", vertical: "Dining", location: "Paris, FR", region: "Europe", time: "7:30 PM Today", originalPrice: 520, currentPrice: 310, urgency: "high", timeLeft: 130 },
   { id: "11", merchant: "Bondi Fitness", vertical: "Fitness", location: "Sydney, AU", region: "Asia Pacific", time: "6:00 AM Tomorrow", originalPrice: 45, currentPrice: 18, urgency: "medium", timeLeft: 510 },
   { id: "12", merchant: "Mombasa Port", vertical: "Logistics", location: "Mombasa, KE", region: "Africa", time: "08:00 AM Thu", originalPrice: 5400, currentPrice: 2200, urgency: "high", timeLeft: 720 },
+  { id: "13", merchant: "Harley Street Clinic", vertical: "Health", location: "London, UK", region: "UK", time: "10:30 AM Tomorrow", originalPrice: 400, currentPrice: 195, urgency: "high", timeLeft: 150 },
+  { id: "14", merchant: "Sketch Restaurant", vertical: "Dining", location: "Mayfair, London", region: "UK", time: "8:00 PM Today", originalPrice: 380, currentPrice: 210, urgency: "critical", timeLeft: 35 },
+  { id: "15", merchant: "Third Space Gym", vertical: "Fitness", location: "Soho, London", region: "UK", time: "6:30 AM Tomorrow", originalPrice: 55, currentPrice: 22, urgency: "medium", timeLeft: 480 },
 ];
 
 const REGIONS = [
   { id: "all", label: "🌍 All Regions", flag: "" },
   { id: "North America", label: "North America", flag: "🇺🇸" },
+  { id: "UK", label: "UK / London", flag: "🇬🇧" },
   { id: "Europe", label: "Europe", flag: "🇪🇺" },
   { id: "Asia Pacific", label: "Asia Pacific", flag: "🌏" },
   { id: "Middle East", label: "Middle East", flag: "🕌" },
