@@ -14,7 +14,197 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bookings: {
+        Row: {
+          created_at: string
+          id: string
+          merchant_id: string | null
+          paid_amount: number | null
+          paid_upfront: boolean
+          slot_id: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          merchant_id?: string | null
+          paid_amount?: number | null
+          paid_upfront?: boolean
+          slot_id: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          merchant_id?: string | null
+          paid_amount?: number | null
+          paid_upfront?: boolean
+          slot_id?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_merchant_id_fkey"
+            columns: ["merchant_id"]
+            isOneToOne: false
+            referencedRelation: "merchants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_slot_id_fkey"
+            columns: ["slot_id"]
+            isOneToOne: false
+            referencedRelation: "slots"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      merchants: {
+        Row: {
+          contact_email: string | null
+          created_at: string
+          id: string
+          is_verified: boolean
+          location: string
+          logo_url: string | null
+          name: string
+          region: string
+          updated_at: string
+          vertical: string
+        }
+        Insert: {
+          contact_email?: string | null
+          created_at?: string
+          id?: string
+          is_verified?: boolean
+          location: string
+          logo_url?: string | null
+          name: string
+          region: string
+          updated_at?: string
+          vertical: string
+        }
+        Update: {
+          contact_email?: string | null
+          created_at?: string
+          id?: string
+          is_verified?: boolean
+          location?: string
+          logo_url?: string | null
+          name?: string
+          region?: string
+          updated_at?: string
+          vertical?: string
+        }
+        Relationships: []
+      }
+      slots: {
+        Row: {
+          created_at: string
+          current_price: number
+          expires_at: string
+          id: string
+          is_live: boolean
+          location: string
+          merchant_id: string | null
+          merchant_name: string
+          original_price: number
+          region: string
+          source: string
+          time_description: string
+          time_left: number
+          updated_at: string
+          urgency: Database["public"]["Enums"]["slot_urgency"]
+          vertical: string
+        }
+        Insert: {
+          created_at?: string
+          current_price: number
+          expires_at?: string
+          id?: string
+          is_live?: boolean
+          location: string
+          merchant_id?: string | null
+          merchant_name: string
+          original_price: number
+          region: string
+          source?: string
+          time_description: string
+          time_left?: number
+          updated_at?: string
+          urgency?: Database["public"]["Enums"]["slot_urgency"]
+          vertical: string
+        }
+        Update: {
+          created_at?: string
+          current_price?: number
+          expires_at?: string
+          id?: string
+          is_live?: boolean
+          location?: string
+          merchant_id?: string | null
+          merchant_name?: string
+          original_price?: number
+          region?: string
+          source?: string
+          time_description?: string
+          time_left?: number
+          updated_at?: string
+          urgency?: Database["public"]["Enums"]["slot_urgency"]
+          vertical?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_slots_merchant"
+            columns: ["merchant_id"]
+            isOneToOne: false
+            referencedRelation: "merchants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_trust_scores: {
+        Row: {
+          cancellations: number
+          completed_bookings: number
+          created_at: string
+          id: string
+          no_shows: number
+          score: number
+          total_bookings: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cancellations?: number
+          completed_bookings?: number
+          created_at?: string
+          id?: string
+          no_shows?: number
+          score?: number
+          total_bookings?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cancellations?: number
+          completed_bookings?: number
+          created_at?: string
+          id?: string
+          no_shows?: number
+          score?: number
+          total_bookings?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +213,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      slot_urgency: "critical" | "high" | "medium"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +340,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      slot_urgency: ["critical", "high", "medium"],
+    },
   },
 } as const
