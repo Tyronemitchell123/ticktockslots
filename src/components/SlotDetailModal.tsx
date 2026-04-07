@@ -58,9 +58,12 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
 
   const [bookingLoading, setBookingLoading] = useState(false);
   const [bookingId, setBookingId] = useState<string | null>(null);
+  const [trustScore, setTrustScore] = useState<number | null>(null);
   const { user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  const requiresUpfront = trustScore !== null && trustScore < 60;
 
   useEffect(() => {
     if (slot) {
