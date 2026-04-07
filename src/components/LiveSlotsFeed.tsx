@@ -110,7 +110,6 @@ const LiveSlotsFeed = () => {
         </div>
       </div>
     </section>
-    </section>
   );
 };
 
