@@ -57,6 +57,7 @@ const verticalDetails: Record<string, { icon: string; category: string; trustBad
 type Step = "details" | "confirm" | "success";
 
 const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: SlotDetailModalProps) => {
+  const isMobile = useIsMobile();
   const [step, setStep] = useState<Step>("details");
   const [liveCountdown, setLiveCountdown] = useState(0);
 
