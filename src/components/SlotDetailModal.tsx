@@ -58,9 +58,12 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
 
   const [bookingLoading, setBookingLoading] = useState(false);
   const [bookingId, setBookingId] = useState<string | null>(null);
+  const [trustScore, setTrustScore] = useState<number | null>(null);
   const { user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  const requiresUpfront = trustScore !== null && trustScore < 60;
 
   useEffect(() => {
     if (slot) {
@@ -69,6 +72,19 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
       setBookingId(null);
     }
   }, [slot]);
+
+  // Fetch trust score when user is logged in and modal opens
+  useEffect(() => {
+    if (!user || !open) return;
+    supabase
+      .from("user_trust_scores")
+      .select("score")
+      .eq("user_id", user.id)
+      .single()
+      .then(({ data }) => {
+        if (data) setTrustScore(data.score);
+      });
+  }, [user, open]);
 
   useEffect(() => {
     if (!open || step === "success") return;
@@ -112,8 +128,8 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
           user_id: user.id,
           merchant_id: null,
           paid_amount: slot.currentPrice,
-          paid_upfront: false,
-          status: "confirmed",
+          paid_upfront: requiresUpfront,
+          status: requiresUpfront ? "paid" : "confirmed",
         })
         .select("id")
         .single();
@@ -202,6 +218,17 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
                 </div>
               </div>
 
+              {/* Trust score warning */}
+              {user && requiresUpfront && (
+                <div className="flex items-center gap-3 rounded-lg px-4 py-3 bg-secondary/10 border border-secondary/30">
+                  <Shield className="w-5 h-5 text-secondary shrink-0" />
+                  <div>
+                    <div className="text-sm font-medium text-secondary">100% Upfront Payment Required</div>
+                    <div className="text-xs text-muted-foreground">Your trust score ({trustScore}/100) is below 60. Full payment of {fmtCurrent} is required to claim this slot.</div>
+                  </div>
+                </div>
+              )}
+
               {/* CTA */}
               {!user && (
                 <p className="text-xs text-center text-muted-foreground">
@@ -252,7 +279,24 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
                 <span className="font-medium text-foreground">Total</span>
                 <span className="text-xl font-bold text-secondary">{fmtCurrent}</span>
               </div>
+              {requiresUpfront && (
+                <div className="flex justify-between text-sm pt-2">
+                  <span className="text-secondary font-medium">⚠️ Paid upfront</span>
+                  <span className="text-secondary font-medium">100%</span>
+                </div>
+              )}
             </div>
+
+            {/* Upfront payment notice */}
+            {requiresUpfront && (
+              <div className="flex items-center gap-3 rounded-lg px-4 py-3 bg-secondary/10 border border-secondary/30">
+                <Shield className="w-5 h-5 text-secondary shrink-0" />
+                <div>
+                  <div className="text-sm font-medium text-secondary">Full Payment Required</div>
+                  <div className="text-xs text-muted-foreground">Trust score {trustScore}/100 — payment of {fmtCurrent} will be charged immediately.</div>
+                </div>
+              </div>
+            )}
 
             {/* Countdown warning */}
             <div className={`flex items-center gap-3 rounded-lg px-4 py-3 ${liveCountdown < 30 ? "bg-destructive/10 border border-destructive/30" : "bg-muted/30 border border-border/30"}`}>
@@ -276,7 +320,7 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
                 disabled={liveCountdown === 0 || bookingLoading}
               >
                 {bookingLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <CheckCircle2 className="w-5 h-5" />}
-                {bookingLoading ? "Booking..." : "Confirm & Pay"}
+                {bookingLoading ? "Booking..." : requiresUpfront ? "Pay Now & Confirm" : "Confirm & Pay"}
               </Button>
             </div>
           </div>
