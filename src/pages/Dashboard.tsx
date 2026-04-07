@@ -9,7 +9,12 @@ import {
   AlertTriangle, BarChart3, Activity, Cpu, Target, Bot,
 } from "lucide-react";
 import { getApiKeys, createApiKey, revokeApiKey, deleteApiKey, type ApiKey } from "@/lib/api-keys";
-import { generateInsights, generateDemandForecast, getAutomationStatus, type AiInsight } from "@/lib/ai-engine";
+import { generateInsights, generateDemandForecast, generateWeeklyRevenue, generateSectorBreakdown, generateFillRateTimeline, getAutomationStatus, type AiInsight } from "@/lib/ai-engine";
+import {
+  AreaChart, Area, BarChart, Bar, LineChart, Line, PieChart, Pie, Cell,
+  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
+  RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
+} from "recharts";
 import { getConnections, connectCalendar, disconnectCalendar, getRecentEvents, type CalendarConnection } from "@/lib/calendar-sync";
 
 const Dashboard = () => {
