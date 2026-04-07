@@ -17,6 +17,7 @@ const verticals = [
     description: "Hair, spa, nails — cancelled slots filled in real-time across 50K+ salons.",
     accentColor: "#f472b6",
     accentRgb: "244,114,182",
+    image: "images/beauty.jpg",
   },
   {
     icon: "🩺",
@@ -26,6 +27,7 @@ const verticals = [
     description: "Doctor visits, specialist consults, and therapy sessions recovered instantly.",
     accentColor: "#4ade80",
     accentRgb: "74,222,128",
+    image: "images/healthcare.jpg",
   },
   {
     icon: "✈️",
@@ -35,6 +37,7 @@ const verticals = [
     description: "Private jet empty legs at up to 75% off across 200+ FBOs worldwide.",
     accentColor: "#60a5fa",
     accentRgb: "96,165,250",
+    image: "images/aviation.jpg",
   },
   {
     icon: "🚢",
@@ -44,6 +47,7 @@ const verticals = [
     description: "Docking windows, berth swaps, and container slot trading to avoid demurrage.",
     accentColor: "#38bdf8",
     accentRgb: "56,189,248",
+    image: "images/maritime.jpg",
   },
   {
     icon: "🍽️",
@@ -53,6 +57,7 @@ const verticals = [
     description: "Premium restaurant reservations at exclusive venues worldwide.",
     accentColor: "#eab308",
     accentRgb: "234,179,8",
+    image: "images/dining.jpg",
   },
   {
     icon: "🚛",
@@ -62,6 +67,7 @@ const verticals = [
     description: "Deadhead elimination. Fill empty return legs and reduce carbon output.",
     accentColor: "#f97316",
     accentRgb: "249,115,22",
+    image: "images/freight.jpg",
   },
 ];
 
