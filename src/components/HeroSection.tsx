@@ -26,7 +26,7 @@ const HeroSection = () => {
         className="absolute inset-0 w-full h-full object-cover opacity-30"
         poster="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80"
       >
-        <source src="https://videos.pexels.com/video-files/3129671/3129671-uhd_2560_1440_30fps.mp4" type="video/mp4" />
+        <source src="/videos/hero-bg.mp4" type="video/mp4" />
       </video>
       {/* Dark overlay for legibility */}
       <div className="absolute inset-0 bg-background/60" />
