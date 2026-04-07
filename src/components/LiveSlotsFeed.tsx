@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon, Radio, Wifi } from "lucide-react";
 import SlotDetailModal from "./SlotDetailModal";
-import { fetchAllLiveSlots, type LiveSlot } from "@/lib/live-data";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Slot {
   id: string;
@@ -137,27 +137,82 @@ const LiveSlotsFeed = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Fetch real live data from public APIs
+  // Fetch live slots from database + trigger ingestion
   useEffect(() => {
-    const loadLive = async () => {
+    // Trigger edge function to ingest fresh slots (fire-and-forget)
+    supabase.functions.invoke("ingest-live-slots", { method: "POST" }).catch(() => {});
+
+    const loadFromDb = async () => {
       try {
-        const liveSlots = await fetchAllLiveSlots();
-        if (liveSlots.length > 0) {
+        const { data, error } = await supabase
+          .from("slots")
+          .select("*")
+          .eq("is_live", true)
+          .gt("expires_at", new Date().toISOString())
+          .order("created_at", { ascending: false })
+          .limit(20);
+
+        if (error) {
+          console.warn("DB fetch error:", error);
+          return;
+        }
+
+        if (data && data.length > 0) {
+          const dbSlots: Slot[] = data.map((s) => ({
+            id: s.id,
+            merchant: s.merchant_name,
+            vertical: s.vertical,
+            location: s.location,
+            region: s.region,
+            time: s.time_description,
+            originalPrice: Number(s.original_price),
+            currentPrice: Number(s.current_price),
+            urgency: s.urgency as "critical" | "high" | "medium",
+            timeLeft: s.time_left,
+            isLive: true,
+            source: s.source,
+          }));
           setSlots((prev) => {
-            // Remove old live slots, keep mock + add new live
             const mockOnly = prev.filter((s) => !s.isLive);
-            const merged = [...liveSlots, ...mockOnly];
-            return merged;
+            return [...dbSlots, ...mockOnly];
           });
-          setLiveCount(liveSlots.length);
+          setLiveCount(dbSlots.length);
         }
       } catch (e) {
         console.warn("Live data fetch failed:", e);
       }
     };
-    loadLive();
-    const interval = setInterval(loadLive, 30000); // Refresh every 30s
-    return () => clearInterval(interval);
+    loadFromDb();
+    const interval = setInterval(loadFromDb, 15000);
+
+    // Subscribe to realtime inserts
+    const channel = supabase
+      .channel("live-slots")
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "slots" }, (payload) => {
+        const s = payload.new as any;
+        const newSlot: Slot = {
+          id: s.id,
+          merchant: s.merchant_name,
+          vertical: s.vertical,
+          location: s.location,
+          region: s.region,
+          time: s.time_description,
+          originalPrice: Number(s.original_price),
+          currentPrice: Number(s.current_price),
+          urgency: s.urgency,
+          timeLeft: s.time_left,
+          isLive: true,
+          source: s.source,
+        };
+        setSlots((prev) => [newSlot, ...prev]);
+        setLiveCount((prev) => prev + 1);
+      })
+      .subscribe();
+
+    return () => {
+      clearInterval(interval);
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   const filteredSlots = useMemo(() => {
