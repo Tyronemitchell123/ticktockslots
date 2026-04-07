@@ -20,6 +20,7 @@ import { getConnections, connectCalendar, disconnectCalendar, getRecentEvents, t
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [apiKeys, setApiKeys] = useState<ApiKey[]>([]);
   const [newKeyName, setNewKeyName] = useState("");
   const [showKeys, setShowKeys] = useState<Record<string, boolean>>({});
