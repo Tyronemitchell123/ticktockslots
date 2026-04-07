@@ -21,28 +21,28 @@ const Footer = () => {
             <div>
               <div className="font-semibold text-foreground mb-3">Product</div>
               <div className="space-y-2 text-muted-foreground">
-                <div className="hover:text-foreground cursor-pointer transition-colors">Live Slots</div>
-                <div className="hover:text-foreground cursor-pointer transition-colors">For Merchants</div>
-                <div className="hover:text-foreground cursor-pointer transition-colors">API Access</div>
-                <div className="hover:text-foreground cursor-pointer transition-colors">Pricing</div>
+                <a href="/#slots" className="block hover:text-foreground transition-colors">Live Slots</a>
+                <a href="/#how" className="block hover:text-foreground transition-colors">For Merchants</a>
+                <a href="/#how" className="block hover:text-foreground transition-colors">API Access</a>
+                <a href="/#pricing" className="block hover:text-foreground transition-colors">Pricing</a>
               </div>
             </div>
             <div>
               <div className="font-semibold text-foreground mb-3">Sectors</div>
               <div className="space-y-2 text-muted-foreground">
-                <div className="hover:text-foreground cursor-pointer transition-colors">Beauty & Wellness</div>
-                <div className="hover:text-foreground cursor-pointer transition-colors">Aviation</div>
-                <div className="hover:text-foreground cursor-pointer transition-colors">Maritime</div>
-                <div className="hover:text-foreground cursor-pointer transition-colors">Healthcare</div>
+                <a href="/#sectors" className="block hover:text-foreground transition-colors">Beauty & Wellness</a>
+                <a href="/#sectors" className="block hover:text-foreground transition-colors">Aviation</a>
+                <a href="/#sectors" className="block hover:text-foreground transition-colors">Maritime</a>
+                <a href="/#sectors" className="block hover:text-foreground transition-colors">Healthcare</a>
               </div>
             </div>
             <div>
               <div className="font-semibold text-foreground mb-3">Company</div>
               <div className="space-y-2 text-muted-foreground">
-                <div className="hover:text-foreground cursor-pointer transition-colors">About</div>
-                <div className="hover:text-foreground cursor-pointer transition-colors">Careers</div>
-                <div className="hover:text-foreground cursor-pointer transition-colors">ESG Report</div>
-                <div className="hover:text-foreground cursor-pointer transition-colors">Contact</div>
+                <a href="/#how" className="block hover:text-foreground transition-colors">About</a>
+                <a href="/#how" className="block hover:text-foreground transition-colors">Careers</a>
+                <a href="/#how" className="block hover:text-foreground transition-colors">ESG Report</a>
+                <a href="/#pricing" className="block hover:text-foreground transition-colors">Contact</a>
               </div>
             </div>
           </div>
