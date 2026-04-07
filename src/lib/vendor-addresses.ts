@@ -137,3 +137,29 @@ export const getVendorAddress = (merchantName: string): string | null => {
 export const getOpenStreetMapUrl = (address: string): string => {
   return `https://www.openstreetmap.org/search?query=${encodeURIComponent(address)}`;
 };
+
+export type OpenMapResult = "opened" | "copied" | "failed";
+
+export const openMapLocation = async (address: string): Promise<OpenMapResult> => {
+  const url = getOpenStreetMapUrl(address);
+
+  if (typeof window !== "undefined") {
+    const mapWindow = window.open("", "_blank", "noopener,noreferrer");
+    if (mapWindow) {
+      mapWindow.opener = null;
+      mapWindow.location.href = url;
+      return "opened";
+    }
+  }
+
+  if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+    try {
+      await navigator.clipboard.writeText(address);
+      return "copied";
+    } catch {
+      return "failed";
+    }
+  }
+
+  return "failed";
+};

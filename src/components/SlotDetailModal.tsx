@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MapPin, Clock, TrendingDown, Shield, Zap, CheckCircle2, ArrowRight, Timer, Loader2, Star, MessageSquare, Navigation } from "lucide-react";
-import { getVendorAddress, getOpenStreetMapUrl } from "@/lib/vendor-addresses";
+import { getVendorAddress, openMapLocation } from "@/lib/vendor-addresses";
 import { detectCurrency, formatPriceInCurrency } from "@/lib/currency";
 import { getSlotRating } from "@/lib/mock-reviews";
 import { useAuth } from "@/contexts/AuthContext";
@@ -69,6 +69,21 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
   const { toast } = useToast();
 
   const requiresUpfront = trustScore !== null && trustScore < 60;
+
+  const handleOpenMap = async (address: string) => {
+    const result = await openMapLocation(address);
+
+    if (result === "opened") return;
+
+    toast({
+      title: result === "copied" ? "Map site blocked in preview" : "Couldn't open map",
+      description:
+        result === "copied"
+          ? "The address was copied to your clipboard — paste it into Google Maps, Apple Maps, or OpenStreetMap."
+          : `Copy this address manually: ${address}`,
+      variant: result === "failed" ? "destructive" : undefined,
+    });
+  };
 
   useEffect(() => {
     if (slot) {
@@ -194,15 +209,14 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
                     return address ? (
                       <div className="mt-1.5">
                         <p className="text-[11px] text-muted-foreground leading-snug">{address}</p>
-                        <a
-                          href={getOpenStreetMapUrl(address)}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                        <button
+                          type="button"
+                          onClick={() => void handleOpenMap(address)}
                           className="inline-flex items-center gap-1 mt-1.5 text-xs font-medium text-primary hover:text-primary/80 transition-colors"
                         >
                           <Navigation className="w-3.5 h-3.5" />
                           Open in Maps
-                        </a>
+                        </button>
                       </div>
                     ) : null;
                   })()}
