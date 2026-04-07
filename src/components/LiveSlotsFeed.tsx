@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon } from "lucide-react";
+import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon, Radio, Wifi } from "lucide-react";
 import SlotDetailModal from "./SlotDetailModal";
+import { fetchAllLiveSlots, type LiveSlot } from "@/lib/live-data";
 
 interface Slot {
   id: string;
@@ -14,6 +15,8 @@ interface Slot {
   currentPrice: number;
   urgency: "critical" | "high" | "medium";
   timeLeft: number;
+  isLive?: boolean;
+  source?: string;
 }
 
 const MOCK_SLOTS: Slot[] = [
@@ -122,7 +125,9 @@ const LiveSlotsFeed = () => {
   const [selectedRegion, setSelectedRegion] = useState("all");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [liveCount, setLiveCount] = useState(0);
 
+  // Countdown timer
   useEffect(() => {
     const timer = setInterval(() => {
       setSlots((prev) =>
@@ -130,6 +135,29 @@ const LiveSlotsFeed = () => {
       );
     }, 1000);
     return () => clearInterval(timer);
+  }, []);
+
+  // Fetch real live data from public APIs
+  useEffect(() => {
+    const loadLive = async () => {
+      try {
+        const liveSlots = await fetchAllLiveSlots();
+        if (liveSlots.length > 0) {
+          setSlots((prev) => {
+            // Remove old live slots, keep mock + add new live
+            const mockOnly = prev.filter((s) => !s.isLive);
+            const merged = [...liveSlots, ...mockOnly];
+            return merged;
+          });
+          setLiveCount(liveSlots.length);
+        }
+      } catch (e) {
+        console.warn("Live data fetch failed:", e);
+      }
+    };
+    loadLive();
+    const interval = setInterval(loadLive, 30000); // Refresh every 30s
+    return () => clearInterval(interval);
   }, []);
 
   const filteredSlots = useMemo(() => {
@@ -176,9 +204,16 @@ const LiveSlotsFeed = () => {
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">Live Slots</h2>
             <p className="text-muted-foreground">Real-time cancellations across all verticals</p>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="w-2 h-2 rounded-full bg-green-400 animate-countdown" />
-            <span className="text-sm text-muted-foreground font-mono">LIVE</span>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-green-400 animate-countdown" />
+              <span className="text-sm text-muted-foreground font-mono">LIVE</span>
+            </div>
+            {liveCount > 0 && (
+              <Badge variant="outline" className="bg-green-400/10 text-green-400 border-green-400/30 text-[10px] gap-1">
+                <Wifi className="w-3 h-3" /> {liveCount} real-time
+              </Badge>
+            )}
           </div>
         </div>
 
@@ -291,8 +326,15 @@ const LiveSlotsFeed = () => {
                     </span>
                   </div>
                   <div>
-                    <div className="font-semibold text-foreground group-hover:text-primary transition-colors">
-                      {slot.merchant}
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                        {slot.merchant}
+                      </span>
+                      {slot.isLive && (
+                        <Badge variant="outline" className="bg-green-400/10 text-green-400 border-green-400/30 text-[9px] py-0 px-1.5 gap-0.5">
+                          <Radio className="w-2.5 h-2.5 animate-countdown" /> {slot.source}
+                        </Badge>
+                      )}
                     </div>
                     <div className="flex items-center gap-3 text-sm text-muted-foreground mt-1">
                       <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{slot.location}</span>
