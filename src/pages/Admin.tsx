@@ -14,7 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import {
   ArrowLeft, Users, ShoppingBag, BarChart3, Bell, Bot, Trash2, Plus,
-  TrendingUp, Activity, Shield, Zap,
+  TrendingUp, Activity, Shield, Zap, Store, CheckCircle2, XCircle, Pencil, Save, X,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 
@@ -30,7 +30,14 @@ const Admin = () => {
   const [users, setUsers] = useState<any[]>([]);
   const [bookings, setBookings] = useState<any[]>([]);
   const [slots, setSlots] = useState<any[]>([]);
+  const [merchants, setMerchants] = useState<any[]>([]);
   const [statsLoading, setStatsLoading] = useState(true);
+
+  // Merchant editing
+  const [editingMerchant, setEditingMerchant] = useState<string | null>(null);
+  const [editForm, setEditForm] = useState<any>({});
+  const [addingMerchant, setAddingMerchant] = useState(false);
+  const [newMerchant, setNewMerchant] = useState({ name: "", location: "", region: "", vertical: "", contact_email: "" });
 
   // Automation
   const {
@@ -54,18 +61,54 @@ const Admin = () => {
 
     const fetchAdminData = async () => {
       setStatsLoading(true);
-      const [profilesRes, bookingsRes, slotsRes] = await Promise.all([
+      const [profilesRes, bookingsRes, slotsRes, merchantsRes] = await Promise.all([
         isAdmin ? supabase.from("profiles").select("*").limit(50) : Promise.resolve({ data: [] }),
         supabase.from("bookings").select("*").order("created_at", { ascending: false }).limit(50),
         supabase.from("slots").select("*").order("created_at", { ascending: false }).limit(100),
+        isAdmin ? supabase.from("merchants").select("*").order("created_at", { ascending: false }).limit(100) : Promise.resolve({ data: [] }),
       ]);
       setUsers(profilesRes.data || []);
       setBookings(bookingsRes.data || []);
       setSlots(slotsRes.data || []);
+      setMerchants(merchantsRes.data || []);
       setStatsLoading(false);
     };
     fetchAdminData();
   }, [user, isAdmin, adminLoading]);
+
+  const refreshMerchants = async () => {
+    const { data } = await supabase.from("merchants").select("*").order("created_at", { ascending: false }).limit(100);
+    if (data) setMerchants(data);
+  };
+
+  const toggleVerify = async (id: string, current: boolean) => {
+    await supabase.from("merchants").update({ is_verified: !current }).eq("id", id);
+    refreshMerchants();
+  };
+
+  const startEdit = (m: any) => {
+    setEditingMerchant(m.id);
+    setEditForm({ name: m.name, location: m.location, region: m.region, vertical: m.vertical, contact_email: m.contact_email || "" });
+  };
+
+  const saveEdit = async (id: string) => {
+    await supabase.from("merchants").update(editForm).eq("id", id);
+    setEditingMerchant(null);
+    refreshMerchants();
+  };
+
+  const deleteMerchant = async (id: string) => {
+    await supabase.from("merchants").delete().eq("id", id);
+    refreshMerchants();
+  };
+
+  const addMerchant = async () => {
+    if (!newMerchant.name || !newMerchant.location || !newMerchant.region || !newMerchant.vertical) return;
+    await supabase.from("merchants").insert(newMerchant);
+    setNewMerchant({ name: "", location: "", region: "", vertical: "", contact_email: "" });
+    setAddingMerchant(false);
+    refreshMerchants();
+  };
 
   if (adminLoading) {
     return (
@@ -105,6 +148,7 @@ const Admin = () => {
                 <TabsTrigger value="overview"><BarChart3 className="w-4 h-4 mr-1" />Overview</TabsTrigger>
                 <TabsTrigger value="users"><Users className="w-4 h-4 mr-1" />Users</TabsTrigger>
                 <TabsTrigger value="bookings"><ShoppingBag className="w-4 h-4 mr-1" />Bookings</TabsTrigger>
+                <TabsTrigger value="merchants"><Store className="w-4 h-4 mr-1" />Merchants</TabsTrigger>
               </>
             )}
             <TabsTrigger value="alerts"><Bell className="w-4 h-4 mr-1" />Price Alerts</TabsTrigger>
@@ -212,6 +256,119 @@ const Admin = () => {
                       ))}
                       {bookings.length === 0 && (
                         <TableRow><TableCell colSpan={4} className="text-center text-muted-foreground">No bookings yet</TableCell></TableRow>
+                      )}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          )}
+
+          {/* Merchants Tab (Admin Only) */}
+          {isAdmin && (
+            <TabsContent value="merchants" className="space-y-4">
+              <Card className="bg-card border-border">
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <div>
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <Store className="w-4 h-4 text-primary" />
+                      Merchant Profiles
+                    </CardTitle>
+                    <CardDescription>{merchants.length} merchants · {merchants.filter((m: any) => m.is_verified).length} verified</CardDescription>
+                  </div>
+                  <Button size="sm" onClick={() => setAddingMerchant(true)} disabled={addingMerchant}>
+                    <Plus className="w-4 h-4 mr-1" /> Add Merchant
+                  </Button>
+                </CardHeader>
+                <CardContent>
+                  {addingMerchant && (
+                    <div className="mb-4 p-4 border border-border rounded-lg bg-muted/20 space-y-3">
+                      <p className="text-sm font-medium text-foreground">New Merchant</p>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        <Input placeholder="Name" value={newMerchant.name} onChange={e => setNewMerchant(p => ({ ...p, name: e.target.value }))} />
+                        <Input placeholder="Location" value={newMerchant.location} onChange={e => setNewMerchant(p => ({ ...p, location: e.target.value }))} />
+                        <Select value={newMerchant.region} onValueChange={v => setNewMerchant(p => ({ ...p, region: v }))}>
+                          <SelectTrigger><SelectValue placeholder="Region" /></SelectTrigger>
+                          <SelectContent>{REGIONS.map(r => <SelectItem key={r} value={r}>{r}</SelectItem>)}</SelectContent>
+                        </Select>
+                        <Select value={newMerchant.vertical} onValueChange={v => setNewMerchant(p => ({ ...p, vertical: v }))}>
+                          <SelectTrigger><SelectValue placeholder="Vertical" /></SelectTrigger>
+                          <SelectContent>{VERTICALS.map(v => <SelectItem key={v} value={v}>{v}</SelectItem>)}</SelectContent>
+                        </Select>
+                        <Input placeholder="Email" value={newMerchant.contact_email} onChange={e => setNewMerchant(p => ({ ...p, contact_email: e.target.value }))} />
+                      </div>
+                      <div className="flex gap-2">
+                        <Button size="sm" onClick={addMerchant}><Plus className="w-4 h-4 mr-1" /> Create</Button>
+                        <Button size="sm" variant="ghost" onClick={() => setAddingMerchant(false)}><X className="w-4 h-4 mr-1" /> Cancel</Button>
+                      </div>
+                    </div>
+                  )}
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Name</TableHead>
+                        <TableHead>Vertical</TableHead>
+                        <TableHead>Location</TableHead>
+                        <TableHead>Region</TableHead>
+                        <TableHead>Email</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead className="text-right">Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {merchants.map((m: any) => (
+                        <TableRow key={m.id}>
+                          {editingMerchant === m.id ? (
+                            <>
+                              <TableCell><Input className="h-8 text-xs" value={editForm.name} onChange={e => setEditForm((p: any) => ({ ...p, name: e.target.value }))} /></TableCell>
+                              <TableCell>
+                                <Select value={editForm.vertical} onValueChange={v => setEditForm((p: any) => ({ ...p, vertical: v }))}>
+                                  <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
+                                  <SelectContent>{VERTICALS.map(v => <SelectItem key={v} value={v}>{v}</SelectItem>)}</SelectContent>
+                                </Select>
+                              </TableCell>
+                              <TableCell><Input className="h-8 text-xs" value={editForm.location} onChange={e => setEditForm((p: any) => ({ ...p, location: e.target.value }))} /></TableCell>
+                              <TableCell>
+                                <Select value={editForm.region} onValueChange={v => setEditForm((p: any) => ({ ...p, region: v }))}>
+                                  <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
+                                  <SelectContent>{REGIONS.map(r => <SelectItem key={r} value={r}>{r}</SelectItem>)}</SelectContent>
+                                </Select>
+                              </TableCell>
+                              <TableCell><Input className="h-8 text-xs" value={editForm.contact_email} onChange={e => setEditForm((p: any) => ({ ...p, contact_email: e.target.value }))} /></TableCell>
+                              <TableCell>
+                                <Badge variant={m.is_verified ? "default" : "secondary"}>{m.is_verified ? "Verified" : "Pending"}</Badge>
+                              </TableCell>
+                              <TableCell className="text-right">
+                                <div className="flex gap-1 justify-end">
+                                  <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => saveEdit(m.id)}><Save className="w-3.5 h-3.5 text-primary" /></Button>
+                                  <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditingMerchant(null)}><X className="w-3.5 h-3.5" /></Button>
+                                </div>
+                              </TableCell>
+                            </>
+                          ) : (
+                            <>
+                              <TableCell className="font-medium">{m.name}</TableCell>
+                              <TableCell><Badge variant="outline" className="text-xs">{m.vertical}</Badge></TableCell>
+                              <TableCell className="text-xs text-muted-foreground">{m.location}</TableCell>
+                              <TableCell className="text-xs text-muted-foreground">{m.region}</TableCell>
+                              <TableCell className="text-xs text-muted-foreground">{m.contact_email || "—"}</TableCell>
+                              <TableCell>
+                                <Badge variant={m.is_verified ? "default" : "secondary"} className="cursor-pointer" onClick={() => toggleVerify(m.id, m.is_verified)}>
+                                  {m.is_verified ? <><CheckCircle2 className="w-3 h-3 mr-1" />Verified</> : <><XCircle className="w-3 h-3 mr-1" />Pending</>}
+                                </Badge>
+                              </TableCell>
+                              <TableCell className="text-right">
+                                <div className="flex gap-1 justify-end">
+                                  <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => startEdit(m)}><Pencil className="w-3.5 h-3.5" /></Button>
+                                  <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => deleteMerchant(m.id)}><Trash2 className="w-3.5 h-3.5 text-destructive" /></Button>
+                                </div>
+                              </TableCell>
+                            </>
+                          )}
+                        </TableRow>
+                      ))}
+                      {merchants.length === 0 && (
+                        <TableRow><TableCell colSpan={7} className="text-center text-muted-foreground">No merchants yet. Add one above!</TableCell></TableRow>
                       )}
                     </TableBody>
                   </Table>
