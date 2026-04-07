@@ -1,11 +1,12 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon, Radio, Wifi, ArrowLeftRight, Info, Star, CheckCircle2, Navigation, ArrowUpDown } from "lucide-react";
+import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon, Radio, Wifi, ArrowLeftRight, Info, Star, CheckCircle2, Navigation, ArrowUpDown, Heart } from "lucide-react";
 import SlotDetailModal from "./SlotDetailModal";
 import { getVendorAddress, getGoogleMapsUrl } from "@/lib/vendor-addresses";
 import { supabase } from "@/integrations/supabase/client";
 import { CURRENCIES, detectCurrency, formatPriceInCurrency } from "@/lib/currency";
 import { getSlotRating } from "@/lib/mock-reviews";
+import { useSavedSlots } from "@/hooks/use-saved-slots";
 
 interface Slot {
   id: string;
@@ -328,6 +329,7 @@ const SLOT_DETAILS: Record<string, { description: string; includes: string[]; id
 };
 
 const LiveSlotsFeed = () => {
+  const { savedSlotIds, toggleSave } = useSavedSlots();
   const [slots, setSlots] = useState(MOCK_SLOTS);
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -847,6 +849,32 @@ const LiveSlotsFeed = () => {
                       >
                         <Info className="w-4 h-4" />
                         <ChevronDown className={`w-3 h-3 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
+                      </button>
+
+                      {/* Save to wishlist */}
+                      <button
+                        className={`p-2 rounded-lg glass transition-colors ${
+                          savedSlotIds.has(slot.id)
+                            ? "text-red-400 hover:text-red-300"
+                            : "text-muted-foreground hover:text-red-400 hover:border-red-400/30"
+                        }`}
+                        title={savedSlotIds.has(slot.id) ? "Remove from wishlist" : "Save to wishlist"}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleSave(slot.id, {
+                            id: slot.id,
+                            merchant: slot.merchant,
+                            vertical: slot.vertical,
+                            location: slot.location,
+                            region: slot.region,
+                            time: slot.time,
+                            originalPrice: slot.originalPrice,
+                            currentPrice: slot.currentPrice,
+                            urgency: slot.urgency,
+                          });
+                        }}
+                      >
+                        <Heart className={`w-4 h-4 ${savedSlotIds.has(slot.id) ? "fill-current" : ""}`} />
                       </button>
 
                       <button
