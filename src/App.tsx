@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard.tsx";
 import Auth from "./pages/Auth.tsx";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Profile from "./pages/Profile.tsx";
+import ResetPassword from "./pages/ResetPassword.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
