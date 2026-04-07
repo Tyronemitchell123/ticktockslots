@@ -431,6 +431,9 @@ const LiveSlotsFeed = () => {
 
   const filteredSlots = useMemo(() => {
     let result = selectedRegion === "all" ? slots : slots.filter((s) => s.region === selectedRegion);
+    if (selectedVertical !== "all") {
+      result = result.filter((s) => s.vertical === selectedVertical);
+    }
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       result = result.filter(
@@ -442,7 +445,19 @@ const LiveSlotsFeed = () => {
       );
     }
     return result;
-  }, [slots, selectedRegion, searchQuery]);
+  }, [slots, selectedRegion, selectedVertical, searchQuery]);
+
+  const verticals = useMemo(() => {
+    const set = new Set(slots.map((s) => s.vertical));
+    return ["all", ...Array.from(set).sort()];
+  }, [slots]);
+
+  const verticalCounts = useMemo(() => {
+    const base = selectedRegion === "all" ? slots : slots.filter((s) => s.region === selectedRegion);
+    const counts: Record<string, number> = { all: base.length };
+    base.forEach((s) => { counts[s.vertical] = (counts[s.vertical] || 0) + 1; });
+    return counts;
+  }, [slots, selectedRegion]);
 
   const regionCounts = useMemo(() => {
     const counts: Record<string, number> = { all: slots.length };
