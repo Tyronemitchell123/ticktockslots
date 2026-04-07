@@ -26,8 +26,9 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-3">
-          <Button variant="ghost" size="sm" className="hidden md:inline-flex">Sign In</Button>
-          <Button variant="hero" size="sm" className="hidden md:inline-flex">Get Early Access</Button>
+          <NotificationCenter />
+          <Button variant="ghost" size="sm" className="hidden md:inline-flex" onClick={() => navigate("/dashboard")}>Dashboard</Button>
+          <Button variant="hero" size="sm" className="hidden md:inline-flex" onClick={() => navigate("/dashboard")}>Get Early Access</Button>
           <button
             className="md:hidden p-2 text-foreground"
             onClick={() => setMobileOpen(!mobileOpen)}
