@@ -15,7 +15,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import {
   ArrowLeft, Users, ShoppingBag, BarChart3, Bell, Bot, Trash2, Plus,
   TrendingUp, Activity, Shield, Zap, Store, CheckCircle2, XCircle, Pencil, Save, X,
+  CalendarPlus,
 } from "lucide-react";
+import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 
 const VERTICALS = ["Beauty", "Dining", "Aviation", "Hotels", "Events", "Wellness", "Sports"];
@@ -38,6 +40,13 @@ const Admin = () => {
   const [editForm, setEditForm] = useState<any>({});
   const [addingMerchant, setAddingMerchant] = useState(false);
   const [newMerchant, setNewMerchant] = useState({ name: "", location: "", region: "", vertical: "", contact_email: "" });
+
+  // New slot form
+  const [newSlot, setNewSlot] = useState({
+    merchant_name: "", vertical: "", location: "", region: "", time_description: "",
+    original_price: "", current_price: "", urgency: "medium" as "critical" | "high" | "medium",
+    expires_at: "",
+  });
 
   // Automation
   const {
@@ -149,6 +158,7 @@ const Admin = () => {
                 <TabsTrigger value="users"><Users className="w-4 h-4 mr-1" />Users</TabsTrigger>
                 <TabsTrigger value="bookings"><ShoppingBag className="w-4 h-4 mr-1" />Bookings</TabsTrigger>
                 <TabsTrigger value="merchants"><Store className="w-4 h-4 mr-1" />Merchants</TabsTrigger>
+                <TabsTrigger value="slots"><CalendarPlus className="w-4 h-4 mr-1" />Add Slot</TabsTrigger>
               </>
             )}
             <TabsTrigger value="alerts"><Bell className="w-4 h-4 mr-1" />Price Alerts</TabsTrigger>
