@@ -537,7 +537,42 @@ const LiveSlotsFeed = () => {
                 </div>
               )}
             </div>
-          </div>
+            {/* Sort selector */}
+            <div className="relative">
+              <button
+                onClick={() => setSortDropdownOpen(!sortDropdownOpen)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg glass text-sm font-medium text-foreground hover:border-primary/30 transition-colors"
+              >
+                <ArrowUpDown className="w-3.5 h-3.5 text-primary" />
+                <span className="hidden sm:inline">
+                  {sortBy === "default" ? "Sort" : sortBy === "price" ? "Price" : sortBy === "discount" ? "Discount" : "Time Left"}
+                </span>
+                <ChevronDown className={`w-3 h-3 transition-transform ${sortDropdownOpen ? "rotate-180" : ""}`} />
+              </button>
+              {sortDropdownOpen && (
+                <>
+                  <div className="fixed inset-0 z-40" onClick={() => setSortDropdownOpen(false)} />
+                  <div className="absolute right-0 top-full mt-1 w-44 glass rounded-xl border border-border/50 shadow-xl z-50 py-1">
+                    {([
+                      { value: "default", label: "Default" },
+                      { value: "price", label: "Price (low → high)" },
+                      { value: "discount", label: "Discount % (high)" },
+                      { value: "timeLeft", label: "Ending soonest" },
+                    ] as const).map((opt) => (
+                      <button
+                        key={opt.value}
+                        onClick={() => { setSortBy(opt.value); setSortDropdownOpen(false); }}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-muted/50 transition-colors ${
+                          sortBy === opt.value ? "text-primary font-semibold" : "text-foreground"
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
         </div>
 
         {/* Search Bar */}
