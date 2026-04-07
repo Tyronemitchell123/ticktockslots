@@ -137,8 +137,11 @@ const LiveSlotsFeed = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Fetch live slots from database
+  // Fetch live slots from database + trigger ingestion
   useEffect(() => {
+    // Trigger edge function to ingest fresh slots (fire-and-forget)
+    supabase.functions.invoke("ingest-live-slots", { method: "POST" }).catch(() => {});
+
     const loadFromDb = async () => {
       try {
         const { data, error } = await supabase
