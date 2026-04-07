@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Clock, TrendingDown, Shield, Zap, CheckCircle2, ArrowRight, Timer } from "lucide-react";
+import { MapPin, Clock, TrendingDown, Shield, Zap, CheckCircle2, ArrowRight, Timer, Loader2 } from "lucide-react";
 import { detectCurrency, formatPriceInCurrency } from "@/lib/currency";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface Slot {
   id: string;
@@ -46,10 +50,17 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
   const [step, setStep] = useState<Step>("details");
   const [liveCountdown, setLiveCountdown] = useState(0);
 
+  const [bookingLoading, setBookingLoading] = useState(false);
+  const [bookingId, setBookingId] = useState<string | null>(null);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
   useEffect(() => {
     if (slot) {
       setLiveCountdown(slot.timeLeft);
       setStep("details");
+      setBookingId(null);
     }
   }, [slot]);
 
@@ -78,8 +89,38 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
     return m > 0 ? `${m}m ${s.toString().padStart(2, "0")}s` : `${s}s`;
   };
 
-  const handleConfirm = () => {
-    setStep("success");
+  const handleConfirm = async () => {
+    if (!user) {
+      toast({ title: "Sign in required", description: "Please sign in to book a slot.", variant: "destructive" });
+      onOpenChange(false);
+      navigate("/auth");
+      return;
+    }
+
+    setBookingLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from("bookings")
+        .insert({
+          slot_id: slot.id,
+          user_id: user.id,
+          merchant_id: null,
+          paid_amount: slot.currentPrice,
+          paid_upfront: false,
+          status: "confirmed",
+        })
+        .select("id")
+        .single();
+
+      if (error) throw error;
+      setBookingId(data.id);
+      setStep("success");
+      toast({ title: "Booking confirmed!", description: `You saved ${fmtSaved} on this slot.` });
+    } catch (error: any) {
+      toast({ title: "Booking failed", description: error.message, variant: "destructive" });
+    } finally {
+      setBookingLoading(false);
+    }
   };
 
   return (
@@ -156,10 +197,15 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
               </div>
 
               {/* CTA */}
+              {!user && (
+                <p className="text-xs text-center text-muted-foreground">
+                  You'll need to <button className="text-primary underline" onClick={() => { onOpenChange(false); navigate("/auth"); }}>sign in</button> to claim this slot.
+                </p>
+              )}
               <Button
                 variant="hero"
                 className="w-full py-6 text-base rounded-xl"
-                onClick={() => setStep("confirm")}
+                onClick={() => user ? setStep("confirm") : navigate("/auth")}
                 disabled={liveCountdown === 0}
               >
                 {liveCountdown === 0 ? (
@@ -221,10 +267,10 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
                 variant="hero"
                 className="flex-1 py-5"
                 onClick={handleConfirm}
-                disabled={liveCountdown === 0}
+                disabled={liveCountdown === 0 || bookingLoading}
               >
-                <CheckCircle2 className="w-5 h-5" />
-                Confirm & Pay
+                {bookingLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <CheckCircle2 className="w-5 h-5" />}
+                {bookingLoading ? "Booking..." : "Confirm & Pay"}
               </Button>
             </div>
           </div>
@@ -245,7 +291,7 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
             <div className="glass rounded-xl p-4 text-left space-y-2">
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Booking ID</span>
-                <span className="font-mono text-foreground">SE-{slot.id.padStart(6, "0")}</span>
+                <span className="font-mono text-foreground text-xs">{bookingId ? bookingId.slice(0, 8).toUpperCase() : slot.id.slice(0, 8)}</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">When</span>
