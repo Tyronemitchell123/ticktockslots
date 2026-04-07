@@ -218,6 +218,17 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
                 </div>
               </div>
 
+              {/* Trust score warning */}
+              {user && requiresUpfront && (
+                <div className="flex items-center gap-3 rounded-lg px-4 py-3 bg-secondary/10 border border-secondary/30">
+                  <Shield className="w-5 h-5 text-secondary shrink-0" />
+                  <div>
+                    <div className="text-sm font-medium text-secondary">100% Upfront Payment Required</div>
+                    <div className="text-xs text-muted-foreground">Your trust score ({trustScore}/100) is below 60. Full payment of {fmtCurrent} is required to claim this slot.</div>
+                  </div>
+                </div>
+              )}
+
               {/* CTA */}
               {!user && (
                 <p className="text-xs text-center text-muted-foreground">
