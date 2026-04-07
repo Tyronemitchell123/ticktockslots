@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Clock, MapPin, TrendingDown } from "lucide-react";
+import SlotDetailModal from "./SlotDetailModal";
 
 interface Slot {
   id: string;
@@ -31,6 +32,8 @@ const urgencyColors = {
 
 const LiveSlotsFeed = () => {
   const [slots, setSlots] = useState(MOCK_SLOTS);
+  const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -43,6 +46,11 @@ const LiveSlotsFeed = () => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
+
+  const handleClaim = (slot: Slot) => {
+    setSelectedSlot(slot);
+    setModalOpen(true);
+  };
 
   return (
     <section className="relative py-24 px-4 overflow-hidden">
@@ -69,7 +77,8 @@ const LiveSlotsFeed = () => {
           {slots.map((slot) => (
             <div
               key={slot.id}
-              className="glass rounded-xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 hover:border-primary/30 transition-colors group"
+              className="glass rounded-xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 hover:border-primary/30 transition-colors group cursor-pointer"
+              onClick={() => handleClaim(slot)}
             >
               <div className="flex items-center gap-4 flex-1">
                 <div className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center shrink-0">
@@ -101,7 +110,13 @@ const LiveSlotsFeed = () => {
                   </div>
                 </div>
 
-                <button className="px-4 py-2 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/80 transition-colors glow-blue">
+                <button
+                  className="px-4 py-2 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/80 transition-colors glow-blue"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleClaim(slot);
+                  }}
+                >
                   Claim
                 </button>
               </div>
@@ -109,6 +124,12 @@ const LiveSlotsFeed = () => {
           ))}
         </div>
       </div>
+
+      <SlotDetailModal
+        slot={selectedSlot}
+        open={modalOpen}
+        onOpenChange={setModalOpen}
+      />
     </section>
   );
 };
