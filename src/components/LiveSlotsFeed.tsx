@@ -757,7 +757,7 @@ const LiveSlotsFeed = () => {
                             </Badge>
                           )}
                         </div>
-                        <div className="flex items-center gap-3 text-sm text-muted-foreground mt-1">
+                        <div className="flex items-center gap-2 sm:gap-3 text-sm text-muted-foreground mt-1 flex-wrap">
                           <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{slot.location}</span>
                           <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{slot.time}</span>
                           <Badge variant="outline" className="text-[10px] py-0 px-1.5">{slot.region}</Badge>
@@ -796,7 +796,7 @@ const LiveSlotsFeed = () => {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3 flex-wrap sm:flex-nowrap w-full md:w-auto justify-between md:justify-end">
                       <Badge variant="outline" className={urgencyColors[slot.urgency]}>
                         {slot.urgency === "critical" ? "🔥" : slot.urgency === "high" ? "⚡" : "📌"} {slot.timeLeft}s left
                       </Badge>
