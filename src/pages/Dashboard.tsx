@@ -28,12 +28,24 @@ const Dashboard = () => {
   const [calendarEmail, setCalendarEmail] = useState("");
   const [calendarProvider, setCalendarProvider] = useState<"google" | "outlook" | "calendly">("google");
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const [forecast, setForecast] = useState(generateDemandForecast());
+  const [weeklyRevenue, setWeeklyRevenue] = useState(generateWeeklyRevenue());
+  const [sectorData, setSectorData] = useState(generateSectorBreakdown());
+  const [fillRate, setFillRate] = useState(generateFillRateTimeline());
 
   useEffect(() => {
     setApiKeys(getApiKeys());
     setInsights(generateInsights());
     setCalendars(getConnections());
-    const interval = setInterval(() => setAutomationStatus(getAutomationStatus()), 5000);
+
+    // Live data refresh every 3 seconds
+    const interval = setInterval(() => {
+      setAutomationStatus(getAutomationStatus());
+      setForecast(generateDemandForecast());
+      setWeeklyRevenue(generateWeeklyRevenue());
+      setSectorData(generateSectorBreakdown());
+      setFillRate(generateFillRateTimeline());
+    }, 3000);
     return () => clearInterval(interval);
   }, []);
 
