@@ -36,8 +36,11 @@ const Navbar = () => {
           <NotificationCenter />
           {user ? (
             <>
-              <Button variant="ghost" size="sm" className="hidden md:inline-flex gap-1" onClick={() => navigate("/dashboard")}>
+              <Button variant="ghost" size="sm" className="hidden md:inline-flex gap-1" onClick={() => navigate("/profile")}>
                 <User className="w-4 h-4" />
+                Profile
+              </Button>
+              <Button variant="ghost" size="sm" className="hidden md:inline-flex gap-1" onClick={() => navigate("/dashboard")}>
                 Dashboard
               </Button>
               <Button variant="ghost" size="sm" className="hidden md:inline-flex gap-1" onClick={handleSignOut}>
