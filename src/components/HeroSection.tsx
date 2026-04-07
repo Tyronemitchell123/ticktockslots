@@ -31,28 +31,33 @@ const HeroSection = () => {
           <source src="/videos/hero-bg.mp4" type="video/mp4" />
         </video>
 
-        {/* Minimal bottom gradient only — keeps video fully visible */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-transparent to-background" />
+        {/* Gradient overlays — video visible on edges, text area has contrast */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-transparent to-background" />
 
-        {/* Compact overlay text — minimal footprint */}
-        <div className="relative z-10 text-center px-4 mt-16">
-          {/* Live badge */}
-          <div className="inline-flex items-center gap-2 bg-background/40 backdrop-blur-sm rounded-full px-4 py-2 mb-6 border border-border/20">
-            <span className="w-2 h-2 rounded-full bg-green-400 animate-countdown" />
-            <span className="text-sm font-medium text-foreground/80">
-              <span className="text-foreground font-mono">{slotsLive.toLocaleString()}</span> slots live
-            </span>
+        {/* Text container with tight backdrop */}
+        <div className="relative z-10 text-center px-4 mt-16 max-w-3xl mx-auto">
+          {/* Tight frosted area just behind text */}
+          <div className="absolute -inset-x-6 -inset-y-4 bg-background/50 rounded-2xl" style={{ filter: 'blur(50px)' }} />
+
+          <div className="relative z-10">
+            {/* Live badge */}
+            <div className="inline-flex items-center gap-2 bg-background/50 backdrop-blur-sm rounded-full px-4 py-2 mb-6 border border-border/20">
+              <span className="w-2 h-2 rounded-full bg-green-400 animate-countdown" />
+              <span className="text-sm font-medium text-foreground/80">
+                <span className="text-foreground font-mono">{slotsLive.toLocaleString()}</span> slots live
+              </span>
+            </div>
+
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[0.95] mb-4">
+              <span className="text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">Every Empty Slot</span>
+              <br />
+              <span className="gradient-text-blue drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">Is Lost Revenue</span>
+            </h1>
+
+            <p className="text-base md:text-lg text-white/80 max-w-xl mx-auto mb-6 drop-shadow-[0_1px_6px_rgba(0,0,0,0.8)]">
+              The global liquidity engine for perishable inventory.
+            </p>
           </div>
-
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[0.95] mb-4">
-            <span className="text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">Every Empty Slot</span>
-            <br />
-            <span className="gradient-text-blue drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">Is Lost Revenue</span>
-          </h1>
-
-          <p className="text-base md:text-lg text-white/70 max-w-xl mx-auto mb-6 drop-shadow-md">
-            The global liquidity engine for perishable inventory.
-          </p>
         </div>
 
         {/* Scroll indicator */}
