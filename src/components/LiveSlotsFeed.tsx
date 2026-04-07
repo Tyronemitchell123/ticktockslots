@@ -488,64 +488,108 @@ const LiveSlotsFeed = () => {
               </button>
             </div>
           ) : (
-            filteredSlots.map((slot) => (
-              <div
-                key={slot.id}
-                className="glass rounded-xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 hover:border-primary/30 transition-colors group cursor-pointer animate-fade-in"
-                onClick={() => handleClaim(slot)}
-              >
-                <div className="flex items-center gap-4 flex-1">
-                  <div className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center shrink-0">
-                    <span className="text-lg font-bold text-primary">
-                      {slot.vertical[0]}
-                    </span>
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold text-foreground group-hover:text-primary transition-colors">
-                        {slot.merchant}
-                      </span>
-                      {slot.isLive && (
-                        <Badge variant="outline" className="bg-green-400/10 text-green-400 border-green-400/30 text-[9px] py-0 px-1.5 gap-0.5">
-                          <Radio className="w-2.5 h-2.5 animate-countdown" /> {slot.source}
-                        </Badge>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-3 text-sm text-muted-foreground mt-1">
-                      <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{slot.location}</span>
-                      <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{slot.time}</span>
-                      <Badge variant="outline" className="text-[10px] py-0 px-1.5">{slot.region}</Badge>
-                    </div>
-                  </div>
-                </div>
+            filteredSlots.map((slot) => {
+              const details = SLOT_DETAILS[slot.vertical];
+              const isExpanded = expandedSlotId === slot.id;
 
-                <div className="flex items-center gap-4">
-                  <Badge variant="outline" className={urgencyColors[slot.urgency]}>
-                    {slot.urgency === "critical" ? "🔥" : slot.urgency === "high" ? "⚡" : "📌"} {slot.timeLeft}s left
-                  </Badge>
-
-                  <div className="text-right">
-                    <div className="text-sm text-muted-foreground line-through">
-                      {formatPriceInCurrency(slot.originalPrice, detectCurrency(slot.location, slot.region), displayCurrency)}
-                    </div>
-                    <div className="text-lg font-bold text-secondary flex items-center gap-1">
-                      <TrendingDown className="w-4 h-4" />
-                      {formatPriceInCurrency(slot.currentPrice, detectCurrency(slot.location, slot.region), displayCurrency)}
-                    </div>
-                  </div>
-
-                  <button
-                    className="px-4 py-2 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/80 transition-colors glow-blue"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleClaim(slot);
-                    }}
+              return (
+                <div
+                  key={slot.id}
+                  className="glass rounded-xl overflow-hidden hover:border-primary/30 transition-colors group animate-fade-in"
+                >
+                  <div
+                    className="p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 cursor-pointer"
+                    onClick={() => handleClaim(slot)}
                   >
-                    Claim
-                  </button>
+                    <div className="flex items-center gap-4 flex-1">
+                      <div className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center shrink-0">
+                        <span className="text-lg font-bold text-primary">
+                          {slot.vertical[0]}
+                        </span>
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                            {slot.merchant}
+                          </span>
+                          {slot.isLive && (
+                            <Badge variant="outline" className="bg-green-400/10 text-green-400 border-green-400/30 text-[9px] py-0 px-1.5 gap-0.5">
+                              <Radio className="w-2.5 h-2.5 animate-countdown" /> {slot.source}
+                            </Badge>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-3 text-sm text-muted-foreground mt-1">
+                          <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{slot.location}</span>
+                          <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{slot.time}</span>
+                          <Badge variant="outline" className="text-[10px] py-0 px-1.5">{slot.region}</Badge>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                      <Badge variant="outline" className={urgencyColors[slot.urgency]}>
+                        {slot.urgency === "critical" ? "🔥" : slot.urgency === "high" ? "⚡" : "📌"} {slot.timeLeft}s left
+                      </Badge>
+
+                      <div className="text-right">
+                        <div className="text-sm text-muted-foreground line-through">
+                          {formatPriceInCurrency(slot.originalPrice, detectCurrency(slot.location, slot.region), displayCurrency)}
+                        </div>
+                        <div className="text-lg font-bold text-secondary flex items-center gap-1">
+                          <TrendingDown className="w-4 h-4" />
+                          {formatPriceInCurrency(slot.currentPrice, detectCurrency(slot.location, slot.region), displayCurrency)}
+                        </div>
+                      </div>
+
+                      {/* Details toggle */}
+                      <button
+                        className="p-2 rounded-lg glass text-muted-foreground hover:text-primary hover:border-primary/30 transition-colors"
+                        title="View details"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setExpandedSlotId(isExpanded ? null : slot.id);
+                        }}
+                      >
+                        <Info className="w-4 h-4" />
+                        <ChevronDown className={`w-3 h-3 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
+                      </button>
+
+                      <button
+                        className="px-4 py-2 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/80 transition-colors glow-blue"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleClaim(slot);
+                        }}
+                      >
+                        Claim
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Expandable details dropdown */}
+                  {isExpanded && details && (
+                    <div className="border-t border-border/30 px-5 py-4 bg-muted/20 animate-fade-in space-y-3">
+                      <p className="text-sm text-muted-foreground">{details.description}</p>
+                      <div>
+                        <h4 className="text-xs uppercase tracking-wider text-muted-foreground font-semibold mb-2 flex items-center gap-1.5">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-primary" /> What's Included
+                        </h4>
+                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                          {details.includes.map((item, i) => (
+                            <li key={i} className="flex items-center gap-2 text-sm text-foreground">
+                              <Star className="w-3 h-3 text-secondary shrink-0" />
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <p className="text-xs text-primary font-medium italic">{details.ideal}</p>
+                    </div>
+                  )}
                 </div>
-              </div>
-            ))
+              );
+            })
+
           )}
         </div>
       </div>
