@@ -25,7 +25,7 @@ const HeroSection = () => {
           loop
           playsInline
           preload="metadata"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover brightness-150"
           poster="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80"
         >
           <source src="/videos/hero-bg.mp4" type="video/mp4" />
