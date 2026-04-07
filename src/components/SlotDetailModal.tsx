@@ -123,25 +123,23 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
 
     setBookingLoading(true);
     try {
-      const { data, error } = await supabase
-        .from("bookings")
-        .insert({
-          slot_id: slot.id,
-          user_id: user.id,
-          merchant_id: null,
-          paid_amount: slot.currentPrice,
-          paid_upfront: requiresUpfront,
-          status: requiresUpfront ? "paid" : "confirmed",
-        })
-        .select("id")
-        .single();
+      // Use atomic claim_slot function to prevent double-booking
+      const { data, error } = await supabase.rpc("claim_slot", {
+        _slot_id: slot.id,
+        _user_id: user.id,
+        _paid_amount: slot.currentPrice,
+        _paid_upfront: requiresUpfront,
+      });
 
       if (error) throw error;
-      setBookingId(data.id);
+      setBookingId(data);
       setStep("success");
-      toast({ title: "Booking confirmed!", description: `You saved ${fmtSaved} on this slot.` });
+      toast({ title: "🎉 Booking confirmed!", description: `You saved ${fmtSaved} on this slot.` });
     } catch (error: any) {
-      toast({ title: "Booking failed", description: error.message, variant: "destructive" });
+      const msg = error.message?.includes("no longer available")
+        ? "This slot has already been claimed by another user."
+        : error.message;
+      toast({ title: "Booking failed", description: msg, variant: "destructive" });
     } finally {
       setBookingLoading(false);
     }

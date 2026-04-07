@@ -405,7 +405,7 @@ const LiveSlotsFeed = () => {
     loadFromDb();
     const interval = setInterval(loadFromDb, 15000);
 
-    // Subscribe to realtime inserts
+    // Subscribe to realtime inserts and updates
     const channel = supabase
       .channel("live-slots")
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "slots" }, (payload) => {
@@ -426,6 +426,14 @@ const LiveSlotsFeed = () => {
         };
         setSlots((prev) => [newSlot, ...prev]);
         setLiveCount((prev) => prev + 1);
+      })
+      .on("postgres_changes", { event: "UPDATE", schema: "public", table: "slots" }, (payload) => {
+        const s = payload.new as any;
+        if (!s.is_live) {
+          // Slot was claimed — remove from feed
+          setSlots((prev) => prev.filter((slot) => slot.id !== s.id));
+          setLiveCount((prev) => Math.max(0, prev - 1));
+        }
       })
       .subscribe();
 
