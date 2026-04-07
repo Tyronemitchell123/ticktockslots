@@ -422,8 +422,10 @@ const LiveSlotsFeed = () => {
           });
           setLiveCount(dbSlots.length);
         }
+        setInitialLoading(false);
       } catch (e) {
         console.warn("Live data fetch failed:", e);
+        setInitialLoading(false);
       }
     };
     loadFromDb();
