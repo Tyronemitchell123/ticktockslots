@@ -121,6 +121,7 @@ const LiveSlotsFeed = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedRegion, setSelectedRegion] = useState("all");
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -131,8 +132,20 @@ const LiveSlotsFeed = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const filteredSlots = useMemo(
-    () => selectedRegion === "all" ? slots : slots.filter((s) => s.region === selectedRegion),
+  const filteredSlots = useMemo(() => {
+    let result = selectedRegion === "all" ? slots : slots.filter((s) => s.region === selectedRegion);
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter(
+        (s) =>
+          s.merchant.toLowerCase().includes(q) ||
+          s.location.toLowerCase().includes(q) ||
+          s.vertical.toLowerCase().includes(q) ||
+          s.region.toLowerCase().includes(q)
+      );
+    }
+    return result;
+  }, [slots, selectedRegion, searchQuery]);
     [slots, selectedRegion]
   );
 
