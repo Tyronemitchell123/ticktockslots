@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon, Radio, Wifi, ArrowLeftRight, Info, Star, CheckCircle2, Navigation } from "lucide-react";
+import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon, Radio, Wifi, ArrowLeftRight, Info, Star, CheckCircle2, Navigation, ArrowUpDown } from "lucide-react";
 import SlotDetailModal from "./SlotDetailModal";
 import { getVendorAddress, getGoogleMapsUrl } from "@/lib/vendor-addresses";
 import { supabase } from "@/integrations/supabase/client";
@@ -340,6 +340,8 @@ const LiveSlotsFeed = () => {
   const [expandedSlotId, setExpandedSlotId] = useState<string | null>(null);
   const [selectedVertical, setSelectedVertical] = useState("all");
   const [verticalDropdownOpen, setVerticalDropdownOpen] = useState(false);
+  const [sortBy, setSortBy] = useState<"default" | "price" | "discount" | "timeLeft">("default");
+  const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
 
   // Countdown timer
   useEffect(() => {
@@ -444,8 +446,16 @@ const LiveSlotsFeed = () => {
           s.region.toLowerCase().includes(q)
       );
     }
+    if (sortBy === "price") {
+      result = [...result].sort((a, b) => a.currentPrice - b.currentPrice);
+    } else if (sortBy === "discount") {
+      const disc = (s: Slot) => s.originalPrice > 0 ? ((s.originalPrice - s.currentPrice) / s.originalPrice) * 100 : 0;
+      result = [...result].sort((a, b) => disc(b) - disc(a));
+    } else if (sortBy === "timeLeft") {
+      result = [...result].sort((a, b) => a.timeLeft - b.timeLeft);
+    }
     return result;
-  }, [slots, selectedRegion, selectedVertical, searchQuery]);
+  }, [slots, selectedRegion, selectedVertical, searchQuery, sortBy]);
 
   const verticals = useMemo(() => {
     const set = new Set(slots.map((s) => s.vertical));
@@ -525,6 +535,42 @@ const LiveSlotsFeed = () => {
                     </button>
                   ))}
                 </div>
+              )}
+            </div>
+            {/* Sort selector */}
+            <div className="relative">
+              <button
+                onClick={() => setSortDropdownOpen(!sortDropdownOpen)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg glass text-sm font-medium text-foreground hover:border-primary/30 transition-colors"
+              >
+                <ArrowUpDown className="w-3.5 h-3.5 text-primary" />
+                <span className="hidden sm:inline">
+                  {sortBy === "default" ? "Sort" : sortBy === "price" ? "Price" : sortBy === "discount" ? "Discount" : "Time Left"}
+                </span>
+                <ChevronDown className={`w-3 h-3 transition-transform ${sortDropdownOpen ? "rotate-180" : ""}`} />
+              </button>
+              {sortDropdownOpen && (
+                <>
+                  <div className="fixed inset-0 z-40" onClick={() => setSortDropdownOpen(false)} />
+                  <div className="absolute right-0 top-full mt-1 w-44 glass rounded-xl border border-border/50 shadow-xl z-50 py-1">
+                    {([
+                      { value: "default", label: "Default" },
+                      { value: "price", label: "Price (low → high)" },
+                      { value: "discount", label: "Discount % (high)" },
+                      { value: "timeLeft", label: "Ending soonest" },
+                    ] as const).map((opt) => (
+                      <button
+                        key={opt.value}
+                        onClick={() => { setSortBy(opt.value); setSortDropdownOpen(false); }}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-muted/50 transition-colors ${
+                          sortBy === opt.value ? "text-primary font-semibold" : "text-foreground"
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </>
               )}
             </div>
           </div>
