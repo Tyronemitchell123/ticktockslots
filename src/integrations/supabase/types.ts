@@ -169,6 +169,30 @@ export type Database = {
           },
         ]
       }
+      saved_slots: {
+        Row: {
+          created_at: string
+          id: string
+          slot_data: Json
+          slot_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          slot_data?: Json
+          slot_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          slot_data?: Json
+          slot_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       slots: {
         Row: {
           created_at: string
