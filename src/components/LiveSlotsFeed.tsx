@@ -1,8 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon, Radio, Wifi } from "lucide-react";
+import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon, Radio, Wifi, ArrowLeftRight } from "lucide-react";
 import SlotDetailModal from "./SlotDetailModal";
 import { supabase } from "@/integrations/supabase/client";
+import { CURRENCIES, detectCurrency, formatPriceInCurrency } from "@/lib/currency";
 
 interface Slot {
   id: string;
@@ -126,6 +127,8 @@ const LiveSlotsFeed = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [liveCount, setLiveCount] = useState(0);
+  const [displayCurrency, setDisplayCurrency] = useState("GBP");
+  const [currencyDropdownOpen, setCurrencyDropdownOpen] = useState(false);
 
   // Countdown timer
   useEffect(() => {
@@ -405,10 +408,12 @@ const LiveSlotsFeed = () => {
                   </Badge>
 
                   <div className="text-right">
-                    <div className="text-sm text-muted-foreground line-through">${slot.originalPrice.toLocaleString()}</div>
+                    <div className="text-sm text-muted-foreground line-through">
+                      {formatPriceInCurrency(slot.originalPrice, detectCurrency(slot.location, slot.region), displayCurrency)}
+                    </div>
                     <div className="text-lg font-bold text-secondary flex items-center gap-1">
                       <TrendingDown className="w-4 h-4" />
-                      ${slot.currentPrice.toLocaleString()}
+                      {formatPriceInCurrency(slot.currentPrice, detectCurrency(slot.location, slot.region), displayCurrency)}
                     </div>
                   </div>
 
