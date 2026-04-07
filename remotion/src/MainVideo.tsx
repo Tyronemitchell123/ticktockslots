@@ -3,6 +3,7 @@ import { TransitionSeries, springTiming } from "@remotion/transitions";
 import { fade } from "@remotion/transitions/fade";
 import { slide } from "@remotion/transitions/slide";
 import { wipe } from "@remotion/transitions/wipe";
+import { flip } from "@remotion/transitions/flip";
 import { PersistentBackground } from "./components/PersistentBackground";
 import { IntroScene } from "./scenes/IntroScene";
 import { VerticalScene } from "./scenes/VerticalScene";
@@ -73,6 +74,19 @@ const verticals = [
 
 const TRANSITION_DURATION = 15;
 const transitionConfig = springTiming({ config: { damping: 200 }, durationInFrames: TRANSITION_DURATION });
+const slowFadeConfig = springTiming({ config: { damping: 200 }, durationInFrames: 22 });
+
+const getTransition = (i: number) => {
+  const transitions = [
+    wipe({ direction: "from-left" }),
+    slide({ direction: "from-right" }),
+    fade(),
+    flip(),
+    wipe({ direction: "from-top" }),
+    slide({ direction: "from-left" }),
+  ];
+  return transitions[i % transitions.length];
+};
 
 export const MainVideo: React.FC = () => {
   return (
@@ -88,7 +102,7 @@ export const MainVideo: React.FC = () => {
           <>
             <TransitionSeries.Transition
               key={`t-${i}`}
-              presentation={i % 3 === 0 ? wipe({ direction: "from-left" }) : i % 3 === 1 ? slide({ direction: "from-right" }) : fade()}
+              presentation={i === 0 ? wipe({ direction: "from-left" }) : getTransition(i)}
               timing={transitionConfig}
             />
             <TransitionSeries.Sequence key={`s-${i}`} durationInFrames={65}>
@@ -97,10 +111,10 @@ export const MainVideo: React.FC = () => {
           </>
         ))}
 
-        {/* Outro */}
+        {/* Outro with slower fade */}
         <TransitionSeries.Transition
           presentation={fade()}
-          timing={transitionConfig}
+          timing={slowFadeConfig}
         />
         <TransitionSeries.Sequence durationInFrames={90}>
           <OutroScene />
