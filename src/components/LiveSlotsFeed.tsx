@@ -338,6 +338,8 @@ const LiveSlotsFeed = () => {
   const [displayCurrency, setDisplayCurrency] = useState("GBP");
   const [currencyDropdownOpen, setCurrencyDropdownOpen] = useState(false);
   const [expandedSlotId, setExpandedSlotId] = useState<string | null>(null);
+  const [selectedVertical, setSelectedVertical] = useState("all");
+  const [verticalDropdownOpen, setVerticalDropdownOpen] = useState(false);
 
   // Countdown timer
   useEffect(() => {
@@ -429,6 +431,9 @@ const LiveSlotsFeed = () => {
 
   const filteredSlots = useMemo(() => {
     let result = selectedRegion === "all" ? slots : slots.filter((s) => s.region === selectedRegion);
+    if (selectedVertical !== "all") {
+      result = result.filter((s) => s.vertical === selectedVertical);
+    }
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       result = result.filter(
@@ -440,7 +445,19 @@ const LiveSlotsFeed = () => {
       );
     }
     return result;
-  }, [slots, selectedRegion, searchQuery]);
+  }, [slots, selectedRegion, selectedVertical, searchQuery]);
+
+  const verticals = useMemo(() => {
+    const set = new Set(slots.map((s) => s.vertical));
+    return ["all", ...Array.from(set).sort()];
+  }, [slots]);
+
+  const verticalCounts = useMemo(() => {
+    const base = selectedRegion === "all" ? slots : slots.filter((s) => s.region === selectedRegion);
+    const counts: Record<string, number> = { all: base.length };
+    base.forEach((s) => { counts[s.vertical] = (counts[s.vertical] || 0) + 1; });
+    return counts;
+  }, [slots, selectedRegion]);
 
   const regionCounts = useMemo(() => {
     const counts: Record<string, number> = { all: slots.length };
@@ -598,7 +615,61 @@ const LiveSlotsFeed = () => {
           </div>
         </div>
 
-        {/* Slots list */}
+        {/* Vertical / Category Filter */}
+        <div className="mb-6">
+          {/* Mobile dropdown */}
+          <div className="relative sm:hidden">
+            <button
+              onClick={() => setVerticalDropdownOpen(!verticalDropdownOpen)}
+              className="w-full glass rounded-xl px-4 py-3 flex items-center justify-between text-sm text-foreground"
+            >
+              <span className="flex items-center gap-2">
+                🏷️ {selectedVertical === "all" ? "All Categories" : selectedVertical}
+                <Badge variant="outline" className="text-[10px] ml-1">{verticalCounts[selectedVertical] || 0}</Badge>
+              </span>
+              <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform ${verticalDropdownOpen ? "rotate-180" : ""}`} />
+            </button>
+            {verticalDropdownOpen && (
+              <>
+                <div className="fixed inset-0 z-30" onClick={() => setVerticalDropdownOpen(false)} />
+                <div className="absolute top-full left-0 right-0 z-40 mt-1 glass rounded-xl border border-border/50 py-1 max-h-64 overflow-y-auto">
+                  {verticals.map((v) => (
+                    <button
+                      key={v}
+                      onClick={() => { setSelectedVertical(v); setVerticalDropdownOpen(false); }}
+                      className={`w-full px-4 py-2.5 flex items-center justify-between text-sm transition-colors ${
+                        selectedVertical === v ? "text-primary bg-primary/5" : "text-foreground hover:bg-muted/50"
+                      }`}
+                    >
+                      <span>{v === "all" ? "All Categories" : v}</span>
+                      <Badge variant="outline" className="text-[10px]">{verticalCounts[v] || 0}</Badge>
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Desktop pill selector */}
+          <div className="hidden sm:flex items-center gap-2 flex-wrap">
+            <span className="text-sm mr-1">🏷️</span>
+            {verticals.map((v) => (
+              <button
+                key={v}
+                onClick={() => setSelectedVertical(v)}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                  selectedVertical === v
+                    ? "bg-primary text-primary-foreground glow-blue"
+                    : "glass text-muted-foreground hover:text-foreground hover:border-primary/30"
+                }`}
+              >
+                {v === "all" ? "All" : v}
+                <span className="ml-1.5 opacity-70">({verticalCounts[v] || 0})</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
         <div className="grid gap-4">
           {filteredSlots.length === 0 ? (
             <div className="glass rounded-xl p-10 text-center">
