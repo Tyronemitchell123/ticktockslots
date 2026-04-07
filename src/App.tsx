@@ -10,6 +10,10 @@ import Auth from "./pages/Auth.tsx";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Profile from "./pages/Profile.tsx";
 import ResetPassword from "./pages/ResetPassword.tsx";
+import About from "./pages/About.tsx";
+import Careers from "./pages/Careers.tsx";
+import ESGReport from "./pages/ESGReport.tsx";
+import Contact from "./pages/Contact.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -27,6 +31,10 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+            <Route path="/about" element={<About />} />
+            <Route path="/careers" element={<Careers />} />
+            <Route path="/esg" element={<ESGReport />} />
+            <Route path="/contact" element={<Contact />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
