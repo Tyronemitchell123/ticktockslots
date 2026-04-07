@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Clock, MapPin, TrendingDown, Globe, ChevronDown } from "lucide-react";
+import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon } from "lucide-react";
 import SlotDetailModal from "./SlotDetailModal";
 
 interface Slot {
