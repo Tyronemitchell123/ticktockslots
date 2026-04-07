@@ -182,6 +182,31 @@ const LiveSlotsFeed = () => {
           </div>
         </div>
 
+        {/* Search Bar */}
+        <div className="relative mb-4">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+          <input
+            type="text"
+            placeholder="Search by merchant, city, or vertical..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full bg-muted/50 border border-border/50 rounded-xl pl-10 pr-10 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary/50 transition-all"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery("")}
+              className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+            >
+              <XIcon className="w-3.5 h-3.5" />
+            </button>
+          )}
+          {searchQuery && (
+            <div className="absolute right-10 top-1/2 -translate-y-1/2 text-[10px] text-muted-foreground font-mono">
+              {filteredSlots.length} result{filteredSlots.length !== 1 ? "s" : ""}
+            </div>
+          )}
+        </div>
+
         {/* Location Selector */}
         <div className="mb-6">
           {/* Region Dropdown (mobile + desktop trigger) */}
