@@ -33,7 +33,7 @@ const HeroSection = () => {
 
         {/* Gradient overlays — video visible on edges, text area has contrast */}
         <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/30 to-background" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.5)_0%,transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.7)_0%,rgba(0,0,0,0.2)_50%,transparent_75%)]" />
 
         {/* Text container with localized backdrop */}
         <div className="relative z-10 text-center px-4 mt-16">
