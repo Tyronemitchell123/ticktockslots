@@ -27,7 +27,7 @@ interface SlotRow {
   expires_at: string;
 }
 
-async function fetchWithTimeout(url: string, ms = 5000): Promise<Response> {
+async function fetchWithTimeout(url: string, ms = 15000): Promise<Response> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), ms);
   try {
