@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Zap } from "lucide-react";
+import { Zap, Menu, X } from "lucide-react";
 
 const Navbar = () => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-border/30">
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -20,10 +23,30 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-3">
-          <Button variant="ghost" size="sm">Sign In</Button>
-          <Button variant="hero" size="sm">Get Early Access</Button>
+          <Button variant="ghost" size="sm" className="hidden md:inline-flex">Sign In</Button>
+          <Button variant="hero" size="sm" className="hidden md:inline-flex">Get Early Access</Button>
+          <button
+            className="md:hidden p-2 text-foreground"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle menu"
+          >
+            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
         </div>
       </div>
+
+      {mobileOpen && (
+        <div className="md:hidden glass border-t border-border/30 px-4 py-4 flex flex-col gap-4">
+          <a href="#slots" onClick={() => setMobileOpen(false)} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Live Slots</a>
+          <a href="#how" onClick={() => setMobileOpen(false)} className="text-sm text-muted-foreground hover:text-foreground transition-colors">How It Works</a>
+          <a href="#sectors" onClick={() => setMobileOpen(false)} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Sectors</a>
+          <a href="#pricing" onClick={() => setMobileOpen(false)} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
+          <div className="flex flex-col gap-2 pt-2 border-t border-border/30">
+            <Button variant="ghost" size="sm">Sign In</Button>
+            <Button variant="hero" size="sm">Get Early Access</Button>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

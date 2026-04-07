@@ -42,24 +42,24 @@ const HeroSection = () => {
         </p>
 
         {/* Countdown */}
-        <div className="flex items-center justify-center gap-6 mb-10">
-          <div className="glass rounded-xl px-6 py-4 text-center">
-            <div className="text-3xl md:text-4xl font-mono font-bold text-primary animate-countdown">
+        <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 mb-10">
+          <div className="glass rounded-xl px-4 md:px-6 py-3 md:py-4 text-center min-w-[100px]">
+            <div className="text-2xl md:text-4xl font-mono font-bold text-primary animate-countdown">
               {countdown}s
             </div>
-            <div className="text-xs text-muted-foreground mt-1 uppercase tracking-widest">Avg Fill Time</div>
+            <div className="text-[10px] md:text-xs text-muted-foreground mt-1 uppercase tracking-widest">Avg Fill Time</div>
           </div>
-          <div className="glass rounded-xl px-6 py-4 text-center">
-            <div className="text-3xl md:text-4xl font-mono font-bold text-secondary">
+          <div className="glass rounded-xl px-4 md:px-6 py-3 md:py-4 text-center min-w-[100px]">
+            <div className="text-2xl md:text-4xl font-mono font-bold text-secondary">
               $2.4M
             </div>
-            <div className="text-xs text-muted-foreground mt-1 uppercase tracking-widest">Recovered Today</div>
+            <div className="text-[10px] md:text-xs text-muted-foreground mt-1 uppercase tracking-widest">Recovered Today</div>
           </div>
-          <div className="glass rounded-xl px-6 py-4 text-center">
-            <div className="text-3xl md:text-4xl font-mono font-bold text-green-400">
+          <div className="glass rounded-xl px-4 md:px-6 py-3 md:py-4 text-center min-w-[100px]">
+            <div className="text-2xl md:text-4xl font-mono font-bold text-green-400">
               847t
             </div>
-            <div className="text-xs text-muted-foreground mt-1 uppercase tracking-widest">CO₂ Saved</div>
+            <div className="text-[10px] md:text-xs text-muted-foreground mt-1 uppercase tracking-widest">CO₂ Saved</div>
           </div>
         </div>
 
