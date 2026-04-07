@@ -4,6 +4,7 @@ import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon, Ra
 import SlotDetailModal from "./SlotDetailModal";
 import { supabase } from "@/integrations/supabase/client";
 import { CURRENCIES, detectCurrency, formatPriceInCurrency } from "@/lib/currency";
+import { getSlotRating } from "@/lib/mock-reviews";
 
 interface Slot {
   id: string;
