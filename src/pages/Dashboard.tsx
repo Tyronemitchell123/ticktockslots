@@ -69,7 +69,6 @@ const Dashboard = () => {
     setCalendarEmail("");
   };
 
-  const forecast = generateDemandForecast();
   const events = getRecentEvents();
 
   const insightTypeConfig = {
