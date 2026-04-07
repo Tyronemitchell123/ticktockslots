@@ -154,13 +154,85 @@ const Dashboard = () => {
           ))}
         </div>
 
-        <Tabs defaultValue="ai" className="space-y-6">
+        <Tabs defaultValue="bookings" className="space-y-6">
           <TabsList className="glass">
+            <TabsTrigger value="bookings"><ShoppingBag className="w-4 h-4 mr-1" /> My Bookings</TabsTrigger>
             <TabsTrigger value="ai"><Brain className="w-4 h-4 mr-1" /> AI Engine</TabsTrigger>
             <TabsTrigger value="api"><Key className="w-4 h-4 mr-1" /> API Keys</TabsTrigger>
             <TabsTrigger value="calendar"><Calendar className="w-4 h-4 mr-1" /> Calendar Sync</TabsTrigger>
             <TabsTrigger value="payments"><CreditCard className="w-4 h-4 mr-1" /> Payments</TabsTrigger>
           </TabsList>
+
+          {/* ===== MY BOOKINGS TAB ===== */}
+          <TabsContent value="bookings" className="space-y-4">
+            {bookingsLoading ? (
+              <div className="glass rounded-xl p-12 text-center">
+                <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+                <p className="text-muted-foreground text-sm">Loading your bookings…</p>
+              </div>
+            ) : bookings.length === 0 ? (
+              <div className="glass rounded-xl p-12 text-center">
+                <ShoppingBag className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
+                <h3 className="text-lg font-semibold text-foreground mb-1">No bookings yet</h3>
+                <p className="text-muted-foreground text-sm mb-4">Browse live slots and claim your first deal.</p>
+                <Button variant="hero" size="sm" onClick={() => navigate("/#slots")}>Browse Slots</Button>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {bookings.map((b) => {
+                  const statusConfig: Record<string, { label: string; color: string; bg: string }> = {
+                    confirmed: { label: "Confirmed", color: "text-primary", bg: "bg-primary/10 border-primary/30" },
+                    paid: { label: "Paid Upfront", color: "text-secondary", bg: "bg-secondary/10 border-secondary/30" },
+                    completed: { label: "Completed", color: "text-green-400", bg: "bg-green-400/10 border-green-400/30" },
+                    cancelled: { label: "Cancelled", color: "text-destructive", bg: "bg-destructive/10 border-destructive/30" },
+                    pending: { label: "Pending", color: "text-muted-foreground", bg: "bg-muted/50 border-border/30" },
+                  };
+                  const sc = statusConfig[b.status] || statusConfig.pending;
+                  const slot = b.slots;
+                  const saved = slot ? slot.original_price - slot.current_price : 0;
+
+                  return (
+                    <div key={b.id} className="glass rounded-xl p-5 flex flex-col sm:flex-row sm:items-center gap-4">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h4 className="font-semibold text-foreground truncate">{slot?.merchant_name || "Unknown"}</h4>
+                          <Badge variant="outline" className={`text-xs ${sc.bg}`}>
+                            <span className={sc.color}>{sc.label}</span>
+                          </Badge>
+                          {b.paid_upfront && (
+                            <Badge variant="outline" className="text-xs bg-secondary/10 border-secondary/30">
+                              <span className="text-secondary">💳 Upfront</span>
+                            </Badge>
+                          )}
+                        </div>
+                        <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
+                          {slot && (
+                            <>
+                              <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{slot.location}</span>
+                              <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{slot.time_description}</span>
+                              <span>{slot.vertical}</span>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-4 shrink-0">
+                        {slot && saved > 0 && (
+                          <div className="text-right">
+                            <div className="text-xs text-muted-foreground line-through">£{slot.original_price.toFixed(0)}</div>
+                            <div className="text-lg font-bold text-secondary">£{slot.current_price.toFixed(0)}</div>
+                            <div className="text-xs text-green-400 font-medium">Saved £{saved.toFixed(0)}</div>
+                          </div>
+                        )}
+                        <div className="text-right text-xs text-muted-foreground">
+                          {new Date(b.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </TabsContent>
 
           {/* ===== AI ENGINE TAB ===== */}
           <TabsContent value="ai" className="space-y-6">
