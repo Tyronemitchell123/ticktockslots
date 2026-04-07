@@ -16,24 +16,28 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4">
-      {/* Video background */}
+      {/* Video background — high opacity so imagery is visible */}
       <video
         autoPlay
         muted
         loop
         playsInline
         preload="metadata"
-        className="absolute inset-0 w-full h-full object-cover opacity-30"
+        className="absolute inset-0 w-full h-full object-cover opacity-70"
         poster="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80"
       >
         <source src="/videos/hero-bg.mp4" type="video/mp4" />
       </video>
-      {/* Dark overlay for legibility */}
-      <div className="absolute inset-0 bg-background/60" />
-      {/* Background effects */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(217_91%_60%/0.12),transparent_60%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,hsl(45_96%_57%/0.06),transparent_50%)]" />
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse-slow" />
+
+      {/* Lighter overlay — just enough for text legibility */}
+      <div className="absolute inset-0 bg-background/30" />
+
+      {/* Gradient vignette for text area contrast */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.1)_0%,rgba(0,0,0,0.5)_100%)]" />
+
+      {/* Subtle accent glows */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(217_91%_60%/0.08),transparent_60%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,hsl(45_96%_57%/0.04),transparent_50%)]" />
 
       <div className="relative z-10 max-w-5xl mx-auto text-center">
         {/* Live badge */}
@@ -45,12 +49,12 @@ const HeroSection = () => {
         </div>
 
         <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.95] mb-6">
-          <span className="text-foreground">Every Empty Slot</span>
+          <span className="text-foreground drop-shadow-lg">Every Empty Slot</span>
           <br />
-          <span className="gradient-text-blue">Is Lost Revenue</span>
+          <span className="gradient-text-blue drop-shadow-lg">Is Lost Revenue</span>
         </h1>
 
-        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
+        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed drop-shadow-md">
           The global liquidity engine for cancelled appointments, empty legs, and perishable inventory.
           Fill slots in under 120 seconds.
         </p>
