@@ -125,7 +125,9 @@ const LiveSlotsFeed = () => {
   const [selectedRegion, setSelectedRegion] = useState("all");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [liveCount, setLiveCount] = useState(0);
 
+  // Countdown timer
   useEffect(() => {
     const timer = setInterval(() => {
       setSlots((prev) =>
@@ -133,6 +135,29 @@ const LiveSlotsFeed = () => {
       );
     }, 1000);
     return () => clearInterval(timer);
+  }, []);
+
+  // Fetch real live data from public APIs
+  useEffect(() => {
+    const loadLive = async () => {
+      try {
+        const liveSlots = await fetchAllLiveSlots();
+        if (liveSlots.length > 0) {
+          setSlots((prev) => {
+            // Remove old live slots, keep mock + add new live
+            const mockOnly = prev.filter((s) => !s.isLive);
+            const merged = [...liveSlots, ...mockOnly];
+            return merged;
+          });
+          setLiveCount(liveSlots.length);
+        }
+      } catch (e) {
+        console.warn("Live data fetch failed:", e);
+      }
+    };
+    loadLive();
+    const interval = setInterval(loadLive, 30000); // Refresh every 30s
+    return () => clearInterval(interval);
   }, []);
 
   const filteredSlots = useMemo(() => {
