@@ -148,9 +148,8 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
     }
   };
 
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg glass border-border/50 p-0 overflow-hidden">
+  const modalContent = (
+    <div className="max-h-[85vh] overflow-y-auto">
         {/* ===== STEP 1: Details ===== */}
         {step === "details" && (
           <div>
@@ -421,6 +420,23 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
             </Button>
           </div>
         )}
+    </div>
+  );
+
+  if (isMobile) {
+    return (
+      <Drawer open={open} onOpenChange={onOpenChange}>
+        <DrawerContent className="glass border-border/50 p-0 overflow-hidden">
+          {modalContent}
+        </DrawerContent>
+      </Drawer>
+    );
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-lg glass border-border/50 p-0 overflow-hidden">
+        {modalContent}
       </DialogContent>
     </Dialog>
   );
