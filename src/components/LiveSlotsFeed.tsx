@@ -573,6 +573,7 @@ const LiveSlotsFeed = () => {
                 </>
               )}
             </div>
+          </div>
         </div>
 
         {/* Search Bar */}
