@@ -778,7 +778,9 @@ const LiveSlotsFeed = () => {
         </div>
 
         <div className="grid gap-4">
-          {filteredSlots.length === 0 ? (
+          {initialLoading ? (
+            Array.from({ length: 6 }).map((_, i) => <SlotSkeleton key={i} />)
+          ) : filteredSlots.length === 0 ? (
             <div className="glass rounded-xl p-10 text-center">
               <Globe className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
               <p className="text-muted-foreground">No live slots in this region right now.</p>
