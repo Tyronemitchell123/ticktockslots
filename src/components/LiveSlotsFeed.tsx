@@ -2,11 +2,12 @@ import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon, Radio, Wifi, ArrowLeftRight, Info, Star, CheckCircle2, Navigation, ArrowUpDown, Heart } from "lucide-react";
 import SlotDetailModal from "./SlotDetailModal";
-import { getVendorAddress, getOpenStreetMapUrl } from "@/lib/vendor-addresses";
+import { getVendorAddress, openMapLocation } from "@/lib/vendor-addresses";
 import { supabase } from "@/integrations/supabase/client";
 import { CURRENCIES, detectCurrency, formatPriceInCurrency } from "@/lib/currency";
 import { getSlotRating } from "@/lib/mock-reviews";
 import { useSavedSlots } from "@/hooks/use-saved-slots";
+import { useToast } from "@/hooks/use-toast";
 
 interface Slot {
   id: string;
@@ -353,6 +354,7 @@ const SlotSkeleton = () => (
 
 const LiveSlotsFeed = () => {
   const { savedSlotIds, toggleSave } = useSavedSlots();
+  const { toast } = useToast();
   const [slots, setSlots] = useState(MOCK_SLOTS);
   const [initialLoading, setInitialLoading] = useState(true);
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
@@ -370,6 +372,21 @@ const LiveSlotsFeed = () => {
   const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
   const [visibleCount, setVisibleCount] = useState(20);
   const loadMoreRef = useRef<HTMLDivElement>(null);
+
+  const handleOpenMap = useCallback(async (address: string) => {
+    const result = await openMapLocation(address);
+
+    if (result === "opened") return;
+
+    toast({
+      title: result === "copied" ? "Map site blocked in preview" : "Couldn't open map",
+      description:
+        result === "copied"
+          ? "The address was copied to your clipboard — paste it into Google Maps, Apple Maps, or OpenStreetMap."
+          : `Copy this address manually: ${address}`,
+      variant: result === "failed" ? "destructive" : undefined,
+    });
+  }, [toast]);
 
   // Countdown timer
   useEffect(() => {
@@ -830,16 +847,17 @@ const LiveSlotsFeed = () => {
                           return address ? (
                             <div className="flex items-center gap-2 mt-1">
                               <span className="text-[11px] text-muted-foreground/70 truncate max-w-[260px]">{address}</span>
-                              <a
-                                href={getOpenStreetMapUrl(address)}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={(e) => e.stopPropagation()}
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  void handleOpenMap(address);
+                                }}
                                 className="inline-flex items-center gap-1 text-[10px] font-medium text-primary hover:text-primary/80 transition-colors shrink-0"
                               >
                                 <Navigation className="w-3 h-3" />
                                 Map
-                              </a>
+                              </button>
                             </div>
                           ) : null;
                         })()}
