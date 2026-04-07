@@ -46,8 +46,8 @@ const Navbar = () => {
           <a href="#sectors" onClick={() => setMobileOpen(false)} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Sectors</a>
           <a href="#pricing" onClick={() => setMobileOpen(false)} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
           <div className="flex flex-col gap-2 pt-2 border-t border-border/30">
-            <Button variant="ghost" size="sm">Sign In</Button>
-            <Button variant="hero" size="sm">Get Early Access</Button>
+            <Button variant="ghost" size="sm" onClick={() => { setMobileOpen(false); navigate("/dashboard"); }}>Dashboard</Button>
+            <Button variant="hero" size="sm" onClick={() => { setMobileOpen(false); navigate("/dashboard"); }}>Get Early Access</Button>
           </div>
         </div>
       )}
