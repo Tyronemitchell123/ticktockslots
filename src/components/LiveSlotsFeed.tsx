@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon, Radio, Wifi, ArrowLeftRight, Info, Star, CheckCircle2, Navigation, ArrowUpDown } from "lucide-react";
 import SlotDetailModal from "./SlotDetailModal";
@@ -342,6 +342,8 @@ const LiveSlotsFeed = () => {
   const [verticalDropdownOpen, setVerticalDropdownOpen] = useState(false);
   const [sortBy, setSortBy] = useState<"default" | "price" | "discount" | "timeLeft">("default");
   const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(20);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
 
   // Countdown timer
   useEffect(() => {
@@ -476,6 +478,29 @@ const LiveSlotsFeed = () => {
   }, [slots]);
 
   const currentRegion = REGIONS.find((r) => r.id === selectedRegion) || REGIONS[0];
+
+  // Reset visible count when filters change
+  useEffect(() => {
+    setVisibleCount(20);
+  }, [selectedRegion, selectedVertical, searchQuery, sortBy]);
+
+  const visibleSlots = useMemo(() => filteredSlots.slice(0, visibleCount), [filteredSlots, visibleCount]);
+  const hasMore = visibleCount < filteredSlots.length;
+
+  // Infinite scroll observer
+  useEffect(() => {
+    if (!loadMoreRef.current) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setVisibleCount((prev) => prev + 20);
+        }
+      },
+      { rootMargin: "200px" }
+    );
+    observer.observe(loadMoreRef.current);
+    return () => observer.disconnect();
+  }, [hasMore]);
 
   const handleClaim = (slot: Slot) => {
     setSelectedSlot(slot);
@@ -726,7 +751,7 @@ const LiveSlotsFeed = () => {
               </button>
             </div>
           ) : (
-            filteredSlots.map((slot) => {
+            visibleSlots.map((slot) => {
               const details = SLOT_DETAILS[slot.vertical];
               const isExpanded = expandedSlotId === slot.id;
               const rating = getSlotRating(slot.id, slot.vertical);
@@ -859,8 +884,24 @@ const LiveSlotsFeed = () => {
                 </div>
               );
             })
-
           )}
+          {/* Load more sentinel + count indicator */}
+          {filteredSlots.length > 0 && (
+            <div className="text-center py-4 space-y-2">
+              <p className="text-xs text-muted-foreground font-mono">
+                Showing {visibleSlots.length} of {filteredSlots.length} slots
+              </p>
+              {hasMore && (
+                <button
+                  onClick={() => setVisibleCount((prev) => prev + 20)}
+                  className="px-6 py-2 rounded-lg glass text-sm font-medium text-primary hover:bg-primary/10 transition-colors"
+                >
+                  Load more
+                </button>
+              )}
+            </div>
+          )}
+          <div ref={loadMoreRef} className="h-1" />
         </div>
       </div>
 
