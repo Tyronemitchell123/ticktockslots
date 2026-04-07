@@ -267,10 +267,10 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
                 variant="hero"
                 className="flex-1 py-5"
                 onClick={handleConfirm}
-                disabled={liveCountdown === 0}
+                disabled={liveCountdown === 0 || bookingLoading}
               >
-                <CheckCircle2 className="w-5 h-5" />
-                Confirm & Pay
+                {bookingLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <CheckCircle2 className="w-5 h-5" />}
+                {bookingLoading ? "Booking..." : "Confirm & Pay"}
               </Button>
             </div>
           </div>
