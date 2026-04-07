@@ -13,7 +13,6 @@ import { generateInsights, generateDemandForecast, generateWeeklyRevenue, genera
 import {
   AreaChart, Area, BarChart, Bar, LineChart, Line, PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
-  RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
 } from "recharts";
 import { getConnections, connectCalendar, disconnectCalendar, getRecentEvents, type CalendarConnection } from "@/lib/calendar-sync";
 
@@ -28,12 +27,24 @@ const Dashboard = () => {
   const [calendarEmail, setCalendarEmail] = useState("");
   const [calendarProvider, setCalendarProvider] = useState<"google" | "outlook" | "calendly">("google");
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const [forecast, setForecast] = useState(generateDemandForecast());
+  const [weeklyRevenue, setWeeklyRevenue] = useState(generateWeeklyRevenue());
+  const [sectorData, setSectorData] = useState(generateSectorBreakdown());
+  const [fillRate, setFillRate] = useState(generateFillRateTimeline());
 
   useEffect(() => {
     setApiKeys(getApiKeys());
     setInsights(generateInsights());
     setCalendars(getConnections());
-    const interval = setInterval(() => setAutomationStatus(getAutomationStatus()), 5000);
+
+    // Live data refresh every 3 seconds
+    const interval = setInterval(() => {
+      setAutomationStatus(getAutomationStatus());
+      setForecast(generateDemandForecast());
+      setWeeklyRevenue(generateWeeklyRevenue());
+      setSectorData(generateSectorBreakdown());
+      setFillRate(generateFillRateTimeline());
+    }, 3000);
     return () => clearInterval(interval);
   }, []);
 
@@ -57,7 +68,6 @@ const Dashboard = () => {
     setCalendarEmail("");
   };
 
-  const forecast = generateDemandForecast();
   const events = getRecentEvents();
 
   const insightTypeConfig = {
@@ -169,27 +179,101 @@ const Dashboard = () => {
               </div>
             </div>
 
-            {/* Demand Forecast */}
-            <div className="glass rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
-                <BarChart3 className="w-5 h-5 text-primary" /> Demand Forecast (Today)
-              </h3>
-              <div className="space-y-2">
-                {forecast.map((f, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <span className="text-xs text-muted-foreground w-12 font-mono">{f.hour}</span>
-                    <div className="flex-1 h-6 bg-muted rounded-full overflow-hidden relative">
-                      <div className="absolute inset-y-0 left-0 bg-primary/30 rounded-full" style={{ width: `${Math.min(100, f.predicted)}%` }} />
-                      <div className="absolute inset-y-0 left-0 bg-primary rounded-full" style={{ width: `${Math.min(100, f.actual)}%` }} />
-                    </div>
-                    <span className="text-xs font-mono text-foreground w-8">{f.actual}</span>
-                    <span className="text-[10px] text-muted-foreground w-10">{(f.confidence * 100).toFixed(0)}%</span>
-                  </div>
-                ))}
-                <div className="flex items-center gap-4 mt-3 text-xs text-muted-foreground">
-                  <span className="flex items-center gap-1"><span className="w-3 h-1.5 bg-primary rounded" /> Actual</span>
-                  <span className="flex items-center gap-1"><span className="w-3 h-1.5 bg-primary/30 rounded" /> Predicted</span>
-                </div>
+            {/* Charts Grid */}
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Demand Forecast — Area Chart */}
+              <div className="glass rounded-xl p-6 animate-fade-in">
+                <h3 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
+                  <BarChart3 className="w-4 h-4 text-primary" /> Demand Forecast (Live)
+                  <span className="ml-auto flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-green-400 animate-countdown" /><span className="text-[10px] text-muted-foreground font-mono">LIVE</span></span>
+                </h3>
+                <ResponsiveContainer width="100%" height={220}>
+                  <AreaChart data={forecast}>
+                    <defs>
+                      <linearGradient id="gradPredicted" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="hsl(217, 91%, 60%)" stopOpacity={0.3} />
+                        <stop offset="95%" stopColor="hsl(217, 91%, 60%)" stopOpacity={0} />
+                      </linearGradient>
+                      <linearGradient id="gradActual" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="hsl(45, 96%, 57%)" stopOpacity={0.4} />
+                        <stop offset="95%" stopColor="hsl(45, 96%, 57%)" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(220, 16%, 16%)" />
+                    <XAxis dataKey="hour" tick={{ fill: "hsl(215, 15%, 55%)", fontSize: 11 }} axisLine={false} tickLine={false} />
+                    <YAxis tick={{ fill: "hsl(215, 15%, 55%)", fontSize: 11 }} axisLine={false} tickLine={false} />
+                    <Tooltip contentStyle={{ background: "hsl(220, 18%, 8%)", border: "1px solid hsl(220, 16%, 16%)", borderRadius: 8, fontSize: 12, color: "hsl(210, 20%, 95%)" }} />
+                    <Area type="monotone" dataKey="predicted" stroke="hsl(217, 91%, 60%)" fill="url(#gradPredicted)" strokeWidth={2} animationDuration={800} />
+                    <Area type="monotone" dataKey="actual" stroke="hsl(45, 96%, 57%)" fill="url(#gradActual)" strokeWidth={2} animationDuration={800} />
+                    <Legend wrapperStyle={{ fontSize: 11, color: "hsl(215, 15%, 55%)" }} />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+
+              {/* Revenue Recovery — Bar Chart */}
+              <div className="glass rounded-xl p-6 animate-fade-in">
+                <h3 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
+                  <TrendingUp className="w-4 h-4 text-secondary" /> Weekly Revenue Recovery
+                  <span className="ml-auto flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-green-400 animate-countdown" /><span className="text-[10px] text-muted-foreground font-mono">LIVE</span></span>
+                </h3>
+                <ResponsiveContainer width="100%" height={220}>
+                  <BarChart data={weeklyRevenue}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(220, 16%, 16%)" />
+                    <XAxis dataKey="day" tick={{ fill: "hsl(215, 15%, 55%)", fontSize: 11 }} axisLine={false} tickLine={false} />
+                    <YAxis tick={{ fill: "hsl(215, 15%, 55%)", fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
+                    <Tooltip contentStyle={{ background: "hsl(220, 18%, 8%)", border: "1px solid hsl(220, 16%, 16%)", borderRadius: 8, fontSize: 12, color: "hsl(210, 20%, 95%)" }} formatter={(value: number) => [`$${value.toLocaleString()}`, undefined]} />
+                    <Bar dataKey="recovered" fill="hsl(217, 91%, 60%)" radius={[4, 4, 0, 0]} animationDuration={800} name="Recovered" />
+                    <Bar dataKey="optimized" fill="hsl(45, 96%, 57%)" radius={[4, 4, 0, 0]} animationDuration={800} name="AI Optimized" />
+                    <Bar dataKey="lost" fill="hsl(0, 84%, 60%)" radius={[4, 4, 0, 0]} animationDuration={800} name="Lost" />
+                    <Legend wrapperStyle={{ fontSize: 11, color: "hsl(215, 15%, 55%)" }} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+
+              {/* Sector Breakdown — Pie Chart */}
+              <div className="glass rounded-xl p-6 animate-fade-in">
+                <h3 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
+                  <Target className="w-4 h-4 text-green-400" /> Sector Breakdown (Live)
+                </h3>
+                <ResponsiveContainer width="100%" height={220}>
+                  <PieChart>
+                    <Pie
+                      data={sectorData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={55}
+                      outerRadius={85}
+                      paddingAngle={3}
+                      dataKey="value"
+                      animationDuration={800}
+                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                    >
+                      {sectorData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.fill} />
+                      ))}
+                    </Pie>
+                    <Tooltip contentStyle={{ background: "hsl(220, 18%, 8%)", border: "1px solid hsl(220, 16%, 16%)", borderRadius: 8, fontSize: 12, color: "hsl(210, 20%, 95%)" }} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+
+              {/* Fill Rate Timeline — Line Chart */}
+              <div className="glass rounded-xl p-6 animate-fade-in">
+                <h3 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
+                  <Activity className="w-4 h-4 text-purple-400" /> Fill Rate vs Target
+                  <span className="ml-auto flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-green-400 animate-countdown" /><span className="text-[10px] text-muted-foreground font-mono">LIVE</span></span>
+                </h3>
+                <ResponsiveContainer width="100%" height={220}>
+                  <LineChart data={fillRate}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(220, 16%, 16%)" />
+                    <XAxis dataKey="hour" tick={{ fill: "hsl(215, 15%, 55%)", fontSize: 11 }} axisLine={false} tickLine={false} />
+                    <YAxis tick={{ fill: "hsl(215, 15%, 55%)", fontSize: 11 }} axisLine={false} tickLine={false} domain={[0, 100]} tickFormatter={(v) => `${v}%`} />
+                    <Tooltip contentStyle={{ background: "hsl(220, 18%, 8%)", border: "1px solid hsl(220, 16%, 16%)", borderRadius: 8, fontSize: 12, color: "hsl(210, 20%, 95%)" }} formatter={(value: number) => [`${value}%`, undefined]} />
+                    <Line type="monotone" dataKey="rate" stroke="hsl(280, 70%, 55%)" strokeWidth={2.5} dot={{ fill: "hsl(280, 70%, 55%)", r: 3 }} animationDuration={800} name="Fill Rate" />
+                    <Line type="monotone" dataKey="target" stroke="hsl(0, 84%, 60%)" strokeWidth={1.5} strokeDasharray="6 3" dot={false} animationDuration={800} name="Target (85%)" />
+                    <Legend wrapperStyle={{ fontSize: 11, color: "hsl(215, 15%, 55%)" }} />
+                  </LineChart>
+                </ResponsiveContainer>
               </div>
             </div>
           </TabsContent>
