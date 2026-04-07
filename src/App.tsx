@@ -14,6 +14,7 @@ import About from "./pages/About.tsx";
 import Careers from "./pages/Careers.tsx";
 import ESGReport from "./pages/ESGReport.tsx";
 import Contact from "./pages/Contact.tsx";
+import Admin from "./pages/Admin.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -35,6 +36,7 @@ const App = () => (
             <Route path="/careers" element={<Careers />} />
             <Route path="/esg" element={<ESGReport />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
