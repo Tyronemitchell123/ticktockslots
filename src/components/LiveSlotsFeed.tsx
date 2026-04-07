@@ -146,8 +146,6 @@ const LiveSlotsFeed = () => {
     }
     return result;
   }, [slots, selectedRegion, searchQuery]);
-    [slots, selectedRegion]
-  );
 
   const regionCounts = useMemo(() => {
     const counts: Record<string, number> = { all: slots.length };
