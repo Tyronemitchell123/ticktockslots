@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon, Radio, Wifi, ArrowLeftRight } from "lucide-react";
+import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon, Radio, Wifi, ArrowLeftRight, Info, Star, CheckCircle2 } from "lucide-react";
 import SlotDetailModal from "./SlotDetailModal";
 import { supabase } from "@/integrations/supabase/client";
 import { CURRENCIES, detectCurrency, formatPriceInCurrency } from "@/lib/currency";
@@ -143,6 +143,69 @@ const urgencyColors = {
   medium: "bg-primary/20 text-primary border-primary/30",
 };
 
+const SLOT_DETAILS: Record<string, { description: string; includes: string[]; ideal: string }> = {
+  Beauty: {
+    description: "Premium beauty & grooming appointment released due to last-minute cancellation.",
+    includes: ["Full service as originally booked", "Same stylist / therapist", "Premium products included", "No service downgrade"],
+    ideal: "Perfect for walk-ins wanting salon-quality at a fraction of the price.",
+  },
+  Aviation: {
+    description: "Private jet seat or charter leg available from repositioning or cancellation.",
+    includes: ["Confirmed departure slot", "Full cabin crew service", "Luggage allowance included", "FBO lounge access"],
+    ideal: "Ideal for flexible travellers who can depart on short notice.",
+  },
+  Health: {
+    description: "Medical or specialist consultation slot freed up by a cancellation.",
+    includes: ["Licensed practitioner", "Full consultation duration", "Follow-up notes provided", "Prescription if needed"],
+    ideal: "Great for non-emergency appointments you've been waiting weeks for.",
+  },
+  Dining: {
+    description: "Reserved table at a top restaurant now available due to a no-show or cancellation.",
+    includes: ["Prime-time table", "Full à la carte menu access", "Sommelier service", "Original party size"],
+    ideal: "Perfect for food lovers who want a last-minute fine dining experience.",
+  },
+  Logistics: {
+    description: "Cargo berth or container slot released from a schedule change.",
+    includes: ["Confirmed loading window", "Port handling included", "Documentation support", "Priority clearance"],
+    ideal: "Ideal for shippers needing urgent capacity at reduced rates.",
+  },
+  Fitness: {
+    description: "Class spot or personal training session freed up by a cancellation.",
+    includes: ["Full class/session duration", "Equipment provided", "Certified instructor", "Shower & locker access"],
+    ideal: "Great for fitness enthusiasts wanting premium sessions at drop-in prices.",
+  },
+  Education: {
+    description: "Tutoring session or course slot available from a student cancellation.",
+    includes: ["Qualified tutor/instructor", "Full session length", "Learning materials provided", "Progress tracking"],
+    ideal: "Perfect for students needing extra help or test preparation.",
+  },
+  Events: {
+    description: "Premium event ticket or VIP experience released at the last minute.",
+    includes: ["Confirmed seat/entry", "Original ticket tier", "Venue amenities access", "Digital ticket delivery"],
+    ideal: "Ideal for spontaneous plans — catch sold-out shows at a discount.",
+  },
+  Automotive: {
+    description: "Vehicle service, MOT, or repair slot freed up by a cancellation.",
+    includes: ["Certified technician", "Genuine/OEM parts", "Service report provided", "Warranty maintained"],
+    ideal: "Great for drivers needing timely maintenance without the long wait.",
+  },
+  Legal: {
+    description: "Legal consultation or advisory slot available from a rescheduled client.",
+    includes: ["Qualified solicitor/attorney", "Full consultation time", "Confidential session", "Written summary if applicable"],
+    ideal: "Perfect for getting timely legal advice at reduced consultation fees.",
+  },
+  Property: {
+    description: "Property viewing or valuation appointment freed up by a cancellation.",
+    includes: ["Accompanied viewing", "Agent expertise", "Property pack available", "Flexible scheduling"],
+    ideal: "Ideal for buyers and renters wanting priority access to listings.",
+  },
+  "Pet Care": {
+    description: "Vet appointment or grooming slot available from a cancellation.",
+    includes: ["Licensed veterinarian/groomer", "Full appointment duration", "Health check included", "Treatment notes provided"],
+    ideal: "Great for pet owners needing prompt care without emergency prices.",
+  },
+};
+
 const LiveSlotsFeed = () => {
   const [slots, setSlots] = useState(MOCK_SLOTS);
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
@@ -153,6 +216,7 @@ const LiveSlotsFeed = () => {
   const [liveCount, setLiveCount] = useState(0);
   const [displayCurrency, setDisplayCurrency] = useState("GBP");
   const [currencyDropdownOpen, setCurrencyDropdownOpen] = useState(false);
+  const [expandedSlotId, setExpandedSlotId] = useState<string | null>(null);
 
   // Countdown timer
   useEffect(() => {
@@ -424,64 +488,108 @@ const LiveSlotsFeed = () => {
               </button>
             </div>
           ) : (
-            filteredSlots.map((slot) => (
-              <div
-                key={slot.id}
-                className="glass rounded-xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 hover:border-primary/30 transition-colors group cursor-pointer animate-fade-in"
-                onClick={() => handleClaim(slot)}
-              >
-                <div className="flex items-center gap-4 flex-1">
-                  <div className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center shrink-0">
-                    <span className="text-lg font-bold text-primary">
-                      {slot.vertical[0]}
-                    </span>
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold text-foreground group-hover:text-primary transition-colors">
-                        {slot.merchant}
-                      </span>
-                      {slot.isLive && (
-                        <Badge variant="outline" className="bg-green-400/10 text-green-400 border-green-400/30 text-[9px] py-0 px-1.5 gap-0.5">
-                          <Radio className="w-2.5 h-2.5 animate-countdown" /> {slot.source}
-                        </Badge>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-3 text-sm text-muted-foreground mt-1">
-                      <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{slot.location}</span>
-                      <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{slot.time}</span>
-                      <Badge variant="outline" className="text-[10px] py-0 px-1.5">{slot.region}</Badge>
-                    </div>
-                  </div>
-                </div>
+            filteredSlots.map((slot) => {
+              const details = SLOT_DETAILS[slot.vertical];
+              const isExpanded = expandedSlotId === slot.id;
 
-                <div className="flex items-center gap-4">
-                  <Badge variant="outline" className={urgencyColors[slot.urgency]}>
-                    {slot.urgency === "critical" ? "🔥" : slot.urgency === "high" ? "⚡" : "📌"} {slot.timeLeft}s left
-                  </Badge>
-
-                  <div className="text-right">
-                    <div className="text-sm text-muted-foreground line-through">
-                      {formatPriceInCurrency(slot.originalPrice, detectCurrency(slot.location, slot.region), displayCurrency)}
-                    </div>
-                    <div className="text-lg font-bold text-secondary flex items-center gap-1">
-                      <TrendingDown className="w-4 h-4" />
-                      {formatPriceInCurrency(slot.currentPrice, detectCurrency(slot.location, slot.region), displayCurrency)}
-                    </div>
-                  </div>
-
-                  <button
-                    className="px-4 py-2 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/80 transition-colors glow-blue"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleClaim(slot);
-                    }}
+              return (
+                <div
+                  key={slot.id}
+                  className="glass rounded-xl overflow-hidden hover:border-primary/30 transition-colors group animate-fade-in"
+                >
+                  <div
+                    className="p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 cursor-pointer"
+                    onClick={() => handleClaim(slot)}
                   >
-                    Claim
-                  </button>
+                    <div className="flex items-center gap-4 flex-1">
+                      <div className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center shrink-0">
+                        <span className="text-lg font-bold text-primary">
+                          {slot.vertical[0]}
+                        </span>
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                            {slot.merchant}
+                          </span>
+                          {slot.isLive && (
+                            <Badge variant="outline" className="bg-green-400/10 text-green-400 border-green-400/30 text-[9px] py-0 px-1.5 gap-0.5">
+                              <Radio className="w-2.5 h-2.5 animate-countdown" /> {slot.source}
+                            </Badge>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-3 text-sm text-muted-foreground mt-1">
+                          <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{slot.location}</span>
+                          <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{slot.time}</span>
+                          <Badge variant="outline" className="text-[10px] py-0 px-1.5">{slot.region}</Badge>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                      <Badge variant="outline" className={urgencyColors[slot.urgency]}>
+                        {slot.urgency === "critical" ? "🔥" : slot.urgency === "high" ? "⚡" : "📌"} {slot.timeLeft}s left
+                      </Badge>
+
+                      <div className="text-right">
+                        <div className="text-sm text-muted-foreground line-through">
+                          {formatPriceInCurrency(slot.originalPrice, detectCurrency(slot.location, slot.region), displayCurrency)}
+                        </div>
+                        <div className="text-lg font-bold text-secondary flex items-center gap-1">
+                          <TrendingDown className="w-4 h-4" />
+                          {formatPriceInCurrency(slot.currentPrice, detectCurrency(slot.location, slot.region), displayCurrency)}
+                        </div>
+                      </div>
+
+                      {/* Details toggle */}
+                      <button
+                        className="p-2 rounded-lg glass text-muted-foreground hover:text-primary hover:border-primary/30 transition-colors"
+                        title="View details"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setExpandedSlotId(isExpanded ? null : slot.id);
+                        }}
+                      >
+                        <Info className="w-4 h-4" />
+                        <ChevronDown className={`w-3 h-3 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
+                      </button>
+
+                      <button
+                        className="px-4 py-2 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/80 transition-colors glow-blue"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleClaim(slot);
+                        }}
+                      >
+                        Claim
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Expandable details dropdown */}
+                  {isExpanded && details && (
+                    <div className="border-t border-border/30 px-5 py-4 bg-muted/20 animate-fade-in space-y-3">
+                      <p className="text-sm text-muted-foreground">{details.description}</p>
+                      <div>
+                        <h4 className="text-xs uppercase tracking-wider text-muted-foreground font-semibold mb-2 flex items-center gap-1.5">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-primary" /> What's Included
+                        </h4>
+                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                          {details.includes.map((item, i) => (
+                            <li key={i} className="flex items-center gap-2 text-sm text-foreground">
+                              <Star className="w-3 h-3 text-secondary shrink-0" />
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <p className="text-xs text-primary font-medium italic">{details.ideal}</p>
+                    </div>
+                  )}
                 </div>
-              </div>
-            ))
+              );
+            })
+
           )}
         </div>
       </div>
