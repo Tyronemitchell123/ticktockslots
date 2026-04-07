@@ -479,6 +479,29 @@ const LiveSlotsFeed = () => {
 
   const currentRegion = REGIONS.find((r) => r.id === selectedRegion) || REGIONS[0];
 
+  // Reset visible count when filters change
+  useEffect(() => {
+    setVisibleCount(20);
+  }, [selectedRegion, selectedVertical, searchQuery, sortBy]);
+
+  const visibleSlots = useMemo(() => filteredSlots.slice(0, visibleCount), [filteredSlots, visibleCount]);
+  const hasMore = visibleCount < filteredSlots.length;
+
+  // Infinite scroll observer
+  useEffect(() => {
+    if (!loadMoreRef.current) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setVisibleCount((prev) => prev + 20);
+        }
+      },
+      { rootMargin: "200px" }
+    );
+    observer.observe(loadMoreRef.current);
+    return () => observer.disconnect();
+  }, [hasMore]);
+
   const handleClaim = (slot: Slot) => {
     setSelectedSlot(slot);
     setModalOpen(true);
