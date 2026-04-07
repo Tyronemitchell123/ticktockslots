@@ -48,7 +48,7 @@ const Auth = () => {
         toast({ title: "Welcome back!", description: "You've signed in successfully." });
         navigate("/dashboard");
       } else {
-        const { error } = await supabase.auth.signUp({
+        const { data: signUpData, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -57,6 +57,19 @@ const Auth = () => {
           },
         });
         if (error) throw error;
+
+        // Send welcome email (fire-and-forget)
+        if (signUpData.user) {
+          supabase.functions.invoke('send-transactional-email', {
+            body: {
+              templateName: 'welcome',
+              recipientEmail: email,
+              idempotencyKey: `welcome-${signUpData.user.id}`,
+              templateData: { displayName },
+            },
+          }).catch(console.error);
+        }
+
         toast({
           title: "Account created!",
           description: "Check your email to verify your account before signing in.",
