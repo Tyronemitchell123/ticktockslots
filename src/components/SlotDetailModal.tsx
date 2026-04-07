@@ -160,6 +160,25 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
       setBookingId(data);
       setStep("success");
       toast({ title: "🎉 Booking confirmed!", description: `You saved ${fmtSaved} on this slot.` });
+
+      // Send booking confirmation email (fire-and-forget)
+      supabase.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "booking-confirmation",
+          recipientEmail: user.email,
+          idempotencyKey: `booking-confirm-${data}`,
+          templateData: {
+            merchantName: slot.merchant,
+            vertical: slot.vertical,
+            location: slot.location,
+            time: slot.time,
+            originalPrice: fmtOriginal,
+            discountedPrice: fmtCurrent,
+            savings: `${fmtSaved} (${discount}%)`,
+            bookingId: data,
+          },
+        },
+      }).catch((err) => console.error("Failed to send confirmation email:", err));
     } catch (error: any) {
       const msg = error.message?.includes("no longer available")
         ? "This slot has already been claimed by another user."
