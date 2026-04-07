@@ -3,12 +3,14 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Clock, TrendingDown, Shield, Zap, CheckCircle2, ArrowRight, Timer } from "lucide-react";
+import { detectCurrency, formatPriceInCurrency } from "@/lib/currency";
 
 interface Slot {
   id: string;
   merchant: string;
   vertical: string;
   location: string;
+  region?: string;
   time: string;
   originalPrice: number;
   currentPrice: number;
@@ -20,6 +22,7 @@ interface SlotDetailModalProps {
   slot: Slot | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  displayCurrency?: string;
 }
 
 const urgencyLabels = {
@@ -39,7 +42,7 @@ const verticalDetails: Record<string, { icon: string; category: string; trustBad
 
 type Step = "details" | "confirm" | "success";
 
-const SlotDetailModal = ({ slot, open, onOpenChange }: SlotDetailModalProps) => {
+const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: SlotDetailModalProps) => {
   const [step, setStep] = useState<Step>("details");
   const [liveCountdown, setLiveCountdown] = useState(0);
 
@@ -60,8 +63,12 @@ const SlotDetailModal = ({ slot, open, onOpenChange }: SlotDetailModalProps) => 
 
   if (!slot) return null;
 
+  const nativeCurrency = detectCurrency(slot.location, slot.region || "");
+  const fmtOriginal = formatPriceInCurrency(slot.originalPrice, nativeCurrency, displayCurrency);
+  const fmtCurrent = formatPriceInCurrency(slot.currentPrice, nativeCurrency, displayCurrency);
+  const fmtSaved = formatPriceInCurrency(slot.originalPrice - slot.currentPrice, nativeCurrency, displayCurrency);
+
   const discount = Math.round((1 - slot.currentPrice / slot.originalPrice) * 100);
-  const saved = slot.originalPrice - slot.currentPrice;
   const details = verticalDetails[slot.vertical] || { icon: "📋", category: slot.vertical, trustBadge: "Verified" };
   const urgency = urgencyLabels[slot.urgency];
 
@@ -130,19 +137,19 @@ const SlotDetailModal = ({ slot, open, onOpenChange }: SlotDetailModalProps) => 
               <div className="glass rounded-xl p-4">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-sm text-muted-foreground">Original Price</span>
-                  <span className="text-sm text-muted-foreground line-through">${slot.originalPrice.toLocaleString()}</span>
+                  <span className="text-sm text-muted-foreground line-through">{fmtOriginal}</span>
                 </div>
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-sm font-medium text-foreground">SlotEngine Price</span>
                   <span className="text-2xl font-bold text-secondary flex items-center gap-1">
                     <TrendingDown className="w-5 h-5" />
-                    ${slot.currentPrice.toLocaleString()}
+                    {fmtCurrent}
                   </span>
                 </div>
                 <div className="flex items-center justify-between pt-3 border-t border-border/30">
                   <span className="text-sm font-medium text-green-400">You Save</span>
                   <div className="flex items-center gap-2">
-                    <span className="text-lg font-bold text-green-400">${saved.toLocaleString()}</span>
+                    <span className="text-lg font-bold text-green-400">{fmtSaved}</span>
                     <Badge className="bg-green-400/10 text-green-400 border-green-400/30 text-xs">-{discount}%</Badge>
                   </div>
                 </div>
@@ -191,7 +198,7 @@ const SlotDetailModal = ({ slot, open, onOpenChange }: SlotDetailModalProps) => 
               </div>
               <div className="flex justify-between text-sm pt-3 border-t border-border/30">
                 <span className="font-medium text-foreground">Total</span>
-                <span className="text-xl font-bold text-secondary">${slot.currentPrice.toLocaleString()}</span>
+                <span className="text-xl font-bold text-secondary">{fmtCurrent}</span>
               </div>
             </div>
 
@@ -246,7 +253,7 @@ const SlotDetailModal = ({ slot, open, onOpenChange }: SlotDetailModalProps) => 
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">You Saved</span>
-                <span className="text-green-400 font-bold">${saved.toLocaleString()}</span>
+                <span className="text-green-400 font-bold">{fmtSaved}</span>
               </div>
             </div>
             <Button className="w-full py-5" onClick={() => onOpenChange(false)}>

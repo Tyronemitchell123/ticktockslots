@@ -466,6 +466,7 @@ const LiveSlotsFeed = () => {
         slot={selectedSlot}
         open={modalOpen}
         onOpenChange={setModalOpen}
+        displayCurrency={displayCurrency}
       />
     </section>
   );
