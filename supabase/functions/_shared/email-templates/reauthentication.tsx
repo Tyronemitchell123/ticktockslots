@@ -1,0 +1,68 @@
+/// <reference types="npm:@types/react@18.3.1" />
+
+import * as React from 'npm:react@18.3.1'
+
+import {
+  Body,
+  Container,
+  Head,
+  Heading,
+  Html,
+  Preview,
+  Section,
+  Text,
+} from 'npm:@react-email/components@0.0.22'
+
+interface ReauthenticationEmailProps {
+  token: string
+}
+
+export const ReauthenticationEmail = ({ token }: ReauthenticationEmailProps) => (
+  <Html lang="en" dir="ltr">
+    <Head />
+    <Preview>Your verification code for SlotEngine</Preview>
+    <Body style={main}>
+      <Container style={container}>
+        <Section style={headerSection}>
+          <Text style={logoText}>⚡ SlotEngine</Text>
+        </Section>
+        <Heading style={h1}>Verification code</Heading>
+        <Text style={text}>Use the code below to confirm your identity:</Text>
+        <Text style={codeStyle}>{token}</Text>
+        <Text style={footer}>
+          This code will expire shortly. If you didn't request this, you can safely ignore this email.
+        </Text>
+      </Container>
+    </Body>
+  </Html>
+)
+
+export default ReauthenticationEmail
+
+const main = { backgroundColor: '#ffffff', fontFamily: "'Inter', Arial, sans-serif" }
+const container = { padding: '20px 25px', maxWidth: '520px', margin: '0 auto' }
+const headerSection = { textAlign: 'center' as const, marginBottom: '16px' }
+const logoText = { fontSize: '20px', fontWeight: '700', color: '#3B82F6', margin: '0' }
+const h1 = {
+  fontSize: '22px',
+  fontWeight: 'bold' as const,
+  color: '#111827',
+  margin: '0 0 20px',
+  textAlign: 'center' as const,
+}
+const text = {
+  fontSize: '14px',
+  color: '#6B7280',
+  lineHeight: '1.5',
+  margin: '0 0 25px',
+}
+const codeStyle = {
+  fontFamily: "'JetBrains Mono', Courier, monospace",
+  fontSize: '28px',
+  fontWeight: 'bold' as const,
+  color: '#3B82F6',
+  margin: '0 0 30px',
+  textAlign: 'center' as const,
+  letterSpacing: '0.15em',
+}
+const footer = { fontSize: '12px', color: '#9CA3AF', margin: '30px 0 0' }
