@@ -1,12 +1,19 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Zap, Menu, X } from "lucide-react";
+import { Zap, Menu, X, LogOut, User } from "lucide-react";
 import NotificationCenter from "./NotificationCenter";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
+  const { user, signOut } = useAuth();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-border/30">
@@ -27,8 +34,23 @@ const Navbar = () => {
 
         <div className="flex items-center gap-3">
           <NotificationCenter />
-          <Button variant="ghost" size="sm" className="hidden md:inline-flex" onClick={() => navigate("/dashboard")}>Dashboard</Button>
-          <Button variant="hero" size="sm" className="hidden md:inline-flex" onClick={() => navigate("/dashboard")}>Get Early Access</Button>
+          {user ? (
+            <>
+              <Button variant="ghost" size="sm" className="hidden md:inline-flex gap-1" onClick={() => navigate("/dashboard")}>
+                <User className="w-4 h-4" />
+                Dashboard
+              </Button>
+              <Button variant="ghost" size="sm" className="hidden md:inline-flex gap-1" onClick={handleSignOut}>
+                <LogOut className="w-4 h-4" />
+                Sign Out
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button variant="ghost" size="sm" className="hidden md:inline-flex" onClick={() => navigate("/auth")}>Sign In</Button>
+              <Button variant="hero" size="sm" className="hidden md:inline-flex" onClick={() => navigate("/auth")}>Get Early Access</Button>
+            </>
+          )}
           <button
             className="md:hidden p-2 text-foreground"
             onClick={() => setMobileOpen(!mobileOpen)}
@@ -46,8 +68,17 @@ const Navbar = () => {
           <a href="#sectors" onClick={() => setMobileOpen(false)} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Sectors</a>
           <a href="#pricing" onClick={() => setMobileOpen(false)} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
           <div className="flex flex-col gap-2 pt-2 border-t border-border/30">
-            <Button variant="ghost" size="sm" onClick={() => { setMobileOpen(false); navigate("/dashboard"); }}>Dashboard</Button>
-            <Button variant="hero" size="sm" onClick={() => { setMobileOpen(false); navigate("/dashboard"); }}>Get Early Access</Button>
+            {user ? (
+              <>
+                <Button variant="ghost" size="sm" onClick={() => { setMobileOpen(false); navigate("/dashboard"); }}>Dashboard</Button>
+                <Button variant="ghost" size="sm" onClick={() => { setMobileOpen(false); handleSignOut(); }}>Sign Out</Button>
+              </>
+            ) : (
+              <>
+                <Button variant="ghost" size="sm" onClick={() => { setMobileOpen(false); navigate("/auth"); }}>Sign In</Button>
+                <Button variant="hero" size="sm" onClick={() => { setMobileOpen(false); navigate("/auth"); }}>Get Early Access</Button>
+              </>
+            )}
           </div>
         </div>
       )}
