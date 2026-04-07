@@ -13,7 +13,6 @@ import { generateInsights, generateDemandForecast, generateWeeklyRevenue, genera
 import {
   AreaChart, Area, BarChart, Bar, LineChart, Line, PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
-  RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
 } from "recharts";
 import { getConnections, connectCalendar, disconnectCalendar, getRecentEvents, type CalendarConnection } from "@/lib/calendar-sync";
 
