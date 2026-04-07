@@ -326,8 +326,15 @@ const LiveSlotsFeed = () => {
                     </span>
                   </div>
                   <div>
-                    <div className="font-semibold text-foreground group-hover:text-primary transition-colors">
-                      {slot.merchant}
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                        {slot.merchant}
+                      </span>
+                      {slot.isLive && (
+                        <Badge variant="outline" className="bg-green-400/10 text-green-400 border-green-400/30 text-[9px] py-0 px-1.5 gap-0.5">
+                          <Radio className="w-2.5 h-2.5 animate-countdown" /> {slot.source}
+                        </Badge>
+                      )}
                     </div>
                     <div className="flex items-center gap-3 text-sm text-muted-foreground mt-1">
                       <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{slot.location}</span>
