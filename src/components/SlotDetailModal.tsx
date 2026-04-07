@@ -128,8 +128,8 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
           user_id: user.id,
           merchant_id: null,
           paid_amount: slot.currentPrice,
-          paid_upfront: false,
-          status: "confirmed",
+          paid_upfront: requiresUpfront,
+          status: requiresUpfront ? "paid" : "confirmed",
         })
         .select("id")
         .single();
