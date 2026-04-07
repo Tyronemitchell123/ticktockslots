@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { Bell, X, Check, Sparkles, AlertTriangle, DollarSign, Clock } from "lucide-react";
+import { Bell, X, Check, Sparkles, AlertTriangle, DollarSign, Clock, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { notificationEngine, type AppNotification } from "@/lib/notifications";
+import { usePriceAlertMatches } from "@/hooks/use-price-alert-matches";
 
 const typeIcons = {
   slot_new: <Sparkles className="w-4 h-4 text-primary" />,
@@ -15,6 +16,8 @@ const NotificationCenter = () => {
   const [open, setOpen] = useState(false);
   const [notifications, setNotifications] = useState<AppNotification[]>([]);
   const [unread, setUnread] = useState(0);
+  const [dismissedAlerts, setDismissedAlerts] = useState<Set<string>>(new Set());
+  const priceAlertMatches = usePriceAlertMatches();
 
   useEffect(() => {
     notificationEngine.requestPermission();
@@ -27,10 +30,22 @@ const NotificationCenter = () => {
     return unsub;
   }, []);
 
+  const activePriceMatches = priceAlertMatches.filter(
+    (m) => !dismissedAlerts.has(`${m.alertId}-${m.slotId}`)
+  );
+  const totalUnread = unread + activePriceMatches.length;
+
   const handleMarkAllRead = () => {
     notificationEngine.markAllRead();
     setNotifications(notificationEngine.getAll());
     setUnread(0);
+    const allKeys = new Set(dismissedAlerts);
+    activePriceMatches.forEach((m) => allKeys.add(`${m.alertId}-${m.slotId}`));
+    setDismissedAlerts(allKeys);
+  };
+
+  const dismissMatch = (alertId: string, slotId: string) => {
+    setDismissedAlerts((prev) => new Set(prev).add(`${alertId}-${slotId}`));
   };
 
   const timeAgo = (date: Date) => {
@@ -48,9 +63,9 @@ const NotificationCenter = () => {
         aria-label="Notifications"
       >
         <Bell className="w-5 h-5 text-muted-foreground" />
-        {unread > 0 && (
+        {totalUnread > 0 && (
           <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-destructive text-destructive-foreground text-[10px] font-bold rounded-full flex items-center justify-center animate-countdown">
-            {unread > 9 ? "9+" : unread}
+            {totalUnread > 9 ? "9+" : totalUnread}
           </span>
         )}
       </button>
@@ -62,7 +77,7 @@ const NotificationCenter = () => {
             <div className="px-4 py-3 flex items-center justify-between border-b border-border/30">
               <h3 className="text-sm font-semibold text-foreground">Notifications</h3>
               <div className="flex items-center gap-2">
-                {unread > 0 && (
+                {totalUnread > 0 && (
                   <Button variant="ghost" size="sm" className="text-xs h-7" onClick={handleMarkAllRead}>
                     Mark all read
                   </Button>
@@ -74,7 +89,52 @@ const NotificationCenter = () => {
             </div>
 
             <div className="max-h-80 overflow-y-auto">
-              {notifications.length === 0 ? (
+              {/* Price alert matches section */}
+              {activePriceMatches.length > 0 && (
+                <>
+                  <div className="px-4 py-2 bg-primary/10 border-b border-border/20">
+                    <span className="text-xs font-semibold text-primary flex items-center gap-1.5">
+                      <Tag className="w-3.5 h-3.5" />
+                      Price Alert Matches ({activePriceMatches.length})
+                    </span>
+                  </div>
+                  {activePriceMatches.map((m) => (
+                    <div
+                      key={`${m.alertId}-${m.slotId}`}
+                      className="px-4 py-3 border-b border-border/20 bg-primary/5 hover:bg-primary/10 transition-colors"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="mt-0.5">
+                          <DollarSign className="w-4 h-4 text-secondary" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="text-xs font-semibold text-foreground">
+                              {m.merchantName}
+                            </span>
+                            <button
+                              onClick={() => dismissMatch(m.alertId, m.slotId)}
+                              className="text-muted-foreground hover:text-foreground"
+                            >
+                              <X className="w-3 h-3" />
+                            </button>
+                          </div>
+                          <p className="text-xs text-muted-foreground mt-0.5">
+                            £{m.currentPrice} (was £{m.originalPrice}) · {m.vertical} · {m.region}
+                          </p>
+                          <p className="text-[10px] text-muted-foreground mt-0.5">
+                            {m.timeDescription} · Alert max: £{m.maxPrice}
+                          </p>
+                        </div>
+                        <span className="w-2 h-2 rounded-full bg-secondary mt-1.5 shrink-0" />
+                      </div>
+                    </div>
+                  ))}
+                </>
+              )}
+
+              {/* General notifications */}
+              {notifications.length === 0 && activePriceMatches.length === 0 ? (
                 <div className="px-4 py-8 text-center text-sm text-muted-foreground">No notifications yet</div>
               ) : (
                 notifications.slice(0, 15).map((n) => (
