@@ -32,6 +32,13 @@ const MOCK_SLOTS: Slot[] = [
   { id: "13", merchant: "Harley Street Clinic", vertical: "Health", location: "London, UK", region: "UK", time: "10:30 AM Tomorrow", originalPrice: 400, currentPrice: 195, urgency: "high", timeLeft: 150 },
   { id: "14", merchant: "Sketch Restaurant", vertical: "Dining", location: "Mayfair, London", region: "UK", time: "8:00 PM Today", originalPrice: 380, currentPrice: 210, urgency: "critical", timeLeft: 35 },
   { id: "15", merchant: "Third Space Gym", vertical: "Fitness", location: "Soho, London", region: "UK", time: "6:30 AM Tomorrow", originalPrice: 55, currentPrice: 22, urgency: "medium", timeLeft: 480 },
+  { id: "16", merchant: "King Street Barbers", vertical: "Beauty", location: "Manchester, UK", region: "UK", time: "1:00 PM Today", originalPrice: 65, currentPrice: 28, urgency: "critical", timeLeft: 18 },
+  { id: "17", merchant: "Hawksmoor Manchester", vertical: "Dining", location: "Deansgate, Manchester", region: "UK", time: "7:00 PM Today", originalPrice: 290, currentPrice: 145, urgency: "high", timeLeft: 110 },
+  { id: "18", merchant: "The Edgbaston Clinic", vertical: "Health", location: "Birmingham, UK", region: "UK", time: "9:00 AM Tomorrow", originalPrice: 320, currentPrice: 155, urgency: "medium", timeLeft: 390 },
+  { id: "19", merchant: "Pure Gym Jewellery Qtr", vertical: "Fitness", location: "Birmingham, UK", region: "UK", time: "5:30 AM Tomorrow", originalPrice: 30, currentPrice: 12, urgency: "medium", timeLeft: 540 },
+  { id: "20", merchant: "Timberyard Restaurant", vertical: "Dining", location: "Edinburgh, UK", region: "UK", time: "8:30 PM Today", originalPrice: 340, currentPrice: 180, urgency: "critical", timeLeft: 28 },
+  { id: "21", merchant: "Edinburgh Dermatology", vertical: "Health", location: "New Town, Edinburgh", region: "UK", time: "2:00 PM Tomorrow", originalPrice: 275, currentPrice: 130, urgency: "high", timeLeft: 260 },
+  { id: "22", merchant: "NetJets UK", vertical: "Aviation", location: "MAN → EDI", region: "UK", time: "4:00 PM Today", originalPrice: 8500, currentPrice: 2900, urgency: "high", timeLeft: 85 },
 ];
 
 const REGIONS = [
