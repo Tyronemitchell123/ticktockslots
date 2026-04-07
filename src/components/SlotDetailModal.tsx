@@ -73,6 +73,19 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
     }
   }, [slot]);
 
+  // Fetch trust score when user is logged in and modal opens
+  useEffect(() => {
+    if (!user || !open) return;
+    supabase
+      .from("user_trust_scores")
+      .select("score")
+      .eq("user_id", user.id)
+      .single()
+      .then(({ data }) => {
+        if (data) setTrustScore(data.score);
+      });
+  }, [user, open]);
+
   useEffect(() => {
     if (!open || step === "success") return;
     const timer = setInterval(() => {
