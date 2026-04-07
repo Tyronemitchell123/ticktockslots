@@ -42,6 +42,12 @@ const verticalDetails: Record<string, { icon: string; category: string; trustBad
   Dining: { icon: "🍽️", category: "Fine Dining", trustBadge: "Michelin Partner" },
   Logistics: { icon: "🚢", category: "Maritime & Ports", trustBadge: "Port Authority Verified" },
   Fitness: { icon: "💪", category: "Fitness & Wellness", trustBadge: "Certified Studio" },
+  Education: { icon: "🎓", category: "Education & Tutoring", trustBadge: "Accredited Provider" },
+  Events: { icon: "🎭", category: "Events & Entertainment", trustBadge: "Licensed Venue" },
+  Automotive: { icon: "🚗", category: "Automotive Services", trustBadge: "Certified Garage" },
+  Legal: { icon: "⚖️", category: "Legal Services", trustBadge: "Regulated Firm" },
+  Property: { icon: "🏠", category: "Property & Viewings", trustBadge: "Registered Agent" },
+  "Pet Care": { icon: "🐾", category: "Pet Care & Vets", trustBadge: "Licensed Practice" },
 };
 
 type Step = "details" | "confirm" | "success";

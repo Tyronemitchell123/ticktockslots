@@ -1,4 +1,4 @@
-import { Scissors, Plane, Ship, Utensils, Stethoscope, Truck } from "lucide-react";
+import { Scissors, Plane, Ship, Utensils, Stethoscope, Truck, GraduationCap, Ticket, Car, Scale, Home, PawPrint } from "lucide-react";
 
 const sectors = [
   {
@@ -36,6 +36,42 @@ const sectors = [
     title: "Freight & Trucking",
     description: "Deadhead elimination. Fill empty return legs and reduce carbon output.",
     stat: "2.1K routes/day",
+  },
+  {
+    icon: GraduationCap,
+    title: "Education & Tutoring",
+    description: "Cancelled tutoring sessions, driving lessons, and course slots reclaimed instantly.",
+    stat: "6K slots/day",
+  },
+  {
+    icon: Ticket,
+    title: "Events & Entertainment",
+    description: "Last-minute concert, theatre, and experience tickets at steep discounts.",
+    stat: "4K slots/day",
+  },
+  {
+    icon: Car,
+    title: "Automotive Services",
+    description: "MOTs, servicing, and detailing appointments filled from no-show gaps.",
+    stat: "3K slots/day",
+  },
+  {
+    icon: Scale,
+    title: "Legal Services",
+    description: "Solicitor consultations and legal aid sessions recovered from cancellations.",
+    stat: "1.8K slots/day",
+  },
+  {
+    icon: Home,
+    title: "Property & Viewings",
+    description: "Estate agent viewings, surveys, and valuations filled from dropped bookings.",
+    stat: "2.5K slots/day",
+  },
+  {
+    icon: PawPrint,
+    title: "Pet Care & Vets",
+    description: "Vet appointments, grooming, and pet boarding slots reclaimed in real-time.",
+    stat: "5K slots/day",
   },
 ];
 

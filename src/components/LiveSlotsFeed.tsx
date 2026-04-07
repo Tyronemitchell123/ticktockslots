@@ -58,6 +58,30 @@ const MOCK_SLOTS: Slot[] = [
   { id: "71", merchant: "Moor Hall", vertical: "Dining", location: "Aughton, Lancashire", region: "UK", time: "8:30 PM Today", originalPrice: 480, currentPrice: 250, urgency: "critical", timeLeft: 19 },
   { id: "72", merchant: "Skin Clinic Cambridge", vertical: "Beauty", location: "Cambridge, UK", region: "UK", time: "2:30 PM Tomorrow", originalPrice: 150, currentPrice: 65, urgency: "medium", timeLeft: 430 },
   { id: "73", merchant: "Bupa Dental Oxford", vertical: "Health", location: "Oxford, UK", region: "UK", time: "4:00 PM Today", originalPrice: 220, currentPrice: 100, urgency: "high", timeLeft: 70 },
+  // New verticals — Education
+  { id: "100", merchant: "Kumon Kensington", vertical: "Education", location: "London, UK", region: "UK", time: "4:00 PM Today", originalPrice: 65, currentPrice: 28, urgency: "high", timeLeft: 90 },
+  { id: "101", merchant: "BSM Driving School", vertical: "Education", location: "Manchester, UK", region: "UK", time: "10:00 AM Tomorrow", originalPrice: 40, currentPrice: 18, urgency: "medium", timeLeft: 380 },
+  { id: "102", merchant: "Princeton Tutors", vertical: "Education", location: "New York, NY", region: "North America", time: "3:00 PM Today", originalPrice: 120, currentPrice: 55, urgency: "critical", timeLeft: 25 },
+  // Events
+  { id: "103", merchant: "West End Shows", vertical: "Events", location: "London, UK", region: "UK", time: "7:30 PM Today", originalPrice: 180, currentPrice: 72, urgency: "critical", timeLeft: 30 },
+  { id: "104", merchant: "Sydney Opera House", vertical: "Events", location: "Sydney, AU", region: "Asia Pacific", time: "8:00 PM Today", originalPrice: 250, currentPrice: 110, urgency: "high", timeLeft: 105 },
+  { id: "105", merchant: "Broadway Tickets", vertical: "Events", location: "New York, NY", region: "North America", time: "8:00 PM Today", originalPrice: 320, currentPrice: 140, urgency: "critical", timeLeft: 18 },
+  // Automotive
+  { id: "106", merchant: "Kwik Fit MOT", vertical: "Automotive", location: "Birmingham, UK", region: "UK", time: "9:00 AM Tomorrow", originalPrice: 55, currentPrice: 25, urgency: "medium", timeLeft: 400 },
+  { id: "107", merchant: "Halfords Autocentre", vertical: "Automotive", location: "Leeds, UK", region: "UK", time: "2:00 PM Today", originalPrice: 180, currentPrice: 85, urgency: "high", timeLeft: 75 },
+  { id: "108", merchant: "Tesla Service Berlin", vertical: "Automotive", location: "Berlin, DE", region: "Europe", time: "11:00 AM Tomorrow", originalPrice: 350, currentPrice: 160, urgency: "medium", timeLeft: 340 },
+  // Legal
+  { id: "109", merchant: "Slater & Gordon", vertical: "Legal", location: "Manchester, UK", region: "UK", time: "11:00 AM Today", originalPrice: 280, currentPrice: 130, urgency: "high", timeLeft: 65 },
+  { id: "110", merchant: "Irwin Mitchell", vertical: "Legal", location: "London, UK", region: "UK", time: "3:30 PM Today", originalPrice: 350, currentPrice: 165, urgency: "critical", timeLeft: 22 },
+  { id: "111", merchant: "LegalZoom Consult", vertical: "Legal", location: "Los Angeles, CA", region: "North America", time: "1:00 PM Today", originalPrice: 200, currentPrice: 90, urgency: "medium", timeLeft: 250 },
+  // Property
+  { id: "112", merchant: "Foxtons Viewings", vertical: "Property", location: "London, UK", region: "UK", time: "12:00 PM Today", originalPrice: 0, currentPrice: 0, urgency: "critical", timeLeft: 35 },
+  { id: "113", merchant: "Savills Valuations", vertical: "Property", location: "Edinburgh, UK", region: "UK", time: "2:00 PM Tomorrow", originalPrice: 450, currentPrice: 200, urgency: "medium", timeLeft: 420 },
+  { id: "114", merchant: "Compass Realty", vertical: "Property", location: "San Francisco, CA", region: "North America", time: "10:00 AM Tomorrow", originalPrice: 0, currentPrice: 0, urgency: "high", timeLeft: 280 },
+  // Pet Care
+  { id: "115", merchant: "Battersea Vets", vertical: "Pet Care", location: "London, UK", region: "UK", time: "9:30 AM Tomorrow", originalPrice: 85, currentPrice: 38, urgency: "medium", timeLeft: 360 },
+  { id: "116", merchant: "Pets at Home Groom", vertical: "Pet Care", location: "Bristol, UK", region: "UK", time: "1:00 PM Today", originalPrice: 60, currentPrice: 25, urgency: "critical", timeLeft: 20 },
+  { id: "117", merchant: "Banfield Pet Hospital", vertical: "Pet Care", location: "Chicago, IL", region: "North America", time: "3:00 PM Today", originalPrice: 120, currentPrice: 52, urgency: "high", timeLeft: 95 },
   // North America
   { id: "23", merchant: "Drybar Chicago", vertical: "Beauty", location: "Chicago, IL", region: "North America", time: "3:00 PM Today", originalPrice: 95, currentPrice: 42, urgency: "high", timeLeft: 75 },
   { id: "24", merchant: "Wheels Up", vertical: "Aviation", location: "LAX → SFO", region: "North America", time: "6:00 PM Today", originalPrice: 9800, currentPrice: 3400, urgency: "critical", timeLeft: 40 },

@@ -51,6 +51,24 @@ function generateSlots(): SlotRow[] {
     // Dining
     { name: "The Ivy London", vertical: "Dining", location: "London, UK", region: "UK", base: 120, hours: [11, 23] },
     { name: "Nobu Dubai", vertical: "Dining", location: "Dubai, AE", region: "Middle East", base: 250, hours: [8, 20] },
+    // Education
+    { name: "Kumon Tutoring London", vertical: "Education", location: "London, UK", region: "UK", base: 55, hours: [9, 20] },
+    { name: "Kaplan Test Prep NYC", vertical: "Education", location: "New York, NY", region: "North America", base: 95, hours: [14, 23] },
+    // Events
+    { name: "West End Last Minute", vertical: "Events", location: "London, UK", region: "UK", base: 160, hours: [14, 22] },
+    { name: "Broadway Rush Tickets", vertical: "Events", location: "New York, NY", region: "North America", base: 280, hours: [17, 3] },
+    // Automotive
+    { name: "Kwik Fit Express", vertical: "Automotive", location: "Birmingham, UK", region: "UK", base: 85, hours: [8, 18] },
+    { name: "AutoNation Service", vertical: "Automotive", location: "Miami, FL", region: "North America", base: 190, hours: [13, 23] },
+    // Legal
+    { name: "Slater & Gordon Consult", vertical: "Legal", location: "Manchester, UK", region: "UK", base: 280, hours: [9, 17] },
+    { name: "LegalZoom Express", vertical: "Legal", location: "Los Angeles, CA", region: "North America", base: 200, hours: [16, 2] },
+    // Property
+    { name: "Foxtons Viewings", vertical: "Property", location: "London, UK", region: "UK", base: 0, hours: [9, 19] },
+    { name: "Savills Valuations", vertical: "Property", location: "Edinburgh, UK", region: "UK", base: 400, hours: [9, 17] },
+    // Pet Care
+    { name: "Battersea Vets", vertical: "Pet Care", location: "London, UK", region: "UK", base: 85, hours: [8, 20] },
+    { name: "Banfield Pet Hospital", vertical: "Pet Care", location: "Chicago, IL", region: "North America", base: 120, hours: [14, 1] },
   ];
 
   // Pick merchants whose business hours overlap current UTC hour
