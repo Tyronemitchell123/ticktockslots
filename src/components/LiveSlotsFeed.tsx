@@ -143,6 +143,69 @@ const urgencyColors = {
   medium: "bg-primary/20 text-primary border-primary/30",
 };
 
+const SLOT_DETAILS: Record<string, { description: string; includes: string[]; ideal: string }> = {
+  Beauty: {
+    description: "Premium beauty & grooming appointment released due to last-minute cancellation.",
+    includes: ["Full service as originally booked", "Same stylist / therapist", "Premium products included", "No service downgrade"],
+    ideal: "Perfect for walk-ins wanting salon-quality at a fraction of the price.",
+  },
+  Aviation: {
+    description: "Private jet seat or charter leg available from repositioning or cancellation.",
+    includes: ["Confirmed departure slot", "Full cabin crew service", "Luggage allowance included", "FBO lounge access"],
+    ideal: "Ideal for flexible travellers who can depart on short notice.",
+  },
+  Health: {
+    description: "Medical or specialist consultation slot freed up by a cancellation.",
+    includes: ["Licensed practitioner", "Full consultation duration", "Follow-up notes provided", "Prescription if needed"],
+    ideal: "Great for non-emergency appointments you've been waiting weeks for.",
+  },
+  Dining: {
+    description: "Reserved table at a top restaurant now available due to a no-show or cancellation.",
+    includes: ["Prime-time table", "Full à la carte menu access", "Sommelier service", "Original party size"],
+    ideal: "Perfect for food lovers who want a last-minute fine dining experience.",
+  },
+  Logistics: {
+    description: "Cargo berth or container slot released from a schedule change.",
+    includes: ["Confirmed loading window", "Port handling included", "Documentation support", "Priority clearance"],
+    ideal: "Ideal for shippers needing urgent capacity at reduced rates.",
+  },
+  Fitness: {
+    description: "Class spot or personal training session freed up by a cancellation.",
+    includes: ["Full class/session duration", "Equipment provided", "Certified instructor", "Shower & locker access"],
+    ideal: "Great for fitness enthusiasts wanting premium sessions at drop-in prices.",
+  },
+  Education: {
+    description: "Tutoring session or course slot available from a student cancellation.",
+    includes: ["Qualified tutor/instructor", "Full session length", "Learning materials provided", "Progress tracking"],
+    ideal: "Perfect for students needing extra help or test preparation.",
+  },
+  Events: {
+    description: "Premium event ticket or VIP experience released at the last minute.",
+    includes: ["Confirmed seat/entry", "Original ticket tier", "Venue amenities access", "Digital ticket delivery"],
+    ideal: "Ideal for spontaneous plans — catch sold-out shows at a discount.",
+  },
+  Automotive: {
+    description: "Vehicle service, MOT, or repair slot freed up by a cancellation.",
+    includes: ["Certified technician", "Genuine/OEM parts", "Service report provided", "Warranty maintained"],
+    ideal: "Great for drivers needing timely maintenance without the long wait.",
+  },
+  Legal: {
+    description: "Legal consultation or advisory slot available from a rescheduled client.",
+    includes: ["Qualified solicitor/attorney", "Full consultation time", "Confidential session", "Written summary if applicable"],
+    ideal: "Perfect for getting timely legal advice at reduced consultation fees.",
+  },
+  Property: {
+    description: "Property viewing or valuation appointment freed up by a cancellation.",
+    includes: ["Accompanied viewing", "Agent expertise", "Property pack available", "Flexible scheduling"],
+    ideal: "Ideal for buyers and renters wanting priority access to listings.",
+  },
+  "Pet Care": {
+    description: "Vet appointment or grooming slot available from a cancellation.",
+    includes: ["Licensed veterinarian/groomer", "Full appointment duration", "Health check included", "Treatment notes provided"],
+    ideal: "Great for pet owners needing prompt care without emergency prices.",
+  },
+};
+
 const LiveSlotsFeed = () => {
   const [slots, setSlots] = useState(MOCK_SLOTS);
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
