@@ -47,6 +47,55 @@ export function generateDemandForecast(): DemandForecast[] {
   }));
 }
 
+export interface RevenueData {
+  day: string;
+  recovered: number;
+  lost: number;
+  optimized: number;
+}
+
+export function generateWeeklyRevenue(): RevenueData[] {
+  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  return days.map((day) => ({
+    day,
+    recovered: Math.round(180000 + Math.random() * 220000),
+    lost: Math.round(20000 + Math.random() * 60000),
+    optimized: Math.round(40000 + Math.random() * 80000),
+  }));
+}
+
+export interface SectorBreakdown {
+  name: string;
+  value: number;
+  fill: string;
+}
+
+export function generateSectorBreakdown(): SectorBreakdown[] {
+  return [
+    { name: "Aviation", value: 38, fill: "hsl(217, 91%, 60%)" },
+    { name: "Beauty", value: 22, fill: "hsl(45, 96%, 57%)" },
+    { name: "Health", value: 18, fill: "hsl(142, 71%, 45%)" },
+    { name: "Dining", value: 12, fill: "hsl(0, 84%, 60%)" },
+    { name: "Logistics", value: 7, fill: "hsl(280, 70%, 55%)" },
+    { name: "Fitness", value: 3, fill: "hsl(200, 80%, 50%)" },
+  ];
+}
+
+export interface FillRateData {
+  hour: string;
+  rate: number;
+  target: number;
+}
+
+export function generateFillRateTimeline(): FillRateData[] {
+  const hours = ["12AM", "3AM", "6AM", "9AM", "12PM", "3PM", "6PM", "9PM"];
+  return hours.map((hour, i) => ({
+    hour,
+    rate: Math.round(40 + Math.sin(i / 1.5) * 30 + Math.random() * 15),
+    target: 85,
+  }));
+}
+
 export function generatePriceSuggestions(): PriceSuggestion[] {
   return [
     { slotId: "1", currentPrice: 89, suggestedPrice: 72, reason: "Expiring in <30min, lower price increases fill probability to 95%", expectedFillRate: 0.95 },
