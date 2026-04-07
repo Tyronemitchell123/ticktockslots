@@ -159,6 +159,7 @@ const Dashboard = () => {
         <Tabs defaultValue="bookings" className="space-y-6">
           <TabsList className="glass">
             <TabsTrigger value="bookings"><ShoppingBag className="w-4 h-4 mr-1" /> My Bookings</TabsTrigger>
+            <TabsTrigger value="saved"><Heart className="w-4 h-4 mr-1" /> Saved Slots</TabsTrigger>
             <TabsTrigger value="ai"><Brain className="w-4 h-4 mr-1" /> AI Engine</TabsTrigger>
             <TabsTrigger value="api"><Key className="w-4 h-4 mr-1" /> API Keys</TabsTrigger>
             <TabsTrigger value="calendar"><Calendar className="w-4 h-4 mr-1" /> Calendar Sync</TabsTrigger>
