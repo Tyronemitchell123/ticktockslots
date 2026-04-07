@@ -14,7 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import {
   ArrowLeft, Users, ShoppingBag, BarChart3, Bell, Bot, Trash2, Plus,
-  TrendingUp, Activity, Shield, Zap,
+  TrendingUp, Activity, Shield, Zap, Store, CheckCircle2, XCircle, Pencil, Save, X,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 
@@ -30,7 +30,14 @@ const Admin = () => {
   const [users, setUsers] = useState<any[]>([]);
   const [bookings, setBookings] = useState<any[]>([]);
   const [slots, setSlots] = useState<any[]>([]);
+  const [merchants, setMerchants] = useState<any[]>([]);
   const [statsLoading, setStatsLoading] = useState(true);
+
+  // Merchant editing
+  const [editingMerchant, setEditingMerchant] = useState<string | null>(null);
+  const [editForm, setEditForm] = useState<any>({});
+  const [addingMerchant, setAddingMerchant] = useState(false);
+  const [newMerchant, setNewMerchant] = useState({ name: "", location: "", region: "", vertical: "", contact_email: "" });
 
   // Automation
   const {
@@ -54,18 +61,54 @@ const Admin = () => {
 
     const fetchAdminData = async () => {
       setStatsLoading(true);
-      const [profilesRes, bookingsRes, slotsRes] = await Promise.all([
+      const [profilesRes, bookingsRes, slotsRes, merchantsRes] = await Promise.all([
         isAdmin ? supabase.from("profiles").select("*").limit(50) : Promise.resolve({ data: [] }),
         supabase.from("bookings").select("*").order("created_at", { ascending: false }).limit(50),
         supabase.from("slots").select("*").order("created_at", { ascending: false }).limit(100),
+        isAdmin ? supabase.from("merchants").select("*").order("created_at", { ascending: false }).limit(100) : Promise.resolve({ data: [] }),
       ]);
       setUsers(profilesRes.data || []);
       setBookings(bookingsRes.data || []);
       setSlots(slotsRes.data || []);
+      setMerchants(merchantsRes.data || []);
       setStatsLoading(false);
     };
     fetchAdminData();
   }, [user, isAdmin, adminLoading]);
+
+  const refreshMerchants = async () => {
+    const { data } = await supabase.from("merchants").select("*").order("created_at", { ascending: false }).limit(100);
+    if (data) setMerchants(data);
+  };
+
+  const toggleVerify = async (id: string, current: boolean) => {
+    await supabase.from("merchants").update({ is_verified: !current }).eq("id", id);
+    refreshMerchants();
+  };
+
+  const startEdit = (m: any) => {
+    setEditingMerchant(m.id);
+    setEditForm({ name: m.name, location: m.location, region: m.region, vertical: m.vertical, contact_email: m.contact_email || "" });
+  };
+
+  const saveEdit = async (id: string) => {
+    await supabase.from("merchants").update(editForm).eq("id", id);
+    setEditingMerchant(null);
+    refreshMerchants();
+  };
+
+  const deleteMerchant = async (id: string) => {
+    await supabase.from("merchants").delete().eq("id", id);
+    refreshMerchants();
+  };
+
+  const addMerchant = async () => {
+    if (!newMerchant.name || !newMerchant.location || !newMerchant.region || !newMerchant.vertical) return;
+    await supabase.from("merchants").insert(newMerchant);
+    setNewMerchant({ name: "", location: "", region: "", vertical: "", contact_email: "" });
+    setAddingMerchant(false);
+    refreshMerchants();
+  };
 
   if (adminLoading) {
     return (
