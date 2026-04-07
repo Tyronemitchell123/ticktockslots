@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Drawer, DrawerContent } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { MapPin, Clock, TrendingDown, Shield, Zap, CheckCircle2, ArrowRight, Timer, Loader2, Star, MessageSquare, Navigation } from "lucide-react";
 import { getVendorAddress, getGoogleMapsUrl } from "@/lib/vendor-addresses";
 import { detectCurrency, formatPriceInCurrency } from "@/lib/currency";
@@ -55,6 +57,7 @@ const verticalDetails: Record<string, { icon: string; category: string; trustBad
 type Step = "details" | "confirm" | "success";
 
 const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: SlotDetailModalProps) => {
+  const isMobile = useIsMobile();
   const [step, setStep] = useState<Step>("details");
   const [liveCountdown, setLiveCountdown] = useState(0);
 
@@ -123,33 +126,30 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
 
     setBookingLoading(true);
     try {
-      const { data, error } = await supabase
-        .from("bookings")
-        .insert({
-          slot_id: slot.id,
-          user_id: user.id,
-          merchant_id: null,
-          paid_amount: slot.currentPrice,
-          paid_upfront: requiresUpfront,
-          status: requiresUpfront ? "paid" : "confirmed",
-        })
-        .select("id")
-        .single();
+      // Use atomic claim_slot function to prevent double-booking
+      const { data, error } = await supabase.rpc("claim_slot", {
+        _slot_id: slot.id,
+        _user_id: user.id,
+        _paid_amount: slot.currentPrice,
+        _paid_upfront: requiresUpfront,
+      });
 
       if (error) throw error;
-      setBookingId(data.id);
+      setBookingId(data);
       setStep("success");
-      toast({ title: "Booking confirmed!", description: `You saved ${fmtSaved} on this slot.` });
+      toast({ title: "🎉 Booking confirmed!", description: `You saved ${fmtSaved} on this slot.` });
     } catch (error: any) {
-      toast({ title: "Booking failed", description: error.message, variant: "destructive" });
+      const msg = error.message?.includes("no longer available")
+        ? "This slot has already been claimed by another user."
+        : error.message;
+      toast({ title: "Booking failed", description: msg, variant: "destructive" });
     } finally {
       setBookingLoading(false);
     }
   };
 
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg glass border-border/50 p-0 overflow-hidden">
+  const modalContent = (
+    <div className="max-h-[85vh] overflow-y-auto">
         {/* ===== STEP 1: Details ===== */}
         {step === "details" && (
           <div>
@@ -420,6 +420,23 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
             </Button>
           </div>
         )}
+    </div>
+  );
+
+  if (isMobile) {
+    return (
+      <Drawer open={open} onOpenChange={onOpenChange}>
+        <DrawerContent className="glass border-border/50 p-0 overflow-hidden">
+          {modalContent}
+        </DrawerContent>
+      </Drawer>
+    );
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-lg glass border-border/50 p-0 overflow-hidden">
+        {modalContent}
       </DialogContent>
     </Dialog>
   );

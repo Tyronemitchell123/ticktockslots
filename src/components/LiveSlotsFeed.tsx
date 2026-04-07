@@ -328,9 +328,33 @@ const SLOT_DETAILS: Record<string, { description: string; includes: string[]; id
   },
 };
 
+const SlotSkeleton = () => (
+  <div className="glass rounded-xl p-5 animate-pulse">
+    <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="flex items-center gap-4 flex-1">
+        <div className="w-12 h-12 rounded-lg bg-muted" />
+        <div className="space-y-2 flex-1">
+          <div className="h-4 bg-muted rounded w-40" />
+          <div className="h-3 bg-muted rounded w-60" />
+          <div className="h-3 bg-muted rounded w-32" />
+        </div>
+      </div>
+      <div className="flex items-center gap-3">
+        <div className="h-6 w-20 bg-muted rounded-full" />
+        <div className="space-y-1 text-right">
+          <div className="h-3 bg-muted rounded w-16 ml-auto" />
+          <div className="h-5 bg-muted rounded w-20 ml-auto" />
+        </div>
+        <div className="h-9 w-16 bg-muted rounded-lg" />
+      </div>
+    </div>
+  </div>
+);
+
 const LiveSlotsFeed = () => {
   const { savedSlotIds, toggleSave } = useSavedSlots();
   const [slots, setSlots] = useState(MOCK_SLOTS);
+  const [initialLoading, setInitialLoading] = useState(true);
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedRegion, setSelectedRegion] = useState("all");
@@ -398,14 +422,16 @@ const LiveSlotsFeed = () => {
           });
           setLiveCount(dbSlots.length);
         }
+        setInitialLoading(false);
       } catch (e) {
         console.warn("Live data fetch failed:", e);
+        setInitialLoading(false);
       }
     };
     loadFromDb();
     const interval = setInterval(loadFromDb, 15000);
 
-    // Subscribe to realtime inserts
+    // Subscribe to realtime inserts and updates
     const channel = supabase
       .channel("live-slots")
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "slots" }, (payload) => {
@@ -426,6 +452,14 @@ const LiveSlotsFeed = () => {
         };
         setSlots((prev) => [newSlot, ...prev]);
         setLiveCount((prev) => prev + 1);
+      })
+      .on("postgres_changes", { event: "UPDATE", schema: "public", table: "slots" }, (payload) => {
+        const s = payload.new as any;
+        if (!s.is_live) {
+          // Slot was claimed — remove from feed
+          setSlots((prev) => prev.filter((slot) => slot.id !== s.id));
+          setLiveCount((prev) => Math.max(0, prev - 1));
+        }
       })
       .subscribe();
 
@@ -744,7 +778,9 @@ const LiveSlotsFeed = () => {
         </div>
 
         <div className="grid gap-4">
-          {filteredSlots.length === 0 ? (
+          {initialLoading ? (
+            Array.from({ length: 6 }).map((_, i) => <SlotSkeleton key={i} />)
+          ) : filteredSlots.length === 0 ? (
             <div className="glass rounded-xl p-10 text-center">
               <Globe className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
               <p className="text-muted-foreground">No live slots in this region right now.</p>

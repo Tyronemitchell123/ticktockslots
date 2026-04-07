@@ -15,7 +15,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import {
   ArrowLeft, Users, ShoppingBag, BarChart3, Bell, Bot, Trash2, Plus,
   TrendingUp, Activity, Shield, Zap, Store, CheckCircle2, XCircle, Pencil, Save, X,
+  CalendarPlus,
 } from "lucide-react";
+import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 
 const VERTICALS = ["Beauty", "Dining", "Aviation", "Hotels", "Events", "Wellness", "Sports"];
@@ -38,6 +40,13 @@ const Admin = () => {
   const [editForm, setEditForm] = useState<any>({});
   const [addingMerchant, setAddingMerchant] = useState(false);
   const [newMerchant, setNewMerchant] = useState({ name: "", location: "", region: "", vertical: "", contact_email: "" });
+
+  // New slot form
+  const [newSlot, setNewSlot] = useState({
+    merchant_name: "", vertical: "", location: "", region: "", time_description: "",
+    original_price: "", current_price: "", urgency: "medium" as "critical" | "high" | "medium",
+    expires_at: "",
+  });
 
   // Automation
   const {
@@ -149,6 +158,7 @@ const Admin = () => {
                 <TabsTrigger value="users"><Users className="w-4 h-4 mr-1" />Users</TabsTrigger>
                 <TabsTrigger value="bookings"><ShoppingBag className="w-4 h-4 mr-1" />Bookings</TabsTrigger>
                 <TabsTrigger value="merchants"><Store className="w-4 h-4 mr-1" />Merchants</TabsTrigger>
+                <TabsTrigger value="slots"><CalendarPlus className="w-4 h-4 mr-1" />Add Slot</TabsTrigger>
               </>
             )}
             <TabsTrigger value="alerts"><Bell className="w-4 h-4 mr-1" />Price Alerts</TabsTrigger>
@@ -518,6 +528,88 @@ const Admin = () => {
               <p className="text-center text-muted-foreground text-sm py-8">No auto-claim rules yet. Create one above!</p>
             )}
           </TabsContent>
+          {/* Add Cancelled Slot Tab (Admin Only) */}
+          {isAdmin && (
+            <TabsContent value="slots">
+              <Card className="bg-card border-border">
+                <CardHeader>
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <CalendarPlus className="w-4 h-4 text-primary" />
+                    Add Cancelled Slot
+                  </CardTitle>
+                  <CardDescription>Manually input a new cancelled booking slot for the marketplace</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <Input placeholder="Merchant Name *" value={newSlot.merchant_name} onChange={e => setNewSlot(p => ({ ...p, merchant_name: e.target.value }))} />
+                    <Select value={newSlot.vertical} onValueChange={v => setNewSlot(p => ({ ...p, vertical: v }))}>
+                      <SelectTrigger><SelectValue placeholder="Vertical *" /></SelectTrigger>
+                      <SelectContent>{VERTICALS.map(v => <SelectItem key={v} value={v}>{v}</SelectItem>)}</SelectContent>
+                    </Select>
+                    <Input placeholder="Location *" value={newSlot.location} onChange={e => setNewSlot(p => ({ ...p, location: e.target.value }))} />
+                    <Select value={newSlot.region} onValueChange={v => setNewSlot(p => ({ ...p, region: v }))}>
+                      <SelectTrigger><SelectValue placeholder="Region *" /></SelectTrigger>
+                      <SelectContent>{REGIONS.map(r => <SelectItem key={r} value={r}>{r}</SelectItem>)}</SelectContent>
+                    </Select>
+                    <Input placeholder="Time Description (e.g. '2:30 PM Today')" value={newSlot.time_description} onChange={e => setNewSlot(p => ({ ...p, time_description: e.target.value }))} />
+                    <div>
+                      <label className="text-xs text-muted-foreground mb-1 block">Expires At *</label>
+                      <Input type="datetime-local" value={newSlot.expires_at} onChange={e => setNewSlot(p => ({ ...p, expires_at: e.target.value }))} min={new Date().toISOString().slice(0, 16)} />
+                    </div>
+                    <Input type="number" placeholder="Original Price (£) *" value={newSlot.original_price} onChange={e => setNewSlot(p => ({ ...p, original_price: e.target.value }))} />
+                    <Input type="number" placeholder="Discounted Price (£) *" value={newSlot.current_price} onChange={e => setNewSlot(p => ({ ...p, current_price: e.target.value }))} />
+                    <Select value={newSlot.urgency} onValueChange={(v: any) => setNewSlot(p => ({ ...p, urgency: v }))}>
+                      <SelectTrigger><SelectValue placeholder="Urgency" /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="critical">🔥 Critical</SelectItem>
+                        <SelectItem value="high">⚡ High</SelectItem>
+                        <SelectItem value="medium">📌 Medium</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <Button
+                    className="w-full md:w-auto"
+                    onClick={async () => {
+                      const { merchant_name, vertical, location, region, time_description, original_price, current_price, urgency, expires_at } = newSlot;
+                      if (!merchant_name || !vertical || !location || !region || !time_description || !original_price || !current_price || !expires_at) {
+                        toast.error("Please fill in all required fields");
+                        return;
+                      }
+                      const expiresDate = new Date(expires_at);
+                      if (expiresDate <= new Date()) {
+                        toast.error("Expiry time must be in the future");
+                        return;
+                      }
+                      const timeLeftSeconds = Math.round((expiresDate.getTime() - Date.now()) / 1000);
+                      const { error } = await supabase.from("slots").insert({
+                        merchant_name,
+                        vertical,
+                        location,
+                        region,
+                        time_description,
+                        original_price: parseFloat(original_price),
+                        current_price: parseFloat(current_price),
+                        urgency,
+                        expires_at: expiresDate.toISOString(),
+                        time_left: timeLeftSeconds,
+                        is_live: true,
+                        source: "admin",
+                      });
+                      if (error) {
+                        toast.error("Failed to add slot: " + error.message);
+                      } else {
+                        toast.success("Slot added! It will appear in the live feed instantly via real-time.");
+                        setNewSlot({ merchant_name: "", vertical: "", location: "", region: "", time_description: "", original_price: "", current_price: "", urgency: "medium", expires_at: "" });
+                      }
+                    }}
+                  >
+                    <Plus className="w-4 h-4 mr-1" /> Publish Slot
+                  </Button>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          )}
+
         </Tabs>
       </div>
     </div>

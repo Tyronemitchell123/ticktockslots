@@ -383,6 +383,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      claim_slot: {
+        Args: {
+          _paid_amount?: number
+          _paid_upfront?: boolean
+          _slot_id: string
+          _user_id: string
+        }
+        Returns: string
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
