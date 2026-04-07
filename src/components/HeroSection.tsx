@@ -32,13 +32,12 @@ const HeroSection = () => {
         </video>
 
         {/* Gradient overlays — video visible on edges, text area has contrast */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/30 to-background" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.7)_0%,rgba(0,0,0,0.2)_50%,transparent_75%)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-transparent to-background" />
 
-        {/* Text container with localized backdrop */}
-        <div className="relative z-10 text-center px-4 mt-16">
-          {/* Frosted backdrop behind text only */}
-          <div className="absolute -inset-12 bg-background/60 rounded-3xl" style={{ filter: 'blur(60px)' }} />
+        {/* Text container with tight backdrop */}
+        <div className="relative z-10 text-center px-4 mt-16 max-w-3xl mx-auto">
+          {/* Tight frosted area just behind text */}
+          <div className="absolute -inset-x-6 -inset-y-4 bg-background/50 rounded-2xl" style={{ filter: 'blur(50px)' }} />
 
           <div className="relative z-10">
             {/* Live badge */}
