@@ -291,7 +291,7 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
             <div className="glass rounded-xl p-4 text-left space-y-2">
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Booking ID</span>
-                <span className="font-mono text-foreground">SE-{slot.id.padStart(6, "0")}</span>
+                <span className="font-mono text-foreground text-xs">{bookingId ? bookingId.slice(0, 8).toUpperCase() : slot.id.slice(0, 8)}</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">When</span>
