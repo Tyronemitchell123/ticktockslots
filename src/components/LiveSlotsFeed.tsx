@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon, Radio, Wifi, ArrowLeftRight, Info, Star, CheckCircle2, Navigation, ArrowUpDown, Heart } from "lucide-react";
 import SlotDetailModal from "./SlotDetailModal";
-import { getVendorAddress, getGoogleMapsUrl } from "@/lib/vendor-addresses";
+import { getVendorAddress, getOpenStreetMapUrl } from "@/lib/vendor-addresses";
 import { supabase } from "@/integrations/supabase/client";
 import { CURRENCIES, detectCurrency, formatPriceInCurrency } from "@/lib/currency";
 import { getSlotRating } from "@/lib/mock-reviews";
@@ -831,7 +831,7 @@ const LiveSlotsFeed = () => {
                             <div className="flex items-center gap-2 mt-1">
                               <span className="text-[11px] text-muted-foreground/70 truncate max-w-[260px]">{address}</span>
                               <a
-                                href={getGoogleMapsUrl(address)}
+                                href={getOpenStreetMapUrl(address)}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={(e) => e.stopPropagation()}

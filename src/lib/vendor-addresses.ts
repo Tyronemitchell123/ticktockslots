@@ -134,6 +134,6 @@ export const getVendorAddress = (merchantName: string): string | null => {
   return VENDOR_ADDRESSES[merchantName] || null;
 };
 
-export const getGoogleMapsUrl = (address: string): string => {
-  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+export const getOpenStreetMapUrl = (address: string): string => {
+  return `https://www.openstreetmap.org/search?query=${encodeURIComponent(address)}`;
 };
