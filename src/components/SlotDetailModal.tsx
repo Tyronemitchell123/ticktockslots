@@ -189,6 +189,23 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
                     <MapPin className="w-3 h-3" /> Location
                   </div>
                   <div className="text-sm font-medium text-foreground">{slot.location}</div>
+                  {(() => {
+                    const address = getVendorAddress(slot.merchant);
+                    return address ? (
+                      <div className="mt-1.5">
+                        <p className="text-[11px] text-muted-foreground leading-snug">{address}</p>
+                        <a
+                          href={getGoogleMapsUrl(address)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 mt-1.5 text-xs font-medium text-primary hover:text-primary/80 transition-colors"
+                        >
+                          <Navigation className="w-3.5 h-3.5" />
+                          Open in Maps
+                        </a>
+                      </div>
+                    ) : null;
+                  })()}
                 </div>
                 <div className="glass rounded-lg px-4 py-3">
                   <div className="flex items-center gap-2 text-muted-foreground text-xs uppercase tracking-wider mb-1">
