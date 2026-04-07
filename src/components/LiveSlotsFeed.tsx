@@ -204,9 +204,16 @@ const LiveSlotsFeed = () => {
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">Live Slots</h2>
             <p className="text-muted-foreground">Real-time cancellations across all verticals</p>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="w-2 h-2 rounded-full bg-green-400 animate-countdown" />
-            <span className="text-sm text-muted-foreground font-mono">LIVE</span>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-green-400 animate-countdown" />
+              <span className="text-sm text-muted-foreground font-mono">LIVE</span>
+            </div>
+            {liveCount > 0 && (
+              <Badge variant="outline" className="bg-green-400/10 text-green-400 border-green-400/30 text-[10px] gap-1">
+                <Wifi className="w-3 h-3" /> {liveCount} real-time
+              </Badge>
+            )}
           </div>
         </div>
 
