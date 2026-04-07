@@ -3,7 +3,7 @@ import { TransitionSeries, springTiming } from "@remotion/transitions";
 import { fade } from "@remotion/transitions/fade";
 import { slide } from "@remotion/transitions/slide";
 import { wipe } from "@remotion/transitions/wipe";
-import { clockWipe } from "@remotion/transitions/clock-wipe";
+import { flip } from "@remotion/transitions/flip";
 import { PersistentBackground } from "./components/PersistentBackground";
 import { IntroScene } from "./scenes/IntroScene";
 import { VerticalScene } from "./scenes/VerticalScene";
@@ -81,7 +81,7 @@ const getTransition = (i: number) => {
     wipe({ direction: "from-left" }),
     slide({ direction: "from-right" }),
     fade(),
-    clockWipe(),
+    flip(),
     wipe({ direction: "from-top" }),
     slide({ direction: "from-left" }),
   ];
