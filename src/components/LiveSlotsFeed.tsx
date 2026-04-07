@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon, Radio, Wifi, ArrowLeftRight, Info, Star, CheckCircle2, Navigation, ArrowUpDown } from "lucide-react";
 import SlotDetailModal from "./SlotDetailModal";
@@ -342,6 +342,8 @@ const LiveSlotsFeed = () => {
   const [verticalDropdownOpen, setVerticalDropdownOpen] = useState(false);
   const [sortBy, setSortBy] = useState<"default" | "price" | "discount" | "timeLeft">("default");
   const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(20);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
 
   // Countdown timer
   useEffect(() => {
