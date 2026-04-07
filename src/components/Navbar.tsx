@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Zap, Menu, X } from "lucide-react";
+import NotificationCenter from "./NotificationCenter";
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-border/30">
