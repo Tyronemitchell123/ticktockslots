@@ -796,7 +796,7 @@ const LiveSlotsFeed = () => {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3 flex-wrap sm:flex-nowrap w-full md:w-auto justify-between md:justify-end">
                       <Badge variant="outline" className={urgencyColors[slot.urgency]}>
                         {slot.urgency === "critical" ? "🔥" : slot.urgency === "high" ? "⚡" : "📌"} {slot.timeLeft}s left
                       </Badge>
