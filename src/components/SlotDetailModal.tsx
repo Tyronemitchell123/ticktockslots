@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Drawer, DrawerContent } from "@/components/ui/drawer";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -76,11 +76,18 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
     if (result === "opened") return;
 
     toast({
-      title: result === "copied" ? "Map site blocked in preview" : "Couldn't open map",
+      title:
+        result === "preview_copied"
+          ? "Address copied for preview"
+          : result === "copied"
+            ? "Map link copied"
+            : "Couldn't open map",
       description:
-        result === "copied"
-          ? "The address was copied to your clipboard — paste it into Google Maps, Apple Maps, or OpenStreetMap."
-          : `Copy this address manually: ${address}`,
+        result === "preview_copied"
+          ? "Preview blocks third-party map sites, so the address and map link were copied to your clipboard instead."
+          : result === "copied"
+            ? "Popup blocking prevented opening the map, so the address and map link were copied instead."
+            : `Copy this address manually: ${address}`,
       variant: result === "failed" ? "destructive" : undefined,
     });
   };
@@ -441,6 +448,10 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
     return (
       <Drawer open={open} onOpenChange={onOpenChange}>
         <DrawerContent className="glass border-border/50 p-0 overflow-hidden">
+          <DrawerHeader className="sr-only">
+            <DrawerTitle>{slot.merchant} slot details</DrawerTitle>
+            <DrawerDescription>Review the location, pricing, and booking details for this available slot.</DrawerDescription>
+          </DrawerHeader>
           {modalContent}
         </DrawerContent>
       </Drawer>
@@ -450,6 +461,10 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-lg glass border-border/50 p-0 overflow-hidden">
+        <DialogHeader className="sr-only">
+          <DialogTitle>{slot.merchant} slot details</DialogTitle>
+          <DialogDescription>Review the location, pricing, and booking details for this available slot.</DialogDescription>
+        </DialogHeader>
         {modalContent}
       </DialogContent>
     </Dialog>

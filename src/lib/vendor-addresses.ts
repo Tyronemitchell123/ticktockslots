@@ -138,23 +138,45 @@ export const getOpenStreetMapUrl = (address: string): string => {
   return `https://www.openstreetmap.org/search?query=${encodeURIComponent(address)}`;
 };
 
-export type OpenMapResult = "opened" | "copied" | "failed";
+export type OpenMapResult = "opened" | "copied" | "preview_copied" | "failed";
+
+const isEmbeddedPreview = (): boolean => {
+  if (typeof window === "undefined") return false;
+
+  try {
+    return window.self !== window.top;
+  } catch {
+    return true;
+  }
+};
 
 export const openMapLocation = async (address: string): Promise<OpenMapResult> => {
   const url = getOpenStreetMapUrl(address);
 
+  if (isEmbeddedPreview()) {
+    if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+      try {
+        await navigator.clipboard.writeText(`${address}\n${url}`);
+        return "preview_copied";
+      } catch {
+        return "failed";
+      }
+    }
+
+    return "failed";
+  }
+
   if (typeof window !== "undefined") {
-    const mapWindow = window.open("", "_blank", "noopener,noreferrer");
+    const mapWindow = window.open(url, "_blank", "noopener,noreferrer");
     if (mapWindow) {
       mapWindow.opener = null;
-      mapWindow.location.href = url;
       return "opened";
     }
   }
 
   if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
     try {
-      await navigator.clipboard.writeText(address);
+      await navigator.clipboard.writeText(`${address}\n${url}`);
       return "copied";
     } catch {
       return "failed";
