@@ -329,6 +329,7 @@ const SLOT_DETAILS: Record<string, { description: string; includes: string[]; id
 };
 
 const LiveSlotsFeed = () => {
+  const { savedSlotIds, toggleSave } = useSavedSlots();
   const [slots, setSlots] = useState(MOCK_SLOTS);
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
