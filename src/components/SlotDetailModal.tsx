@@ -89,8 +89,38 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
     return m > 0 ? `${m}m ${s.toString().padStart(2, "0")}s` : `${s}s`;
   };
 
-  const handleConfirm = () => {
-    setStep("success");
+  const handleConfirm = async () => {
+    if (!user) {
+      toast({ title: "Sign in required", description: "Please sign in to book a slot.", variant: "destructive" });
+      onOpenChange(false);
+      navigate("/auth");
+      return;
+    }
+
+    setBookingLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from("bookings")
+        .insert({
+          slot_id: slot.id,
+          user_id: user.id,
+          merchant_id: null,
+          paid_amount: slot.currentPrice,
+          paid_upfront: false,
+          status: "confirmed",
+        })
+        .select("id")
+        .single();
+
+      if (error) throw error;
+      setBookingId(data.id);
+      setStep("success");
+      toast({ title: "Booking confirmed!", description: `You saved ${fmtSaved} on this slot.` });
+    } catch (error: any) {
+      toast({ title: "Booking failed", description: error.message, variant: "destructive" });
+    } finally {
+      setBookingLoading(false);
+    }
   };
 
   return (
