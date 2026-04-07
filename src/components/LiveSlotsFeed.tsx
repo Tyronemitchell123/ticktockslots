@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon } from "lucide-react";
+import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon, Radio, Wifi } from "lucide-react";
 import SlotDetailModal from "./SlotDetailModal";
+import { fetchAllLiveSlots, type LiveSlot } from "@/lib/live-data";
 
 interface Slot {
   id: string;
@@ -14,6 +15,8 @@ interface Slot {
   currentPrice: number;
   urgency: "critical" | "high" | "medium";
   timeLeft: number;
+  isLive?: boolean;
+  source?: string;
 }
 
 const MOCK_SLOTS: Slot[] = [
