@@ -50,10 +50,17 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
   const [step, setStep] = useState<Step>("details");
   const [liveCountdown, setLiveCountdown] = useState(0);
 
+  const [bookingLoading, setBookingLoading] = useState(false);
+  const [bookingId, setBookingId] = useState<string | null>(null);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
   useEffect(() => {
     if (slot) {
       setLiveCountdown(slot.timeLeft);
       setStep("details");
+      setBookingId(null);
     }
   }, [slot]);
 
