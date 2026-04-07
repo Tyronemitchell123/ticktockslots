@@ -851,6 +851,32 @@ const LiveSlotsFeed = () => {
                         <ChevronDown className={`w-3 h-3 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
                       </button>
 
+                      {/* Save to wishlist */}
+                      <button
+                        className={`p-2 rounded-lg glass transition-colors ${
+                          savedSlotIds.has(slot.id)
+                            ? "text-red-400 hover:text-red-300"
+                            : "text-muted-foreground hover:text-red-400 hover:border-red-400/30"
+                        }`}
+                        title={savedSlotIds.has(slot.id) ? "Remove from wishlist" : "Save to wishlist"}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleSave(slot.id, {
+                            id: slot.id,
+                            merchant: slot.merchant,
+                            vertical: slot.vertical,
+                            location: slot.location,
+                            region: slot.region,
+                            time: slot.time,
+                            originalPrice: slot.originalPrice,
+                            currentPrice: slot.currentPrice,
+                            urgency: slot.urgency,
+                          });
+                        }}
+                      >
+                        <Heart className={`w-4 h-4 ${savedSlotIds.has(slot.id) ? "fill-current" : ""}`} />
+                      </button>
+
                       <button
                         className="px-4 py-2 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/80 transition-colors glow-blue"
                         onClick={(e) => {
