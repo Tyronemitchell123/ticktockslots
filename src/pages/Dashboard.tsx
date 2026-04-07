@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Zap, ArrowLeft, Brain, Key, Calendar, CreditCard, TrendingUp,
   Copy, Eye, EyeOff, Trash2, Plus, RefreshCw, CheckCircle2,
-  AlertTriangle, BarChart3, Activity, Cpu, Target, Bot, ShoppingBag, Clock, MapPin,
+  AlertTriangle, BarChart3, Activity, Cpu, Target, Bot, ShoppingBag, Clock, MapPin, Heart,
 } from "lucide-react";
 import { getApiKeys, createApiKey, revokeApiKey, deleteApiKey, type ApiKey } from "@/lib/api-keys";
 import { generateInsights, generateDemandForecast, generateWeeklyRevenue, generateSectorBreakdown, generateFillRateTimeline, getAutomationStatus, type AiInsight } from "@/lib/ai-engine";
@@ -17,6 +17,7 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
 } from "recharts";
 import { getConnections, connectCalendar, disconnectCalendar, getRecentEvents, type CalendarConnection } from "@/lib/calendar-sync";
+import { useSavedSlots } from "@/hooks/use-saved-slots";
 
 const Dashboard = () => {
   const navigate = useNavigate();
