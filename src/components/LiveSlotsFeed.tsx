@@ -1,8 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon, Radio, Wifi } from "lucide-react";
+import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon, Radio, Wifi, ArrowLeftRight } from "lucide-react";
 import SlotDetailModal from "./SlotDetailModal";
 import { supabase } from "@/integrations/supabase/client";
+import { CURRENCIES, detectCurrency, formatPriceInCurrency } from "@/lib/currency";
 
 interface Slot {
   id: string;
@@ -126,6 +127,8 @@ const LiveSlotsFeed = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [liveCount, setLiveCount] = useState(0);
+  const [displayCurrency, setDisplayCurrency] = useState("GBP");
+  const [currencyDropdownOpen, setCurrencyDropdownOpen] = useState(false);
 
   // Countdown timer
   useEffect(() => {
@@ -259,7 +262,7 @@ const LiveSlotsFeed = () => {
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">Live Slots</h2>
             <p className="text-muted-foreground">Real-time cancellations across all verticals</p>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-green-400 animate-countdown" />
               <span className="text-sm text-muted-foreground font-mono">LIVE</span>
@@ -269,6 +272,35 @@ const LiveSlotsFeed = () => {
                 <Wifi className="w-3 h-3" /> {liveCount} real-time
               </Badge>
             )}
+            {/* Currency selector */}
+            <div className="relative">
+              <button
+                onClick={() => setCurrencyDropdownOpen(!currencyDropdownOpen)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg glass text-sm font-medium text-foreground hover:border-primary/30 transition-colors"
+              >
+                <ArrowLeftRight className="w-3.5 h-3.5 text-primary" />
+                {CURRENCIES.find((c) => c.code === displayCurrency)?.flag}{" "}
+                {displayCurrency}
+                <ChevronDown className={`w-3 h-3 transition-transform ${currencyDropdownOpen ? "rotate-180" : ""}`} />
+              </button>
+              {currencyDropdownOpen && (
+                <div className="absolute right-0 top-full mt-1 w-52 glass rounded-xl border border-border/50 shadow-xl z-50 py-1 max-h-64 overflow-y-auto">
+                  {CURRENCIES.map((c) => (
+                    <button
+                      key={c.code}
+                      onClick={() => { setDisplayCurrency(c.code); setCurrencyDropdownOpen(false); }}
+                      className={`w-full text-left px-4 py-2 text-sm flex items-center gap-2 hover:bg-muted/50 transition-colors ${
+                        displayCurrency === c.code ? "text-primary font-semibold" : "text-foreground"
+                      }`}
+                    >
+                      <span>{c.flag}</span>
+                      <span className="flex-1">{c.name}</span>
+                      <span className="text-muted-foreground font-mono text-xs">{c.code}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -405,10 +437,12 @@ const LiveSlotsFeed = () => {
                   </Badge>
 
                   <div className="text-right">
-                    <div className="text-sm text-muted-foreground line-through">${slot.originalPrice.toLocaleString()}</div>
+                    <div className="text-sm text-muted-foreground line-through">
+                      {formatPriceInCurrency(slot.originalPrice, detectCurrency(slot.location, slot.region), displayCurrency)}
+                    </div>
                     <div className="text-lg font-bold text-secondary flex items-center gap-1">
                       <TrendingDown className="w-4 h-4" />
-                      ${slot.currentPrice.toLocaleString()}
+                      {formatPriceInCurrency(slot.currentPrice, detectCurrency(slot.location, slot.region), displayCurrency)}
                     </div>
                   </div>
 
@@ -432,6 +466,7 @@ const LiveSlotsFeed = () => {
         slot={selectedSlot}
         open={modalOpen}
         onOpenChange={setModalOpen}
+        displayCurrency={displayCurrency}
       />
     </section>
   );
