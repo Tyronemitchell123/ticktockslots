@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Clock, MapPin, TrendingDown, Globe, ChevronDown } from "lucide-react";
+import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon } from "lucide-react";
 import SlotDetailModal from "./SlotDetailModal";
 
 interface Slot {
@@ -121,6 +121,7 @@ const LiveSlotsFeed = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedRegion, setSelectedRegion] = useState("all");
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -131,10 +132,20 @@ const LiveSlotsFeed = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const filteredSlots = useMemo(
-    () => selectedRegion === "all" ? slots : slots.filter((s) => s.region === selectedRegion),
-    [slots, selectedRegion]
-  );
+  const filteredSlots = useMemo(() => {
+    let result = selectedRegion === "all" ? slots : slots.filter((s) => s.region === selectedRegion);
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter(
+        (s) =>
+          s.merchant.toLowerCase().includes(q) ||
+          s.location.toLowerCase().includes(q) ||
+          s.vertical.toLowerCase().includes(q) ||
+          s.region.toLowerCase().includes(q)
+      );
+    }
+    return result;
+  }, [slots, selectedRegion, searchQuery]);
 
   const regionCounts = useMemo(() => {
     const counts: Record<string, number> = { all: slots.length };
@@ -169,6 +180,31 @@ const LiveSlotsFeed = () => {
             <span className="w-2 h-2 rounded-full bg-green-400 animate-countdown" />
             <span className="text-sm text-muted-foreground font-mono">LIVE</span>
           </div>
+        </div>
+
+        {/* Search Bar */}
+        <div className="relative mb-4">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+          <input
+            type="text"
+            placeholder="Search by merchant, city, or vertical..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full bg-muted/50 border border-border/50 rounded-xl pl-10 pr-10 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary/50 transition-all"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery("")}
+              className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+            >
+              <XIcon className="w-3.5 h-3.5" />
+            </button>
+          )}
+          {searchQuery && (
+            <div className="absolute right-10 top-1/2 -translate-y-1/2 text-[10px] text-muted-foreground font-mono">
+              {filteredSlots.length} result{filteredSlots.length !== 1 ? "s" : ""}
+            </div>
+          )}
         </div>
 
         {/* Location Selector */}
