@@ -379,11 +379,18 @@ const LiveSlotsFeed = () => {
     if (result === "opened") return;
 
     toast({
-      title: result === "copied" ? "Map site blocked in preview" : "Couldn't open map",
+      title:
+        result === "preview_copied"
+          ? "Address copied for preview"
+          : result === "copied"
+            ? "Map link copied"
+            : "Couldn't open map",
       description:
-        result === "copied"
-          ? "The address was copied to your clipboard — paste it into Google Maps, Apple Maps, or OpenStreetMap."
-          : `Copy this address manually: ${address}`,
+        result === "preview_copied"
+          ? "Preview blocks third-party map sites, so the address and map link were copied to your clipboard instead."
+          : result === "copied"
+            ? "Popup blocking prevented opening the map, so the address and map link were copied instead."
+            : `Copy this address manually: ${address}`,
       variant: result === "failed" ? "destructive" : undefined,
     });
   }, [toast]);
