@@ -219,6 +219,50 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
                 </div>
               </div>
 
+              {/* Reviews & ratings */}
+              {(() => {
+                const rating = getSlotRating(slot.id, slot.vertical);
+                return (
+                  <div className="glass rounded-xl p-4 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="flex items-center">
+                          {[1, 2, 3, 4, 5].map((s) => (
+                            <Star
+                              key={s}
+                              className={`w-4 h-4 ${s <= Math.round(rating.average) ? "text-secondary fill-secondary" : "text-muted-foreground/30"}`}
+                            />
+                          ))}
+                        </div>
+                        <span className="text-sm font-semibold text-foreground">{rating.average.toFixed(1)}</span>
+                      </div>
+                      <span className="text-xs text-muted-foreground flex items-center gap-1">
+                        <MessageSquare className="w-3 h-3" /> {rating.count} reviews
+                      </span>
+                    </div>
+                    <div className="space-y-2.5">
+                      {rating.reviews.slice(0, 3).map((review) => (
+                        <div key={review.id} className="border-t border-border/20 pt-2">
+                          <div className="flex items-center justify-between mb-0.5">
+                            <span className="text-xs font-medium text-foreground">{review.reviewer}</span>
+                            <div className="flex items-center gap-1">
+                              {[1, 2, 3, 4, 5].map((s) => (
+                                <Star
+                                  key={s}
+                                  className={`w-2.5 h-2.5 ${s <= review.rating ? "text-secondary fill-secondary" : "text-muted-foreground/30"}`}
+                                />
+                              ))}
+                              <span className="text-[10px] text-muted-foreground ml-1">{review.daysAgo}d ago</span>
+                            </div>
+                          </div>
+                          <p className="text-xs text-muted-foreground leading-relaxed">{review.comment}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
+
               {/* Trust score warning */}
               {user && requiresUpfront && (
                 <div className="flex items-center gap-3 rounded-lg px-4 py-3 bg-secondary/10 border border-secondary/30">
