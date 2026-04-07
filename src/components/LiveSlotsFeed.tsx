@@ -39,6 +39,48 @@ const MOCK_SLOTS: Slot[] = [
   { id: "20", merchant: "Timberyard Restaurant", vertical: "Dining", location: "Edinburgh, UK", region: "UK", time: "8:30 PM Today", originalPrice: 340, currentPrice: 180, urgency: "critical", timeLeft: 28 },
   { id: "21", merchant: "Edinburgh Dermatology", vertical: "Health", location: "New Town, Edinburgh", region: "UK", time: "2:00 PM Tomorrow", originalPrice: 275, currentPrice: 130, urgency: "high", timeLeft: 260 },
   { id: "22", merchant: "NetJets UK", vertical: "Aviation", location: "MAN → EDI", region: "UK", time: "4:00 PM Today", originalPrice: 8500, currentPrice: 2900, urgency: "high", timeLeft: 85 },
+  // North America
+  { id: "23", merchant: "Drybar Chicago", vertical: "Beauty", location: "Chicago, IL", region: "North America", time: "3:00 PM Today", originalPrice: 95, currentPrice: 42, urgency: "high", timeLeft: 75 },
+  { id: "24", merchant: "Wheels Up", vertical: "Aviation", location: "LAX → SFO", region: "North America", time: "6:00 PM Today", originalPrice: 9800, currentPrice: 3400, urgency: "critical", timeLeft: 40 },
+  { id: "25", merchant: "Mayo Clinic Express", vertical: "Health", location: "Rochester, MN", region: "North America", time: "9:00 AM Tomorrow", originalPrice: 500, currentPrice: 240, urgency: "medium", timeLeft: 320 },
+  { id: "26", merchant: "Canlis Restaurant", vertical: "Dining", location: "Seattle, WA", region: "North America", time: "7:30 PM Today", originalPrice: 420, currentPrice: 220, urgency: "high", timeLeft: 100 },
+  { id: "27", merchant: "Barry's Miami", vertical: "Fitness", location: "Miami Beach, FL", region: "North America", time: "8:00 AM Tomorrow", originalPrice: 42, currentPrice: 18, urgency: "medium", timeLeft: 450 },
+  { id: "28", merchant: "Port of Vancouver", vertical: "Logistics", location: "Vancouver, BC", region: "North America", time: "05:00 AM Wed", originalPrice: 7100, currentPrice: 3200, urgency: "high", timeLeft: 580 },
+  { id: "29", merchant: "Ossington Dental", vertical: "Health", location: "Toronto, ON", region: "North America", time: "2:00 PM Today", originalPrice: 290, currentPrice: 140, urgency: "critical", timeLeft: 30 },
+  // Europe
+  { id: "30", merchant: "Dolder Grand Spa", vertical: "Beauty", location: "Zürich, CH", region: "Europe", time: "11:00 AM Today", originalPrice: 380, currentPrice: 190, urgency: "high", timeLeft: 120 },
+  { id: "31", merchant: "Ristorante Cracco", vertical: "Dining", location: "Milan, IT", region: "Europe", time: "9:00 PM Today", originalPrice: 480, currentPrice: 260, urgency: "critical", timeLeft: 22 },
+  { id: "32", merchant: "CrossFit Eixample", vertical: "Fitness", location: "Barcelona, ES", region: "Europe", time: "7:00 AM Tomorrow", originalPrice: 35, currentPrice: 14, urgency: "medium", timeLeft: 490 },
+  { id: "33", merchant: "Charité Klinik", vertical: "Health", location: "Berlin, DE", region: "Europe", time: "10:00 AM Tomorrow", originalPrice: 310, currentPrice: 155, urgency: "medium", timeLeft: 380 },
+  { id: "34", merchant: "VistaJet Europe", vertical: "Aviation", location: "FCO → CDG", region: "Europe", time: "3:00 PM Today", originalPrice: 18000, currentPrice: 6200, urgency: "high", timeLeft: 90 },
+  { id: "35", merchant: "Port of Hamburg", vertical: "Logistics", location: "Hamburg, DE", region: "Europe", time: "07:00 AM Thu", originalPrice: 6800, currentPrice: 3100, urgency: "high", timeLeft: 650 },
+  // Asia Pacific
+  { id: "36", merchant: "Sulwhasoo Spa", vertical: "Beauty", location: "Seoul, KR", region: "Asia Pacific", time: "2:00 PM Today", originalPrice: 280, currentPrice: 130, urgency: "high", timeLeft: 105 },
+  { id: "37", merchant: "Narisawa Restaurant", vertical: "Dining", location: "Tokyo, JP", region: "Asia Pacific", time: "8:00 PM Today", originalPrice: 550, currentPrice: 290, urgency: "critical", timeLeft: 15 },
+  { id: "38", merchant: "Apollo Clinic", vertical: "Health", location: "Mumbai, IN", region: "Asia Pacific", time: "11:30 AM Tomorrow", originalPrice: 180, currentPrice: 75, urgency: "medium", timeLeft: 440 },
+  { id: "39", merchant: "F45 Training", vertical: "Fitness", location: "Singapore, SG", region: "Asia Pacific", time: "6:00 AM Tomorrow", originalPrice: 50, currentPrice: 20, urgency: "medium", timeLeft: 520 },
+  { id: "40", merchant: "Cathay Pacific Jet", vertical: "Aviation", location: "HKG → NRT", region: "Asia Pacific", time: "5:00 PM Today", originalPrice: 16000, currentPrice: 5500, urgency: "high", timeLeft: 70 },
+  { id: "41", merchant: "Port of Shanghai", vertical: "Logistics", location: "Shanghai, CN", region: "Asia Pacific", time: "06:00 AM Wed", originalPrice: 9200, currentPrice: 4100, urgency: "high", timeLeft: 600 },
+  // Middle East
+  { id: "42", merchant: "Talise Spa", vertical: "Beauty", location: "Dubai, AE", region: "Middle East", time: "3:00 PM Today", originalPrice: 450, currentPrice: 210, urgency: "high", timeLeft: 88 },
+  { id: "43", merchant: "Zuma Dubai", vertical: "Dining", location: "DIFC, Dubai", region: "Middle East", time: "9:00 PM Today", originalPrice: 380, currentPrice: 195, urgency: "critical", timeLeft: 25 },
+  { id: "44", merchant: "Cleveland Clinic AD", vertical: "Health", location: "Abu Dhabi, AE", region: "Middle East", time: "10:00 AM Tomorrow", originalPrice: 420, currentPrice: 200, urgency: "medium", timeLeft: 360 },
+  { id: "45", merchant: "GoldGym Riyadh", vertical: "Fitness", location: "Riyadh, SA", region: "Middle East", time: "5:30 AM Tomorrow", originalPrice: 60, currentPrice: 25, urgency: "medium", timeLeft: 500 },
+  { id: "46", merchant: "Jebel Ali Port", vertical: "Logistics", location: "Jebel Ali, AE", region: "Middle East", time: "04:00 AM Thu", originalPrice: 7500, currentPrice: 3400, urgency: "high", timeLeft: 680 },
+  // Latin America
+  { id: "47", merchant: "Salón Bó", vertical: "Beauty", location: "Mexico City, MX", region: "Latin America", time: "1:00 PM Today", originalPrice: 120, currentPrice: 55, urgency: "critical", timeLeft: 20 },
+  { id: "48", merchant: "Don Julio Parrilla", vertical: "Dining", location: "Buenos Aires, AR", region: "Latin America", time: "9:30 PM Today", originalPrice: 310, currentPrice: 160, urgency: "high", timeLeft: 115 },
+  { id: "49", merchant: "Hospital Israelita", vertical: "Health", location: "São Paulo, BR", region: "Latin America", time: "8:00 AM Tomorrow", originalPrice: 350, currentPrice: 165, urgency: "medium", timeLeft: 410 },
+  { id: "50", merchant: "SmartFit Bogotá", vertical: "Fitness", location: "Bogotá, CO", region: "Latin America", time: "6:00 AM Tomorrow", originalPrice: 25, currentPrice: 10, urgency: "medium", timeLeft: 530 },
+  { id: "51", merchant: "LATAM Charter", vertical: "Aviation", location: "GRU → EZE", region: "Latin America", time: "4:00 PM Today", originalPrice: 11000, currentPrice: 3800, urgency: "high", timeLeft: 80 },
+  { id: "52", merchant: "Port of Santos", vertical: "Logistics", location: "Santos, BR", region: "Latin America", time: "06:00 AM Wed", originalPrice: 6200, currentPrice: 2800, urgency: "high", timeLeft: 620 },
+  // Africa
+  { id: "53", merchant: "Skin Renewal Clinic", vertical: "Beauty", location: "Cape Town, ZA", region: "Africa", time: "11:00 AM Today", originalPrice: 200, currentPrice: 85, urgency: "high", timeLeft: 100 },
+  { id: "54", merchant: "La Colombe Restaurant", vertical: "Dining", location: "Constantia, Cape Town", region: "Africa", time: "7:00 PM Today", originalPrice: 340, currentPrice: 170, urgency: "critical", timeLeft: 32 },
+  { id: "55", merchant: "Aga Khan Hospital", vertical: "Health", location: "Nairobi, KE", region: "Africa", time: "9:00 AM Tomorrow", originalPrice: 240, currentPrice: 105, urgency: "medium", timeLeft: 400 },
+  { id: "56", merchant: "Planet Fitness Lagos", vertical: "Fitness", location: "Lagos, NG", region: "Africa", time: "6:00 AM Tomorrow", originalPrice: 35, currentPrice: 14, urgency: "medium", timeLeft: 510 },
+  { id: "57", merchant: "ExecuJet Africa", vertical: "Aviation", location: "JNB → CPT", region: "Africa", time: "2:00 PM Today", originalPrice: 9500, currentPrice: 3200, urgency: "high", timeLeft: 65 },
+  { id: "58", merchant: "Port of Durban", vertical: "Logistics", location: "Durban, ZA", region: "Africa", time: "05:00 AM Thu", originalPrice: 4800, currentPrice: 2100, urgency: "high", timeLeft: 700 },
 ];
 
 const REGIONS = [
