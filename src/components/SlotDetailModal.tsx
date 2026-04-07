@@ -320,7 +320,7 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
                 disabled={liveCountdown === 0 || bookingLoading}
               >
                 {bookingLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <CheckCircle2 className="w-5 h-5" />}
-                {bookingLoading ? "Booking..." : "Confirm & Pay"}
+                {bookingLoading ? "Booking..." : requiresUpfront ? "Pay Now & Confirm" : "Confirm & Pay"}
               </Button>
             </div>
           </div>
