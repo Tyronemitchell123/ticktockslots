@@ -35,6 +35,24 @@ const Dashboard = () => {
   const [sectorData, setSectorData] = useState(generateSectorBreakdown());
   const [fillRate, setFillRate] = useState(generateFillRateTimeline());
 
+  interface BookingWithSlot {
+    id: string;
+    status: string;
+    paid_upfront: boolean;
+    paid_amount: number | null;
+    created_at: string;
+    slots: {
+      merchant_name: string;
+      vertical: string;
+      location: string;
+      time_description: string;
+      current_price: number;
+      original_price: number;
+    } | null;
+  }
+  const [bookings, setBookings] = useState<BookingWithSlot[]>([]);
+  const [bookingsLoading, setBookingsLoading] = useState(true);
+
   useEffect(() => {
     setApiKeys(getApiKeys());
     setInsights(generateInsights());
