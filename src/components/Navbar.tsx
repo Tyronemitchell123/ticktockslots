@@ -8,6 +8,12 @@ import { useAuth } from "@/contexts/AuthContext";
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
+  const { user, signOut } = useAuth();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-border/30">
