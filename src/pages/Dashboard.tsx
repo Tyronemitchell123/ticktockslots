@@ -53,6 +53,7 @@ const Dashboard = () => {
   }
   const [bookings, setBookings] = useState<BookingWithSlot[]>([]);
   const [bookingsLoading, setBookingsLoading] = useState(true);
+  const { savedSlots, loading: savedLoading, toggleSave } = useSavedSlots();
 
   useEffect(() => {
     setApiKeys(getApiKeys());
