@@ -58,6 +58,20 @@ const Dashboard = () => {
     setInsights(generateInsights());
     setCalendars(getConnections());
 
+    // Fetch user bookings
+    if (user) {
+      setBookingsLoading(true);
+      supabase
+        .from("bookings")
+        .select("id, status, paid_upfront, paid_amount, created_at, slots(merchant_name, vertical, location, time_description, current_price, original_price)")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
+        .then(({ data }) => {
+          setBookings((data as unknown as BookingWithSlot[]) || []);
+          setBookingsLoading(false);
+        });
+    }
+
     // Live data refresh every 3 seconds
     const interval = setInterval(() => {
       setAutomationStatus(getAutomationStatus());
@@ -67,7 +81,7 @@ const Dashboard = () => {
       setFillRate(generateFillRateTimeline());
     }, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [user]);
 
   const handleCreateKey = () => {
     if (!newKeyName.trim()) return;
