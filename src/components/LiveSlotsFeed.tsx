@@ -4,6 +4,7 @@ import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon, Ra
 import SlotDetailModal from "./SlotDetailModal";
 import { supabase } from "@/integrations/supabase/client";
 import { CURRENCIES, detectCurrency, formatPriceInCurrency } from "@/lib/currency";
+import { getSlotRating } from "@/lib/mock-reviews";
 
 interface Slot {
   id: string;
@@ -610,6 +611,7 @@ const LiveSlotsFeed = () => {
             filteredSlots.map((slot) => {
               const details = SLOT_DETAILS[slot.vertical];
               const isExpanded = expandedSlotId === slot.id;
+              const rating = getSlotRating(slot.id, slot.vertical);
 
               return (
                 <div
@@ -641,6 +643,19 @@ const LiveSlotsFeed = () => {
                           <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{slot.location}</span>
                           <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{slot.time}</span>
                           <Badge variant="outline" className="text-[10px] py-0 px-1.5">{slot.region}</Badge>
+                        </div>
+                        {/* Star rating */}
+                        <div className="flex items-center gap-1.5 mt-1.5">
+                          <div className="flex items-center">
+                            {[1, 2, 3, 4, 5].map((s) => (
+                              <Star
+                                key={s}
+                                className={`w-3 h-3 ${s <= Math.round(rating.average) ? "text-secondary fill-secondary" : "text-muted-foreground/30"}`}
+                              />
+                            ))}
+                          </div>
+                          <span className="text-xs font-medium text-foreground">{rating.average.toFixed(1)}</span>
+                          <span className="text-[10px] text-muted-foreground">({rating.count} reviews)</span>
                         </div>
                       </div>
                     </div>
