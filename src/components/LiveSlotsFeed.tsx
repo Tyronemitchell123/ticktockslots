@@ -751,7 +751,7 @@ const LiveSlotsFeed = () => {
               </button>
             </div>
           ) : (
-            filteredSlots.map((slot) => {
+            visibleSlots.map((slot) => {
               const details = SLOT_DETAILS[slot.vertical];
               const isExpanded = expandedSlotId === slot.id;
               const rating = getSlotRating(slot.id, slot.vertical);
@@ -884,8 +884,24 @@ const LiveSlotsFeed = () => {
                 </div>
               );
             })
-
           )}
+          {/* Load more sentinel + count indicator */}
+          {filteredSlots.length > 0 && (
+            <div className="text-center py-4 space-y-2">
+              <p className="text-xs text-muted-foreground font-mono">
+                Showing {visibleSlots.length} of {filteredSlots.length} slots
+              </p>
+              {hasMore && (
+                <button
+                  onClick={() => setVisibleCount((prev) => prev + 20)}
+                  className="px-6 py-2 rounded-lg glass text-sm font-medium text-primary hover:bg-primary/10 transition-colors"
+                >
+                  Load more
+                </button>
+              )}
+            </div>
+          )}
+          <div ref={loadMoreRef} className="h-1" />
         </div>
       </div>
 
