@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon, Radio, Wifi, ArrowLeftRight, Info, Star, CheckCircle2 } from "lucide-react";
+import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon, Radio, Wifi, ArrowLeftRight, Info, Star, CheckCircle2, Navigation } from "lucide-react";
 import SlotDetailModal from "./SlotDetailModal";
+import { getVendorAddress, getGoogleMapsUrl } from "@/lib/vendor-addresses";
 import { supabase } from "@/integrations/supabase/client";
 import { CURRENCIES, detectCurrency, formatPriceInCurrency } from "@/lib/currency";
 import { getSlotRating } from "@/lib/mock-reviews";
@@ -644,6 +645,24 @@ const LiveSlotsFeed = () => {
                           <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{slot.time}</span>
                           <Badge variant="outline" className="text-[10px] py-0 px-1.5">{slot.region}</Badge>
                         </div>
+                        {(() => {
+                          const address = getVendorAddress(slot.merchant);
+                          return address ? (
+                            <div className="flex items-center gap-2 mt-1">
+                              <span className="text-[11px] text-muted-foreground/70 truncate max-w-[260px]">{address}</span>
+                              <a
+                                href={getGoogleMapsUrl(address)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                className="inline-flex items-center gap-1 text-[10px] font-medium text-primary hover:text-primary/80 transition-colors shrink-0"
+                              >
+                                <Navigation className="w-3 h-3" />
+                                Map
+                              </a>
+                            </div>
+                          ) : null;
+                        })()}
                         {/* Star rating */}
                         <div className="flex items-center gap-1.5 mt-1.5">
                           <div className="flex items-center">

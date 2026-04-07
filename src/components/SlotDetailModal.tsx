@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Clock, TrendingDown, Shield, Zap, CheckCircle2, ArrowRight, Timer, Loader2, Star, MessageSquare } from "lucide-react";
+import { MapPin, Clock, TrendingDown, Shield, Zap, CheckCircle2, ArrowRight, Timer, Loader2, Star, MessageSquare, Navigation } from "lucide-react";
+import { getVendorAddress, getGoogleMapsUrl } from "@/lib/vendor-addresses";
 import { detectCurrency, formatPriceInCurrency } from "@/lib/currency";
 import { getSlotRating } from "@/lib/mock-reviews";
 import { useAuth } from "@/contexts/AuthContext";
@@ -188,6 +189,23 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
                     <MapPin className="w-3 h-3" /> Location
                   </div>
                   <div className="text-sm font-medium text-foreground">{slot.location}</div>
+                  {(() => {
+                    const address = getVendorAddress(slot.merchant);
+                    return address ? (
+                      <div className="mt-1.5">
+                        <p className="text-[11px] text-muted-foreground leading-snug">{address}</p>
+                        <a
+                          href={getGoogleMapsUrl(address)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 mt-1.5 text-xs font-medium text-primary hover:text-primary/80 transition-colors"
+                        >
+                          <Navigation className="w-3.5 h-3.5" />
+                          Open in Maps
+                        </a>
+                      </div>
+                    ) : null;
+                  })()}
                 </div>
                 <div className="glass rounded-lg px-4 py-3">
                   <div className="flex items-center gap-2 text-muted-foreground text-xs uppercase tracking-wider mb-1">
