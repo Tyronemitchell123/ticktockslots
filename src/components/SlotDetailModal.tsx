@@ -197,10 +197,15 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
               </div>
 
               {/* CTA */}
+              {!user && (
+                <p className="text-xs text-center text-muted-foreground">
+                  You'll need to <button className="text-primary underline" onClick={() => { onOpenChange(false); navigate("/auth"); }}>sign in</button> to claim this slot.
+                </p>
+              )}
               <Button
                 variant="hero"
                 className="w-full py-6 text-base rounded-xl"
-                onClick={() => setStep("confirm")}
+                onClick={() => user ? setStep("confirm") : navigate("/auth")}
                 disabled={liveCountdown === 0}
               >
                 {liveCountdown === 0 ? (
