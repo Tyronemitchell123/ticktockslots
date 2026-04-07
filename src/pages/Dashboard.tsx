@@ -237,6 +237,67 @@ const Dashboard = () => {
             )}
           </TabsContent>
 
+          {/* ===== SAVED SLOTS TAB ===== */}
+          <TabsContent value="saved" className="space-y-4">
+            {savedLoading ? (
+              <div className="glass rounded-xl p-12 text-center">
+                <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+                <p className="text-muted-foreground text-sm">Loading saved slots…</p>
+              </div>
+            ) : savedSlots.length === 0 ? (
+              <div className="glass rounded-xl p-12 text-center">
+                <Heart className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
+                <h3 className="text-lg font-semibold text-foreground mb-1">No saved slots</h3>
+                <p className="text-muted-foreground text-sm mb-4">Tap the heart icon on any slot to save it for later.</p>
+                <Button variant="hero" size="sm" onClick={() => navigate("/#slots")}>Browse Slots</Button>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {savedSlots.map((saved) => {
+                  const s = saved.slot_data as any;
+                  const discount = s.originalPrice > 0 ? Math.round(((s.originalPrice - s.currentPrice) / s.originalPrice) * 100) : 0;
+                  return (
+                    <div key={saved.slot_id} className="glass rounded-xl p-5 flex flex-col sm:flex-row sm:items-center gap-4">
+                      <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center shrink-0">
+                        <span className="text-lg font-bold text-primary">{s.vertical?.[0] || "?"}</span>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-semibold text-foreground truncate">{s.merchant}</h4>
+                        <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground mt-1">
+                          <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{s.location}</span>
+                          <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{s.time}</span>
+                          <span>{s.vertical}</span>
+                        </div>
+                        <div className="text-xs text-muted-foreground mt-1">
+                          Saved {new Date(saved.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-4 shrink-0">
+                        {discount > 0 && (
+                          <div className="text-right">
+                            <div className="text-xs text-muted-foreground line-through">£{s.originalPrice}</div>
+                            <div className="text-lg font-bold text-secondary">£{s.currentPrice}</div>
+                            <div className="text-xs text-green-400 font-medium">-{discount}%</div>
+                          </div>
+                        )}
+                        <button
+                          onClick={() => toggleSave(saved.slot_id, s)}
+                          className="p-2 rounded-lg glass text-red-400 hover:text-red-300 transition-colors"
+                          title="Remove from wishlist"
+                        >
+                          <Heart className="w-4 h-4 fill-current" />
+                        </button>
+                        <Button variant="hero" size="sm" onClick={() => navigate("/#slots")}>
+                          View
+                        </Button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </TabsContent>
+
           {/* ===== AI ENGINE TAB ===== */}
           <TabsContent value="ai" className="space-y-6">
             {/* Active Models */}
