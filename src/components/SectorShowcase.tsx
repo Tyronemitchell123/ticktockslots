@@ -41,8 +41,15 @@ const sectors = [
 
 const SectorShowcase = () => {
   return (
-    <section className="py-24 px-4">
-      <div className="max-w-6xl mx-auto">
+    <section className="relative py-24 px-4 overflow-hidden">
+      <img
+        src="https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=1920&q=80"
+        alt=""
+        loading="lazy"
+        className="absolute inset-0 w-full h-full object-cover opacity-[0.08]"
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
+      <div className="relative max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             Every Sector. <span className="gradient-text-gold">Zero Dead Air.</span>
