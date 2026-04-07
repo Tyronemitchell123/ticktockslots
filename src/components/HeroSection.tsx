@@ -38,7 +38,7 @@ const HeroSection = () => {
         {/* Text container with localized backdrop */}
         <div className="relative z-10 text-center px-4 mt-16">
           {/* Frosted backdrop behind text only */}
-          <div className="absolute inset-0 -inset-x-8 -inset-y-4 bg-background/40 rounded-3xl" style={{ filter: 'blur(40px)' }} />
+          <div className="absolute -inset-12 bg-background/60 rounded-3xl" style={{ filter: 'blur(60px)' }} />
 
           <div className="relative z-10">
             {/* Live badge */}
