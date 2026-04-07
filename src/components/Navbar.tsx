@@ -34,8 +34,23 @@ const Navbar = () => {
 
         <div className="flex items-center gap-3">
           <NotificationCenter />
-          <Button variant="ghost" size="sm" className="hidden md:inline-flex" onClick={() => navigate("/dashboard")}>Dashboard</Button>
-          <Button variant="hero" size="sm" className="hidden md:inline-flex" onClick={() => navigate("/dashboard")}>Get Early Access</Button>
+          {user ? (
+            <>
+              <Button variant="ghost" size="sm" className="hidden md:inline-flex gap-1" onClick={() => navigate("/dashboard")}>
+                <User className="w-4 h-4" />
+                Dashboard
+              </Button>
+              <Button variant="ghost" size="sm" className="hidden md:inline-flex gap-1" onClick={handleSignOut}>
+                <LogOut className="w-4 h-4" />
+                Sign Out
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button variant="ghost" size="sm" className="hidden md:inline-flex" onClick={() => navigate("/auth")}>Sign In</Button>
+              <Button variant="hero" size="sm" className="hidden md:inline-flex" onClick={() => navigate("/auth")}>Get Early Access</Button>
+            </>
+          )}
           <button
             className="md:hidden p-2 text-foreground"
             onClick={() => setMobileOpen(!mobileOpen)}
