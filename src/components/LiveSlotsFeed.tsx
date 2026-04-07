@@ -338,6 +338,8 @@ const LiveSlotsFeed = () => {
   const [displayCurrency, setDisplayCurrency] = useState("GBP");
   const [currencyDropdownOpen, setCurrencyDropdownOpen] = useState(false);
   const [expandedSlotId, setExpandedSlotId] = useState<string | null>(null);
+  const [selectedVertical, setSelectedVertical] = useState("all");
+  const [verticalDropdownOpen, setVerticalDropdownOpen] = useState(false);
 
   // Countdown timer
   useEffect(() => {
