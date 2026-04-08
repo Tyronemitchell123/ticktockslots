@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import { Bell, X, Check, Sparkles, AlertTriangle, DollarSign, Clock, Tag } from "lucide-react";
+import { Bell, X, Check, Sparkles, AlertTriangle, DollarSign, Clock, Tag, Crown, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { notificationEngine, type AppNotification } from "@/lib/notifications";
 import { usePriceAlertMatches } from "@/hooks/use-price-alert-matches";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const typeIcons = {
   slot_new: <Sparkles className="w-4 h-4 text-primary" />,
