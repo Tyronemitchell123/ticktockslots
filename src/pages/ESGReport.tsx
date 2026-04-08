@@ -52,7 +52,7 @@ const ESGReport = () => {
             <div>
               <h4 className="font-semibold text-foreground mb-1">Net Zero Operations</h4>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                SlotEngine's own operations are carbon neutral. We run on renewable-powered cloud infrastructure and offset remaining emissions through verified carbon credit programmes.
+                TickTock Slots's own operations are carbon neutral. We run on renewable-powered cloud infrastructure and offset remaining emissions through verified carbon credit programmes.
               </p>
             </div>
           </div>
@@ -96,7 +96,7 @@ const ESGReport = () => {
             <div>
               <h4 className="font-semibold text-foreground mb-1">Merchant Verification</h4>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Every merchant on SlotEngine is verified before listing. We validate licenses, certifications, and insurance across all verticals.
+                Every merchant on TickTock Slots is verified before listing. We validate licenses, certifications, and insurance across all verticals.
               </p>
             </div>
             <div>

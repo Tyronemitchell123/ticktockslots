@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-const SITE_NAME = "SlotEngine";
+const SITE_NAME = "TickTock Slots";
 const SITE_URL = "https://lastmincancelledbookings.lovable.app";
 const DEFAULT_DESCRIPTION = "Grab last-minute cancelled bookings at luxury venues, top restaurants, premium spas and more — at up to 50% off.";
 const DEFAULT_IMAGE = `${SITE_URL}/og-image.jpg`;
