@@ -544,6 +544,41 @@ export type Database = {
         }
         Relationships: []
       }
+      reviews_public: {
+        Row: {
+          comment: string | null
+          created_at: string | null
+          id: string | null
+          rating: number | null
+          reviewer_name: string | null
+          slot_id: string | null
+        }
+        Insert: {
+          comment?: string | null
+          created_at?: string | null
+          id?: string | null
+          rating?: number | null
+          reviewer_name?: string | null
+          slot_id?: string | null
+        }
+        Update: {
+          comment?: string | null
+          created_at?: string | null
+          id?: string | null
+          rating?: number | null
+          reviewer_name?: string | null
+          slot_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_slot_id_fkey"
+            columns: ["slot_id"]
+            isOneToOne: false
+            referencedRelation: "slots"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       claim_slot: {
