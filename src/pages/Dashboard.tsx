@@ -145,6 +145,8 @@ const Dashboard = () => {
               <Activity className="w-3 h-3 mr-1" /> All Systems Operational
             </Badge>
           </div>
+        </div>
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* AI Status Cards */}
