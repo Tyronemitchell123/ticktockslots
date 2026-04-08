@@ -1,4 +1,4 @@
-import { Scissors, Plane, Ship, Utensils, Stethoscope, Truck, GraduationCap, Ticket, Car, Scale, Home, PawPrint, Palmtree, Wrench, Laptop, Trophy, SprayCan, Camera, Baby, Package } from "lucide-react";
+import { Scissors, Plane, Ship, Utensils, Stethoscope, Truck, GraduationCap, Ticket, Car, Scale, Building, PawPrint, Palmtree, Wrench, Laptop, Trophy, SprayCan, Camera, Baby, Package, Home } from "lucide-react";
 
 const sectors = [
   {
@@ -62,7 +62,7 @@ const sectors = [
     stat: "1.8K slots/day",
   },
   {
-    icon: Home,
+    icon: Building,
     title: "Property & Viewings",
     description: "Estate agent viewings, surveys, and valuations filled from dropped bookings.",
     stat: "2.5K slots/day",
