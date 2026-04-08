@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon, Radio, Wifi, ArrowLeftRight, Info, Star, CheckCircle2, Navigation, ArrowUpDown, Heart } from "lucide-react";
+import { Clock, MapPin, TrendingDown, Globe, ChevronDown, Search, X as XIcon, Radio, Wifi, ArrowLeftRight, Info, Star, CheckCircle2, Navigation, ArrowUpDown, Heart, Lock, Crown } from "lucide-react";
 import SlotDetailModal from "./SlotDetailModal";
 import { getVendorAddress, openMapLocation } from "@/lib/vendor-addresses";
 import { supabase } from "@/integrations/supabase/client";
@@ -8,6 +8,8 @@ import { CURRENCIES, detectCurrency, formatPriceInCurrency } from "@/lib/currenc
 import { getSlotRating } from "@/lib/mock-reviews";
 import { useSavedSlots } from "@/hooks/use-saved-slots";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 interface Slot {
   id: string;
