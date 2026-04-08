@@ -145,6 +145,12 @@ const sectors = [
     description: "Monthly passes, class packs, and annual memberships from cancellations and early exits.",
     stat: "8.2K deals/day",
   },
+  {
+    icon: PlaneTakeoff,
+    title: "Travel & Flights",
+    description: "Last-minute flights, upgrades, error fares, and flight + hotel bundles at huge savings.",
+    stat: "11K deals/day",
+  },
 ];
 
 const SectorShowcase = () => {
