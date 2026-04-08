@@ -139,7 +139,7 @@ const Admin = () => {
           <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
             <ArrowLeft className="w-5 h-5" />
           </Button>
-          <div>
+          <div className="flex-1">
             <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
               {isAdmin && <Shield className="w-6 h-6 text-primary" />}
               {isAdmin ? "Admin Panel" : "Automation Hub"}
@@ -148,6 +148,12 @@ const Admin = () => {
               {isAdmin ? "Manage users, bookings, metrics & automation" : "Set up price alerts and auto-claim rules"}
             </p>
           </div>
+          {isAdmin && (
+            <Button variant="outline" size="sm" onClick={() => navigate("/admin/emails")} className="gap-2">
+              <Mail className="w-4 h-4" />
+              Email Dashboard
+            </Button>
+          )}
         </div>
 
         <Tabs defaultValue={isAdmin ? "overview" : "alerts"} className="space-y-6">
