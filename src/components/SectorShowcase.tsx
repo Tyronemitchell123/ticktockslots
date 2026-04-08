@@ -133,6 +133,12 @@ const sectors = [
     description: "Storage units from early terminations and overstock at up to 60% off.",
     stat: "1.2K units/day",
   },
+  {
+    icon: Heart,
+    title: "Weddings",
+    description: "Cancelled wedding venues, caterers, florists, and photographers at huge savings.",
+    stat: "2.4K deals/day",
+  },
 ];
 
 const SectorShowcase = () => {
