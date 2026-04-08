@@ -20,7 +20,7 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-border/30">
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <img src={ticktockLogo} alt="TickTock Slots" className="w-8 h-8 rounded-lg" />
+          <img src={ticktockLogo} alt="TickTock Slots" className="w-12 h-12 rounded-lg" />
           <span className="font-bold text-lg text-foreground tracking-tight">TickTock Slots</span>
         </div>
 
