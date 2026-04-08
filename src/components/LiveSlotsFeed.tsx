@@ -247,7 +247,55 @@ const MOCK_SLOTS: Slot[] = [
   { id: "810", merchant: "FlexJet Africa", vertical: "Aviation", location: "CPT → NBO", region: "Africa", time: "3:00 PM Today", originalPrice: 11000, currentPrice: 3800, urgency: "high", timeLeft: 68 },
   { id: "811", merchant: "Wolfgat Restaurant", vertical: "Dining", location: "Paternoster, ZA", region: "Africa", time: "7:00 PM Today", originalPrice: 290, currentPrice: 140, urgency: "high", timeLeft: 105 },
   { id: "812", merchant: "Port of Lagos", vertical: "Logistics", location: "Lagos, NG", region: "Africa", time: "06:00 AM Wed", originalPrice: 4500, currentPrice: 1900, urgency: "high", timeLeft: 650 },
+
+  // ===== ADDITIONAL UK SLOTS =====
+  { id: "900", merchant: "Dishoom Shoreditch", vertical: "Dining", location: "Shoreditch, London", region: "UK", time: "1:00 PM Today", originalPrice: 120, currentPrice: 52, urgency: "critical", timeLeft: 12 },
+  { id: "901", merchant: "Sanctuary Spa Covent Garden", vertical: "Beauty", location: "Covent Garden, London", region: "UK", time: "3:30 PM Today", originalPrice: 210, currentPrice: 95, urgency: "high", timeLeft: 78 },
+  { id: "902", merchant: "PureGym Camden", vertical: "Fitness", location: "Camden, London", region: "UK", time: "7:00 AM Tomorrow", originalPrice: 22, currentPrice: 9, urgency: "medium", timeLeft: 530 },
+  { id: "903", merchant: "Barts Health NHS", vertical: "Health", location: "City of London", region: "UK", time: "11:00 AM Tomorrow", originalPrice: 350, currentPrice: 170, urgency: "medium", timeLeft: 400 },
+  { id: "904", merchant: "The Ivy Manchester", vertical: "Dining", location: "Spinningfields, Manchester", region: "UK", time: "7:30 PM Today", originalPrice: 280, currentPrice: 135, urgency: "high", timeLeft: 95 },
+  { id: "905", merchant: "Headmasters Islington", vertical: "Beauty", location: "Islington, London", region: "UK", time: "2:00 PM Today", originalPrice: 85, currentPrice: 38, urgency: "critical", timeLeft: 16 },
+  { id: "906", merchant: "CrossFit London", vertical: "Fitness", location: "Bethnal Green, London", region: "UK", time: "6:00 AM Tomorrow", originalPrice: 35, currentPrice: 14, urgency: "medium", timeLeft: 490 },
+  { id: "907", merchant: "The Fat Duck", vertical: "Dining", location: "Bray, Berkshire", region: "UK", time: "8:00 PM Today", originalPrice: 650, currentPrice: 340, urgency: "critical", timeLeft: 25 },
+  { id: "908", merchant: "Harvey Nichols Beauty", vertical: "Beauty", location: "Knightsbridge, London", region: "UK", time: "4:00 PM Today", originalPrice: 160, currentPrice: 72, urgency: "high", timeLeft: 65 },
+  { id: "909", merchant: "Virgin Atlantic Upper", vertical: "Aviation", location: "LHR → JFK", region: "UK", time: "6:00 PM Today", originalPrice: 6800, currentPrice: 2400, urgency: "critical", timeLeft: 42 },
+  { id: "910", merchant: "Port of Southampton", vertical: "Logistics", location: "Southampton, UK", region: "UK", time: "07:00 AM Thu", originalPrice: 4800, currentPrice: 2100, urgency: "high", timeLeft: 590 },
+  { id: "911", merchant: "Kumon Westminster", vertical: "Education", location: "Westminster, London", region: "UK", time: "5:00 PM Today", originalPrice: 70, currentPrice: 30, urgency: "high", timeLeft: 58 },
+  { id: "912", merchant: "National Theatre", vertical: "Events", location: "South Bank, London", region: "UK", time: "7:30 PM Today", originalPrice: 95, currentPrice: 38, urgency: "critical", timeLeft: 20 },
+  { id: "913", merchant: "Mercedes-Benz Service", vertical: "Automotive", location: "Stratford, London", region: "UK", time: "10:00 AM Tomorrow", originalPrice: 350, currentPrice: 155, urgency: "medium", timeLeft: 380 },
+  { id: "914", merchant: "Herbert Smith Freehills", vertical: "Legal", location: "Exchange Square, London", region: "UK", time: "3:00 PM Today", originalPrice: 520, currentPrice: 245, urgency: "high", timeLeft: 48 },
+  { id: "915", merchant: "Hamptons International", vertical: "Property", location: "Hampstead, London", region: "UK", time: "12:30 PM Today", originalPrice: 0, currentPrice: 0, urgency: "critical", timeLeft: 30 },
+  { id: "916", merchant: "Blue Cross Vet", vertical: "Pet Care", location: "Victoria, London", region: "UK", time: "2:30 PM Today", originalPrice: 110, currentPrice: 48, urgency: "high", timeLeft: 72 },
+
+  // ===== ADDITIONAL NORTH AMERICA =====
+  { id: "920", merchant: "Eleven Madison Park", vertical: "Dining", location: "Manhattan, NY", region: "North America", time: "7:00 PM Today", originalPrice: 700, currentPrice: 365, urgency: "critical", timeLeft: 15 },
+  { id: "921", merchant: "Drybar Beverly Hills", vertical: "Beauty", location: "Beverly Hills, CA", region: "North America", time: "11:00 AM Today", originalPrice: 105, currentPrice: 45, urgency: "high", timeLeft: 88 },
+  { id: "922", merchant: "Peloton Studio NYC", vertical: "Fitness", location: "Chelsea, NY", region: "North America", time: "8:00 AM Tomorrow", originalPrice: 48, currentPrice: 19, urgency: "medium", timeLeft: 460 },
+  { id: "923", merchant: "Cleveland Clinic FL", vertical: "Health", location: "Weston, FL", region: "North America", time: "9:30 AM Tomorrow", originalPrice: 420, currentPrice: 195, urgency: "medium", timeLeft: 340 },
+  { id: "924", merchant: "Per Se Restaurant", vertical: "Dining", location: "Columbus Circle, NY", region: "North America", time: "8:30 PM Today", originalPrice: 550, currentPrice: 280, urgency: "critical", timeLeft: 22 },
+  { id: "925", merchant: "Blade Helicopters", vertical: "Aviation", location: "JFK → EWR", region: "North America", time: "4:30 PM Today", originalPrice: 3500, currentPrice: 1200, urgency: "high", timeLeft: 55 },
+  { id: "926", merchant: "Port of Houston", vertical: "Logistics", location: "Houston, TX", region: "North America", time: "05:00 AM Thu", originalPrice: 7600, currentPrice: 3400, urgency: "high", timeLeft: 660 },
+
+  // ===== ADDITIONAL EUROPE =====
+  { id: "930", merchant: "El Celler de Can Roca", vertical: "Dining", location: "Girona, ES", region: "Europe", time: "9:00 PM Today", originalPrice: 500, currentPrice: 260, urgency: "critical", timeLeft: 18 },
+  { id: "931", merchant: "Terme di Saturnia", vertical: "Beauty", location: "Tuscany, IT", region: "Europe", time: "10:00 AM Today", originalPrice: 220, currentPrice: 95, urgency: "high", timeLeft: 100 },
+  { id: "932", merchant: "Barry's Bootcamp Paris", vertical: "Fitness", location: "Le Marais, Paris", region: "Europe", time: "7:00 AM Tomorrow", originalPrice: 38, currentPrice: 15, urgency: "medium", timeLeft: 480 },
+  { id: "933", merchant: "Helios Klinikum", vertical: "Health", location: "Berlin, DE", region: "Europe", time: "2:00 PM Tomorrow", originalPrice: 350, currentPrice: 160, urgency: "medium", timeLeft: 420 },
+  { id: "934", merchant: "Steirereck Restaurant", vertical: "Dining", location: "Vienna, AT", region: "Europe", time: "8:00 PM Today", originalPrice: 420, currentPrice: 210, urgency: "high", timeLeft: 90 },
+  { id: "935", merchant: "Louvre Museum VIP", vertical: "Events", location: "Paris, FR", region: "Europe", time: "10:00 AM Today", originalPrice: 150, currentPrice: 65, urgency: "critical", timeLeft: 28 },
+
+  // ===== ADDITIONAL ASIA PACIFIC =====
+  { id: "940", merchant: "Jiro Sushi Ginza", vertical: "Dining", location: "Ginza, Tokyo", region: "Asia Pacific", time: "12:00 PM Today", originalPrice: 480, currentPrice: 250, urgency: "critical", timeLeft: 10 },
+  { id: "941", merchant: "Thann Sanctuary Spa", vertical: "Beauty", location: "Bangkok, TH", region: "Asia Pacific", time: "2:00 PM Today", originalPrice: 150, currentPrice: 65, urgency: "high", timeLeft: 95 },
+  { id: "942", merchant: "Anytime Fitness Tokyo", vertical: "Fitness", location: "Shibuya, Tokyo", region: "Asia Pacific", time: "6:00 AM Tomorrow", originalPrice: 35, currentPrice: 14, urgency: "medium", timeLeft: 510 },
+  { id: "943", merchant: "Mount Elizabeth Hospital", vertical: "Health", location: "Singapore, SG", region: "Asia Pacific", time: "11:00 AM Tomorrow", originalPrice: 380, currentPrice: 175, urgency: "medium", timeLeft: 390 },
+
+  // ===== ADDITIONAL MIDDLE EAST =====
+  { id: "950", merchant: "Ossiano Restaurant", vertical: "Dining", location: "Atlantis, Dubai", region: "Middle East", time: "9:00 PM Today", originalPrice: 550, currentPrice: 280, urgency: "critical", timeLeft: 22 },
+  { id: "951", merchant: "Amara Spa Dubai", vertical: "Beauty", location: "JBR, Dubai", region: "Middle East", time: "11:00 AM Today", originalPrice: 300, currentPrice: 135, urgency: "high", timeLeft: 85 },
+  { id: "952", merchant: "Saudi German Hospital", vertical: "Health", location: "Jeddah, SA", region: "Middle East", time: "10:00 AM Tomorrow", originalPrice: 280, currentPrice: 125, urgency: "medium", timeLeft: 370 },
 ];
+
 
 const REGIONS = [
   { id: "all", label: "🌍 All Regions", flag: "" },
