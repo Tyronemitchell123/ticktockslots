@@ -87,9 +87,7 @@ const ResetPassword = () => {
 
         <div className="glass rounded-2xl border border-border/30 p-8">
           <div className="flex items-center gap-2 mb-6">
-            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-              <Clock className="w-5 h-5 text-primary-foreground" />
-            </div>
+            <img src={ticktockLogo} alt="TickTock Slots" className="w-8 h-8 rounded-lg" />
             <span className="font-bold text-lg text-foreground">TickTock Slots</span>
           </div>
 
