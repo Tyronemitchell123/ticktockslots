@@ -93,6 +93,27 @@ const NotificationCenter = () => {
             </div>
 
             <div className="max-h-80 overflow-y-auto">
+              {/* Premium upsell for instant notifications */}
+              {!subscribed && (
+                <div className="px-4 py-3 bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-b border-purple-500/20">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <Crown className="w-4 h-4 text-purple-400" />
+                    <span className="text-xs font-semibold text-foreground">Instant Notifications</span>
+                    <Lock className="w-3 h-3 text-muted-foreground" />
+                  </div>
+                  <p className="text-[11px] text-muted-foreground mb-2">
+                    Free users get notifications with a 15-minute delay. Upgrade to Premium for instant push alerts (T+0).
+                  </p>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-7 text-xs border-purple-500/30 text-purple-300 hover:bg-purple-500/10"
+                    onClick={() => { setOpen(false); navigate("/#pricing"); }}
+                  >
+                    <Crown className="w-3 h-3 mr-1" /> Upgrade to Premium
+                  </Button>
+                </div>
+              )}
               {/* Price alert matches section */}
               {activePriceMatches.length > 0 && (
                 <>
