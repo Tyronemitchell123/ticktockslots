@@ -81,8 +81,8 @@ const Contact = () => {
                   <Mail className="w-5 h-5 text-primary mt-0.5" />
                   <div>
                     <div className="text-sm font-medium text-foreground">Email</div>
-                    <a href="mailto:hello@slotengine.com" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                      hello@slotengine.com
+                    <a href="mailto:hello@ticktockslots.com" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                      hello@ticktockslots.com
                     </a>
                   </div>
                 </div>
@@ -112,10 +112,10 @@ const Contact = () => {
             <div className="glass rounded-2xl p-8 border border-border/30">
               <h3 className="font-bold text-foreground mb-2">For Merchants</h3>
               <p className="text-sm text-muted-foreground mb-3">
-                Interested in listing your inventory on SlotEngine? Our merchant team will get you set up in under 24 hours.
+                Interested in listing your inventory on TickTock Slots? Our merchant team will get you set up in under 24 hours.
               </p>
-              <a href="mailto:merchants@slotengine.com" className="text-sm text-primary hover:text-primary/80 transition-colors font-medium">
-                merchants@slotengine.com →
+              <a href="mailto:merchants@ticktockslots.com" className="text-sm text-primary hover:text-primary/80 transition-colors font-medium">
+                merchants@ticktockslots.com →
               </a>
             </div>
 
@@ -124,8 +124,8 @@ const Contact = () => {
               <p className="text-sm text-muted-foreground mb-3">
                 For press inquiries, interview requests, or media kits.
               </p>
-              <a href="mailto:press@slotengine.com" className="text-sm text-primary hover:text-primary/80 transition-colors font-medium">
-                press@slotengine.com →
+              <a href="mailto:press@ticktockslots.com" className="text-sm text-primary hover:text-primary/80 transition-colors font-medium">
+                press@ticktockslots.com →
               </a>
             </div>
           </div>

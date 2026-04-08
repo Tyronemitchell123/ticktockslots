@@ -5,7 +5,7 @@ import {
 } from 'npm:@react-email/components@0.0.22'
 import type { TemplateEntry } from './registry.ts'
 
-const SITE_NAME = "SlotEngine"
+const SITE_NAME = "TickTock Slots"
 
 interface AutoClaimConfirmationProps {
   merchantName?: string
@@ -119,7 +119,7 @@ const AutoClaimConfirmationEmail = ({
 export const template = {
   component: AutoClaimConfirmationEmail,
   subject: (data: Record<string, any>) =>
-    `Auto-claimed: ${data.merchantName || 'New slot'} — SlotEngine`,
+    `Auto-claimed: ${data.merchantName || 'New slot'} — TickTock Slots`,
   displayName: 'Auto-claim confirmation',
   previewData: {
     merchantName: 'Glow & Go London',

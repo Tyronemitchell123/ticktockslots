@@ -19,7 +19,7 @@ const POSITIVE_COMMENTS: Record<string, string[]> = {
     "Seamless booking, FBO experience was first class.",
     "Incredible value for a private flight. Very smooth.",
     "Crew was outstanding, onboard service was perfect.",
-    "Can't beat empty-leg pricing through SlotEngine.",
+    "Can't beat empty-leg pricing through TickTock Slots.",
   ],
   Health: [
     "Saw the specialist within days instead of months!",

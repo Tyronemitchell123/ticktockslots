@@ -20,11 +20,11 @@ interface ReauthenticationEmailProps {
 export const ReauthenticationEmail = ({ token }: ReauthenticationEmailProps) => (
   <Html lang="en" dir="ltr">
     <Head />
-    <Preview>Your verification code for SlotEngine</Preview>
+    <Preview>Your verification code for TickTock Slots</Preview>
     <Body style={main}>
       <Container style={container}>
         <Section style={headerSection}>
-          <Text style={logoText}>⚡ SlotEngine</Text>
+          <Text style={logoText}>⏰ TickTock Slots</Text>
         </Section>
         <Heading style={h1}>Verification code</Heading>
         <Text style={text}>Use the code below to confirm your identity:</Text>

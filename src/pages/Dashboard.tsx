@@ -490,7 +490,7 @@ const Dashboard = () => {
           <TabsContent value="api" className="space-y-6">
             <div className="glass rounded-xl p-6">
               <h3 className="text-lg font-semibold text-foreground mb-2">API Keys</h3>
-              <p className="text-sm text-muted-foreground mb-6">Generate free API keys to access the SlotEngine API. Free tier: 100 requests/day.</p>
+              <p className="text-sm text-muted-foreground mb-6">Generate free API keys to access the TickTock Slots API. Free tier: 100 requests/day.</p>
 
               <div className="flex gap-3 mb-6">
                 <input
@@ -555,7 +555,7 @@ const Dashboard = () => {
             <div className="glass rounded-xl p-6">
               <h3 className="text-lg font-semibold text-foreground mb-3">Quick Start</h3>
               <pre className="bg-muted rounded-lg p-4 text-xs font-mono text-muted-foreground overflow-x-auto">
-{`curl -X GET https://api.slotengine.io/v1/slots \\
+{`curl -X GET https://api.ticktockslots.io/v1/slots \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json"
 

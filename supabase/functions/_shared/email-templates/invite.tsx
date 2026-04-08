@@ -27,15 +27,15 @@ export const InviteEmail = ({
 }: InviteEmailProps) => (
   <Html lang="en" dir="ltr">
     <Head />
-    <Preview>You've been invited to join SlotEngine</Preview>
+    <Preview>You've been invited to join TickTock Slots</Preview>
     <Body style={main}>
       <Container style={container}>
         <Section style={headerSection}>
-          <Text style={logoText}>⚡ SlotEngine</Text>
+          <Text style={logoText}>⏰ TickTock Slots</Text>
         </Section>
         <Heading style={h1}>You've been invited</Heading>
         <Text style={text}>
-          You've been invited to join <strong>SlotEngine</strong> — the marketplace for last-minute cancelled bookings at unbeatable prices.
+          You've been invited to join <strong>TickTock Slots</strong> — the marketplace for last-minute cancelled bookings at unbeatable prices.
         </Text>
         <Button style={button} href={confirmationUrl}>
           Accept Invitation

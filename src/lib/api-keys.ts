@@ -11,7 +11,7 @@ export interface ApiKey {
   active: boolean;
 }
 
-const STORAGE_KEY = "slotengine_api_keys";
+const STORAGE_KEY = "ticktockslots_api_keys";
 
 function generateKey(tier: string): string {
   const prefix = tier === "free" ? "se_free" : tier === "premium" ? "se_prem" : "se_ent";

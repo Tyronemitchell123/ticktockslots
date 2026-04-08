@@ -20,7 +20,7 @@ export interface CalendarConnection {
   cancellationsDetected: number;
 }
 
-const STORAGE_KEY = "slotengine_calendars";
+const STORAGE_KEY = "ticktockslots_calendars";
 
 export function getConnections(): CalendarConnection[] {
   try {

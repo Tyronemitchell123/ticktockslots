@@ -262,7 +262,7 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
                   <span className="text-sm text-muted-foreground line-through">{fmtOriginal}</span>
                 </div>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-medium text-foreground">SlotEngine Price</span>
+                  <span className="text-sm font-medium text-foreground">TickTock Slots Price</span>
                   <span className="text-2xl font-bold text-secondary flex items-center gap-1">
                     <TrendingDown className="w-5 h-5" />
                     {fmtCurrent}

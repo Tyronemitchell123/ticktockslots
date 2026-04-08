@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Zap, ArrowLeft, Loader2 } from "lucide-react";
+import { Clock, ArrowLeft, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const Auth = () => {
@@ -100,9 +100,9 @@ const Auth = () => {
         <div className="glass rounded-2xl border border-border/30 p-8">
           <div className="flex items-center gap-2 mb-6">
             <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-              <Zap className="w-5 h-5 text-primary-foreground" />
+              <Clock className="w-5 h-5 text-primary-foreground" />
             </div>
-            <span className="font-bold text-lg text-foreground">SlotEngine</span>
+            <span className="font-bold text-lg text-foreground">TickTock Slots</span>
           </div>
 
           {isForgot ? (
@@ -147,7 +147,7 @@ const Auth = () => {
               <p className="text-muted-foreground text-sm mb-6">
                 {isLogin
                   ? "Sign in to book slots and track your trust score"
-                  : "Join SlotEngine to grab last-minute deals"}
+                  : "Join TickTock Slots to grab last-minute deals"}
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-4">

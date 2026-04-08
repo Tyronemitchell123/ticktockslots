@@ -25,15 +25,15 @@ export const MagicLinkEmail = ({
 }: MagicLinkEmailProps) => (
   <Html lang="en" dir="ltr">
     <Head />
-    <Preview>Your login link for SlotEngine</Preview>
+    <Preview>Your login link for TickTock Slots</Preview>
     <Body style={main}>
       <Container style={container}>
         <Section style={headerSection}>
-          <Text style={logoText}>⚡ SlotEngine</Text>
+          <Text style={logoText}>⏰ TickTock Slots</Text>
         </Section>
         <Heading style={h1}>Your login link</Heading>
         <Text style={text}>
-          Click below to log in to SlotEngine. This link will expire shortly.
+          Click below to log in to TickTock Slots. This link will expire shortly.
         </Text>
         <Button style={button} href={confirmationUrl}>
           Log In

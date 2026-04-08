@@ -7,7 +7,7 @@ const About = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <main className="max-w-4xl mx-auto px-4 py-20">
-        <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">About SlotEngine</h1>
+        <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">About TickTock Slots</h1>
         <p className="text-lg text-muted-foreground mb-12 max-w-2xl">
           We're building the global liquidity engine for perishable inventory — turning last-minute cancellations into opportunities.
         </p>

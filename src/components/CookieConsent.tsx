@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Cookie, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const COOKIE_KEY = "slotengine_cookie_consent";
+const COOKIE_KEY = "ticktockslots_cookie_consent";
 
 const CookieConsent = () => {
   const [visible, setVisible] = useState(false);

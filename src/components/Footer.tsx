@@ -1,4 +1,4 @@
-import { Zap } from "lucide-react";
+import { Clock } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -8,9 +8,9 @@ const Footer = () => {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <Zap className="w-5 h-5 text-primary-foreground" />
+                <Clock className="w-5 h-5 text-primary-foreground" />
               </div>
-              <span className="font-bold text-lg text-foreground">SlotEngine</span>
+              <span className="font-bold text-lg text-foreground">TickTock Slots</span>
             </div>
             <p className="text-sm text-muted-foreground max-w-xs">
               The global liquidity engine for perishable inventory. Fill every slot. Waste nothing.
@@ -49,7 +49,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-border/30 mt-10 pt-6 text-center text-xs text-muted-foreground">
-          © 2026 SlotEngine. All rights reserved. Filling what others waste.
+          © 2026 TickTock Slots. All rights reserved. Filling what others waste.
         </div>
       </div>
     </footer>

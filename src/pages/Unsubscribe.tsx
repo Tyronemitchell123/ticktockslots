@@ -67,7 +67,7 @@ const Unsubscribe = () => {
               <MailX className="w-10 h-10 text-primary mx-auto" />
               <h2 className="text-xl font-bold text-foreground">Unsubscribe</h2>
               <p className="text-muted-foreground text-sm">
-                Click below to stop receiving email notifications from SlotEngine.
+                Click below to stop receiving email notifications from TickTock Slots.
               </p>
               <Button onClick={handleUnsubscribe} disabled={processing} className="w-full">
                 {processing ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}

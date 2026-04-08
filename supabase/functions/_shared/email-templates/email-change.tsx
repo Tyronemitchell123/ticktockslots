@@ -30,11 +30,11 @@ export const EmailChangeEmail = ({
 }: EmailChangeEmailProps) => (
   <Html lang="en" dir="ltr">
     <Head />
-    <Preview>Confirm your email change for SlotEngine</Preview>
+    <Preview>Confirm your email change for TickTock Slots</Preview>
     <Body style={main}>
       <Container style={container}>
         <Section style={headerSection}>
-          <Text style={logoText}>⚡ SlotEngine</Text>
+          <Text style={logoText}>⏰ TickTock Slots</Text>
         </Section>
         <Heading style={h1}>Confirm your email change</Heading>
         <Text style={text}>

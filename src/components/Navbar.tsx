@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Zap, Menu, X, LogOut, User, Shield } from "lucide-react";
+import { Clock, Menu, X, LogOut, User, Shield } from "lucide-react";
 import NotificationCenter from "./NotificationCenter";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -20,9 +20,9 @@ const Navbar = () => {
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-            <Zap className="w-5 h-5 text-primary-foreground" />
+            <Clock className="w-5 h-5 text-primary-foreground" />
           </div>
-          <span className="font-bold text-lg text-foreground tracking-tight">SlotEngine</span>
+          <span className="font-bold text-lg text-foreground tracking-tight">TickTock Slots</span>
         </div>
 
         <div className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">

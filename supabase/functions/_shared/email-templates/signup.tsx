@@ -30,17 +30,17 @@ export const SignupEmail = ({
 }: SignupEmailProps) => (
   <Html lang="en" dir="ltr">
     <Head />
-    <Preview>Confirm your email for SlotEngine</Preview>
+    <Preview>Confirm your email for TickTock Slots</Preview>
     <Body style={main}>
       <Container style={container}>
         <Section style={headerSection}>
-          <Text style={logoText}>⚡ SlotEngine</Text>
+          <Text style={logoText}>⏰ TickTock Slots</Text>
         </Section>
         <Heading style={h1}>Verify your email</Heading>
         <Text style={text}>
           Welcome to{' '}
           <Link href={siteUrl} style={link}>
-            <strong>SlotEngine</strong>
+            <strong>TickTock Slots</strong>
           </Link>
           ! You're one step away from claiming last-minute slots at unbeatable prices.
         </Text>
