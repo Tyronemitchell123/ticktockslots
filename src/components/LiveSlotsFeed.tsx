@@ -1128,7 +1128,9 @@ const LiveSlotsFeed = () => {
                               ? "border-sky-400/30 hover:border-sky-400/50 shadow-[0_0_15px_-3px_rgba(56,189,248,0.15)]"
                               : slot.vertical === "Luxury"
                                 ? "border-amber-400/30 hover:border-amber-400/50 shadow-[0_0_15px_-3px_rgba(251,191,36,0.2)]"
-                                : isGated ? "opacity-80" : "hover:border-primary/30"
+                                : slot.vertical === "Food"
+                                  ? "border-lime-400/30 hover:border-lime-400/50 shadow-[0_0_15px_-3px_rgba(163,230,53,0.15)]"
+                                  : isGated ? "opacity-80" : "hover:border-primary/30"
                   }`}
                 >
                   <div
@@ -1149,12 +1151,14 @@ const LiveSlotsFeed = () => {
                                   ? "bg-gradient-to-br from-sky-500/20 to-indigo-400/20 ring-1 ring-sky-400/30"
                                   : slot.vertical === "Luxury"
                                     ? "bg-gradient-to-br from-amber-500/20 to-yellow-400/20 ring-1 ring-amber-400/30"
-                                    : isUnicorn
-                                      ? "bg-gradient-to-br from-purple-500/20 to-pink-500/20"
-                                      : "bg-muted"
+                                    : slot.vertical === "Food"
+                                      ? "bg-gradient-to-br from-lime-500/20 to-green-400/20 ring-1 ring-lime-400/30"
+                                      : isUnicorn
+                                        ? "bg-gradient-to-br from-purple-500/20 to-pink-500/20"
+                                        : "bg-muted"
                       }`}>
                         <span className="text-lg font-bold text-primary">
-                          {slot.vertical === "Holiday" ? "🌴" : slot.vertical === "Wedding" ? "💒" : slot.vertical === "Cars" ? "🚘" : slot.vertical === "Gym" ? "🏋️" : slot.vertical === "Flights" ? "✈️" : slot.vertical === "Luxury" ? "💎" : isUnicorn ? "🦄" : slot.vertical[0]}
+                          {slot.vertical === "Holiday" ? "🌴" : slot.vertical === "Wedding" ? "💒" : slot.vertical === "Cars" ? "🚘" : slot.vertical === "Gym" ? "🏋️" : slot.vertical === "Flights" ? "✈️" : slot.vertical === "Luxury" ? "💎" : slot.vertical === "Food" ? "🥗" : isUnicorn ? "🦄" : slot.vertical[0]}
                         </span>
                       </div>
                       <div>
