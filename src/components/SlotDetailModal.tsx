@@ -139,6 +139,66 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
     return m > 0 ? `${m}m ${s.toString().padStart(2, "0")}s` : `${s}s`;
   };
 
+  const handleStripePayment = async () => {
+    if (!user || !slot) return;
+    setPaymentLoading(true);
+    try {
+      const nativeCurr = detectCurrency(slot.location, slot.region || "");
+      const { data, error } = await supabase.functions.invoke("create-slot-payment", {
+        body: {
+          slotId: slot.id,
+          amount: slot.currentPrice,
+          currency: nativeCurr,
+          merchantName: slot.merchant,
+          slotTime: slot.time,
+          slotLocation: slot.location,
+        },
+      });
+      if (error) throw error;
+      if (data?.url) {
+        // Claim the slot first, then redirect to payment
+        const { data: bookingData, error: claimError } = await supabase.rpc("claim_slot", {
+          _slot_id: slot.id,
+          _user_id: user.id,
+          _paid_amount: slot.currentPrice,
+          _paid_upfront: true,
+        });
+        if (claimError) throw claimError;
+        setBookingId(bookingData);
+
+        // Send confirmation email (fire-and-forget)
+        supabase.functions.invoke("send-transactional-email", {
+          body: {
+            templateName: "booking-confirmation",
+            recipientEmail: user.email,
+            idempotencyKey: `booking-confirm-${bookingData}`,
+            templateData: {
+              merchantName: slot.merchant,
+              vertical: slot.vertical,
+              location: slot.location,
+              time: slot.time,
+              originalPrice: fmtOriginal,
+              discountedPrice: fmtCurrent,
+              savings: `${fmtSaved} (${discount}%)`,
+              bookingId: bookingData,
+            },
+          },
+        }).catch((err) => console.error("Failed to send confirmation email:", err));
+
+        window.open(data.url, "_blank");
+        setStep("success");
+        toast({ title: "🎉 Slot claimed! Complete payment in the new tab." });
+      }
+    } catch (error: any) {
+      const msg = error.message?.includes("no longer available")
+        ? "This slot has already been claimed by another user."
+        : error.message || "Payment failed. Please try again.";
+      toast({ title: "Payment failed", description: msg, variant: "destructive" });
+    } finally {
+      setPaymentLoading(false);
+    }
+  };
+
   const handleConfirm = async () => {
     if (!user) {
       toast({ title: "Sign in required", description: "Please sign in to book a slot.", variant: "destructive" });
@@ -149,7 +209,6 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
 
     setBookingLoading(true);
     try {
-      // Use atomic claim_slot function to prevent double-booking
       const { data, error } = await supabase.rpc("claim_slot", {
         _slot_id: slot.id,
         _user_id: user.id,
@@ -162,7 +221,6 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
       setStep("success");
       toast({ title: "🎉 Booking confirmed!", description: `You saved ${fmtSaved} on this slot.` });
 
-      // Send booking confirmation email (fire-and-forget)
       supabase.functions.invoke("send-transactional-email", {
         body: {
           templateName: "booking-confirmation",
