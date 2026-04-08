@@ -1091,6 +1091,11 @@ const LiveSlotsFeed = () => {
                               🚘 Car Deal
                             </Badge>
                           )}
+                          {slot.vertical === "Gym" && (
+                            <Badge className="bg-gradient-to-r from-orange-500/20 to-amber-400/20 text-orange-300 border-orange-400/30 text-[9px] py-0 px-1.5 animate-pulse">
+                              🏋️ Gym Pass
+                            </Badge>
+                          )}
                           {slot.isLive && (
                             <Badge variant="outline" className="bg-green-400/10 text-green-400 border-green-400/30 text-[9px] py-0 px-1.5 gap-0.5">
                               <Radio className="w-2.5 h-2.5 animate-countdown" /> {slot.source}
