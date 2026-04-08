@@ -5,7 +5,7 @@ import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle } f
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { MapPin, Clock, TrendingDown, Shield, Zap, CheckCircle2, ArrowRight, Timer, Loader2, Star, MessageSquare, Navigation } from "lucide-react";
+import { MapPin, Clock, TrendingDown, Shield, Zap, CheckCircle2, ArrowRight, Timer, Loader2, Star, MessageSquare, Navigation, CreditCard } from "lucide-react";
 import { getVendorAddress, openMapLocation } from "@/lib/vendor-addresses";
 import { detectCurrency, formatPriceInCurrency } from "@/lib/currency";
 import { getSlotRating } from "@/lib/mock-reviews";
