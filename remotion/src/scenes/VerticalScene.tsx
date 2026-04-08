@@ -60,7 +60,7 @@ export const VerticalScene: React.FC<VerticalSceneProps> = ({
     }}>
       {Array.from({ length: totalDots }).map((_, i) => (
         <div key={i} style={{
-          width: i === index ? 40 : 8, height: 4, borderRadius: 2,
+          width: i === index ? 32 : 6, height: 4, borderRadius: 2,
           backgroundColor: i === index ? accentColor : "rgba(148,163,184,0.3)",
           transition: "none",
         }} />
