@@ -471,19 +471,30 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
               </div>
             </div>
 
-            <div className="flex gap-3">
-              <Button variant="outline" className="flex-1 py-5" onClick={() => setStep("details")}>
-                Back
-              </Button>
+            <div className="flex flex-col gap-3">
               <Button
                 variant="hero"
-                className="flex-1 py-5"
-                onClick={handleConfirm}
-                disabled={liveCountdown === 0 || bookingLoading}
+                className="w-full py-5"
+                onClick={handleStripePayment}
+                disabled={liveCountdown === 0 || paymentLoading}
               >
-                {bookingLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <CheckCircle2 className="w-5 h-5" />}
-                {bookingLoading ? "Booking..." : requiresUpfront ? "Pay Now & Confirm" : "Confirm & Pay"}
+                {paymentLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <CreditCard className="w-5 h-5" />}
+                {paymentLoading ? "Processing..." : `Pay ${fmtCurrent} with Stripe`}
               </Button>
+              <div className="flex gap-3">
+                <Button variant="outline" className="flex-1 py-5" onClick={() => setStep("details")}>
+                  Back
+                </Button>
+                <Button
+                  variant="outline"
+                  className="flex-1 py-5"
+                  onClick={handleConfirm}
+                  disabled={liveCountdown === 0 || bookingLoading}
+                >
+                  {bookingLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <CheckCircle2 className="w-5 h-5" />}
+                  {bookingLoading ? "Booking..." : "Claim & Pay Later"}
+                </Button>
+              </div>
             </div>
           </div>
         )}
