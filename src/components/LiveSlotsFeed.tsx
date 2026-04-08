@@ -1062,7 +1062,9 @@ const LiveSlotsFeed = () => {
                           ? "border-blue-400/30 hover:border-blue-400/50 shadow-[0_0_15px_-3px_rgba(96,165,250,0.15)]"
                           : slot.vertical === "Gym"
                             ? "border-orange-400/30 hover:border-orange-400/50 shadow-[0_0_15px_-3px_rgba(251,146,60,0.15)]"
-                            : isGated ? "opacity-80" : "hover:border-primary/30"
+                            : slot.vertical === "Flights"
+                              ? "border-sky-400/30 hover:border-sky-400/50 shadow-[0_0_15px_-3px_rgba(56,189,248,0.15)]"
+                              : isGated ? "opacity-80" : "hover:border-primary/30"
                   }`}
                 >
                   <div
