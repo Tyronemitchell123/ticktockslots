@@ -1,5 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { Check, Zap, Crown, Building2 } from "lucide-react";
+import { Check, Zap, Crown, Building2, Loader2 } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const tiers = [
   {
@@ -54,8 +59,58 @@ const tiers = [
 ];
 
 const PricingSection = () => {
+  const { user, subscribed } = useAuth();
+  const navigate = useNavigate();
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+
+  const handleCheckout = async () => {
+    if (!user) {
+      navigate("/auth");
+      return;
+    }
+
+    setCheckoutLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("create-checkout");
+      if (error) throw error;
+      if (data?.url) {
+        window.open(data.url, "_blank");
+      }
+    } catch (err: any) {
+      toast.error("Failed to start checkout. Please try again.");
+    } finally {
+      setCheckoutLoading(false);
+    }
+  };
+
+  const handleManageSubscription = async () => {
+    try {
+      const { data, error } = await supabase.functions.invoke("customer-portal");
+      if (error) throw error;
+      if (data?.url) {
+        window.open(data.url, "_blank");
+      }
+    } catch {
+      toast.error("Failed to open subscription management.");
+    }
+  };
+
+  const handleTierClick = (tierName: string) => {
+    if (tierName === "Enterprise") {
+      navigate("/contact");
+    } else if (tierName === "Premium") {
+      if (subscribed) {
+        handleManageSubscription();
+      } else {
+        handleCheckout();
+      }
+    } else {
+      navigate("/auth");
+    }
+  };
+
   return (
-    <section className="relative py-24 px-4 overflow-hidden">
+    <section id="pricing" className="relative py-24 px-4 overflow-hidden">
       <img
         src="https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?w=1920&q=80"
         alt=""
@@ -82,7 +137,7 @@ const PricingSection = () => {
               {tier.highlight && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                   <span className="bg-primary text-primary-foreground text-xs font-bold px-4 py-1 rounded-full uppercase tracking-widest">
-                    Most Popular
+                    {subscribed ? "Your Plan" : "Most Popular"}
                   </span>
                 </div>
               )}
@@ -108,14 +163,16 @@ const PricingSection = () => {
                 ))}
               </ul>
 
-              <Button variant={tier.variant} className="w-full rounded-xl py-5" onClick={() => {
-                if (tier.name === "Enterprise") {
-                  window.location.href = "/contact";
-                } else {
-                  window.location.href = "/auth";
-                }
-              }}>
-                {tier.cta}
+              <Button
+                variant={tier.variant}
+                className="w-full rounded-xl py-5"
+                disabled={tier.name === "Premium" && checkoutLoading}
+                onClick={() => handleTierClick(tier.name)}
+              >
+                {tier.name === "Premium" && checkoutLoading ? (
+                  <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                ) : null}
+                {tier.name === "Premium" && subscribed ? "Manage Subscription" : tier.cta}
               </Button>
             </div>
           ))}
