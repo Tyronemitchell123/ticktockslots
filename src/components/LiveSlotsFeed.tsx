@@ -360,6 +360,20 @@ const MOCK_SLOTS: Slot[] = [
   { id: "st02", merchant: "Public Storage", vertical: "Storage", location: "New York, NY", region: "North America", time: "Climate unit cancelled", originalPrice: 250, currentPrice: 105, urgency: "high", timeLeft: 280 },
   { id: "st03", merchant: "Safestore", vertical: "Storage", location: "Manchester, UK", region: "UK", time: "Business unit freed", originalPrice: 320, currentPrice: 135, urgency: "medium", timeLeft: 400 },
   { id: "st04", merchant: "Extra Space Sydney", vertical: "Storage", location: "Sydney, AU", region: "Asia Pacific", time: "Garage unit available", originalPrice: 200, currentPrice: 82, urgency: "high", timeLeft: 300 },
+
+  // ===== WEDDING =====
+  { id: "w01", merchant: "Claridge's Ballroom", vertical: "Wedding", location: "Mayfair, London", region: "UK", time: "June date cancelled", originalPrice: 28000, currentPrice: 12500, urgency: "critical", timeLeft: 48 },
+  { id: "w02", merchant: "The Plaza NYC", vertical: "Wedding", location: "Manhattan, NY", region: "North America", time: "Saturday reception freed", originalPrice: 45000, currentPrice: 19500, urgency: "critical", timeLeft: 35 },
+  { id: "w03", merchant: "Château de Vaux", vertical: "Wedding", location: "Paris, FR", region: "Europe", time: "Summer postponement", originalPrice: 18000, currentPrice: 7800, urgency: "high", timeLeft: 200 },
+  { id: "w04", merchant: "Bloom & Wild Florals", vertical: "Wedding", location: "London, UK", region: "UK", time: "Floral package freed", originalPrice: 3500, currentPrice: 1450, urgency: "high", timeLeft: 150 },
+  { id: "w05", merchant: "Jade Mountain Resort", vertical: "Wedding", location: "St Lucia, LC", region: "Latin America", time: "Beach ceremony cancelled", originalPrice: 22000, currentPrice: 9200, urgency: "critical", timeLeft: 55 },
+  { id: "w06", merchant: "Ritz-Carlton Dubai", vertical: "Wedding", location: "Dubai, AE", region: "Middle East", time: "Ballroom date freed", originalPrice: 35000, currentPrice: 15500, urgency: "high", timeLeft: 180 },
+  { id: "w07", merchant: "David Austin Roses", vertical: "Wedding", location: "Wolverhampton, UK", region: "UK", time: "Bridal bouquet cancelled", originalPrice: 850, currentPrice: 350, urgency: "medium", timeLeft: 300 },
+  { id: "w08", merchant: "Cliveden House", vertical: "Wedding", location: "Berkshire, UK", region: "UK", time: "Autumn date released", originalPrice: 32000, currentPrice: 14000, urgency: "high", timeLeft: 250 },
+  { id: "w09", merchant: "Wedding Bites Catering", vertical: "Wedding", location: "Manchester, UK", region: "UK", time: "150-guest package freed", originalPrice: 8500, currentPrice: 3600, urgency: "critical", timeLeft: 40 },
+  { id: "w10", merchant: "Amalfi Coast Venue", vertical: "Wedding", location: "Ravello, IT", region: "Europe", time: "Cliffside ceremony freed", originalPrice: 25000, currentPrice: 10800, urgency: "high", timeLeft: 190 },
+  { id: "w11", merchant: "DJ & Lighting Co", vertical: "Wedding", location: "Bristol, UK", region: "UK", time: "Full evening package", originalPrice: 1200, currentPrice: 480, urgency: "medium", timeLeft: 320 },
+  { id: "w12", merchant: "Vera Wang Bridal NYC", vertical: "Wedding", location: "New York, NY", region: "North America", time: "Sample sale — gown", originalPrice: 6800, currentPrice: 2800, urgency: "critical", timeLeft: 25 },
 ];
 
 
