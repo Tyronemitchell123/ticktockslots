@@ -55,6 +55,7 @@ export type Database = {
           paid_amount: number | null
           paid_upfront: boolean
           slot_id: string
+          source: string
           status: string
           updated_at: string
           user_id: string
@@ -66,6 +67,7 @@ export type Database = {
           paid_amount?: number | null
           paid_upfront?: boolean
           slot_id: string
+          source?: string
           status?: string
           updated_at?: string
           user_id: string
@@ -77,6 +79,7 @@ export type Database = {
           paid_amount?: number | null
           paid_upfront?: boolean
           slot_id?: string
+          source?: string
           status?: string
           updated_at?: string
           user_id?: string
