@@ -885,7 +885,11 @@ const LiveSlotsFeed = () => {
               return (
                 <div
                   key={slot.id}
-                  className={`glass rounded-xl overflow-hidden transition-colors group animate-fade-in ${isGated ? "opacity-80" : "hover:border-primary/30"}`}
+                  className={`glass rounded-xl overflow-hidden transition-colors group animate-fade-in ${
+                    slot.vertical === "Holiday"
+                      ? "border-emerald-400/30 hover:border-emerald-400/50 shadow-[0_0_15px_-3px_rgba(16,185,129,0.15)]"
+                      : isGated ? "opacity-80" : "hover:border-primary/30"
+                  }`}
                 >
                   <div
                     className="p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 cursor-pointer"
