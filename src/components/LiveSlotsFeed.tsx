@@ -418,6 +418,20 @@ const MOCK_SLOTS: Slot[] = [
   { id: "lx10", merchant: "Harvey Nichols Sale", vertical: "Luxury", location: "Leeds, UK", region: "UK", time: "Burberry trench — ex-display", originalPrice: 1990, currentPrice: 790, urgency: "high", timeLeft: 200 },
   { id: "lx11", merchant: "Rebag Authenticated", vertical: "Luxury", location: "Miami, FL", region: "North America", time: "Louis Vuitton — verified", originalPrice: 3800, currentPrice: 1550, urgency: "critical", timeLeft: 22 },
   { id: "lx12", merchant: "Dubai Mall Luxury", vertical: "Luxury", location: "Dubai, AE", region: "Middle East", time: "Cartier bracelet — return", originalPrice: 7200, currentPrice: 2900, urgency: "high", timeLeft: 110 },
+
+  // ===== FOOD & GROCERY =====
+  { id: "fg01", merchant: "Too Good To Go", vertical: "Food", location: "London, UK", region: "UK", time: "Restaurant surplus bag", originalPrice: 25, currentPrice: 8, urgency: "critical", timeLeft: 15 },
+  { id: "fg02", merchant: "HelloFresh Cancelled", vertical: "Food", location: "Manchester, UK", region: "UK", time: "Meal kit — subscriber exit", originalPrice: 50, currentPrice: 18, urgency: "high", timeLeft: 90 },
+  { id: "fg03", merchant: "OLIO Community", vertical: "Food", location: "Birmingham, UK", region: "UK", time: "Bakery surplus — today only", originalPrice: 18, currentPrice: 5, urgency: "critical", timeLeft: 20 },
+  { id: "fg04", merchant: "Costco Wholesale", vertical: "Food", location: "Watford, UK", region: "UK", time: "Bulk clearance — short date", originalPrice: 120, currentPrice: 42, urgency: "high", timeLeft: 180 },
+  { id: "fg05", merchant: "Gousto Box Cancel", vertical: "Food", location: "London, UK", region: "UK", time: "3-recipe box — unclaimed", originalPrice: 35, currentPrice: 12, urgency: "critical", timeLeft: 25 },
+  { id: "fg06", merchant: "Whole Foods Surplus", vertical: "Food", location: "New York, NY", region: "North America", time: "Organic produce clearance", originalPrice: 60, currentPrice: 22, urgency: "critical", timeLeft: 18 },
+  { id: "fg07", merchant: "Oddbox Veg Rescue", vertical: "Food", location: "London, UK", region: "UK", time: "Wonky veg box — extra stock", originalPrice: 15, currentPrice: 5, urgency: "high", timeLeft: 120 },
+  { id: "fg08", merchant: "Marks & Spencer Food", vertical: "Food", location: "Leeds, UK", region: "UK", time: "Dine-in deal — overstock", originalPrice: 20, currentPrice: 8, urgency: "high", timeLeft: 60 },
+  { id: "fg09", merchant: "Instacart Flash", vertical: "Food", location: "Los Angeles, CA", region: "North America", time: "Grocery bundle — cancelled order", originalPrice: 85, currentPrice: 32, urgency: "high", timeLeft: 95 },
+  { id: "fg10", merchant: "Abel & Cole Organic", vertical: "Food", location: "Bristol, UK", region: "UK", time: "Organic box — subscriber pause", originalPrice: 28, currentPrice: 10, urgency: "critical", timeLeft: 30 },
+  { id: "fg11", merchant: "Carrefour Clearance", vertical: "Food", location: "Paris, FR", region: "Europe", time: "Short-date premium goods", originalPrice: 45, currentPrice: 15, urgency: "critical", timeLeft: 22 },
+  { id: "fg12", merchant: "Spinneys Surplus", vertical: "Food", location: "Dubai, AE", region: "Middle East", time: "Gourmet deli clearance", originalPrice: 70, currentPrice: 25, urgency: "high", timeLeft: 110 },
 ];
 
 
@@ -568,6 +582,11 @@ const SLOT_DETAILS: Record<string, { description: string; includes: string[]; id
     description: "Authenticated designer goods, luxury watches, and high-end fashion from sample sales and verified returns.",
     includes: ["Certificate of authenticity", "Original packaging", "Return guarantee", "Expert verification"],
     ideal: "Perfect for style-conscious shoppers wanting luxury brands at a fraction of retail.",
+  },
+  Food: {
+    description: "Restaurant surplus, cancelled meal kits, and wholesale grocery clearance at massive savings.",
+    includes: ["Quality guaranteed", "Same-day collection", "Full product details", "Freshness assured"],
+    ideal: "Great for food lovers wanting premium groceries and meals at a fraction of the price.",
   },
 };
 
@@ -1109,7 +1128,9 @@ const LiveSlotsFeed = () => {
                               ? "border-sky-400/30 hover:border-sky-400/50 shadow-[0_0_15px_-3px_rgba(56,189,248,0.15)]"
                               : slot.vertical === "Luxury"
                                 ? "border-amber-400/30 hover:border-amber-400/50 shadow-[0_0_15px_-3px_rgba(251,191,36,0.2)]"
-                                : isGated ? "opacity-80" : "hover:border-primary/30"
+                                : slot.vertical === "Food"
+                                  ? "border-lime-400/30 hover:border-lime-400/50 shadow-[0_0_15px_-3px_rgba(163,230,53,0.15)]"
+                                  : isGated ? "opacity-80" : "hover:border-primary/30"
                   }`}
                 >
                   <div
@@ -1130,12 +1151,14 @@ const LiveSlotsFeed = () => {
                                   ? "bg-gradient-to-br from-sky-500/20 to-indigo-400/20 ring-1 ring-sky-400/30"
                                   : slot.vertical === "Luxury"
                                     ? "bg-gradient-to-br from-amber-500/20 to-yellow-400/20 ring-1 ring-amber-400/30"
-                                    : isUnicorn
-                                      ? "bg-gradient-to-br from-purple-500/20 to-pink-500/20"
-                                      : "bg-muted"
+                                    : slot.vertical === "Food"
+                                      ? "bg-gradient-to-br from-lime-500/20 to-green-400/20 ring-1 ring-lime-400/30"
+                                      : isUnicorn
+                                        ? "bg-gradient-to-br from-purple-500/20 to-pink-500/20"
+                                        : "bg-muted"
                       }`}>
                         <span className="text-lg font-bold text-primary">
-                          {slot.vertical === "Holiday" ? "🌴" : slot.vertical === "Wedding" ? "💒" : slot.vertical === "Cars" ? "🚘" : slot.vertical === "Gym" ? "🏋️" : slot.vertical === "Flights" ? "✈️" : slot.vertical === "Luxury" ? "💎" : isUnicorn ? "🦄" : slot.vertical[0]}
+                          {slot.vertical === "Holiday" ? "🌴" : slot.vertical === "Wedding" ? "💒" : slot.vertical === "Cars" ? "🚘" : slot.vertical === "Gym" ? "🏋️" : slot.vertical === "Flights" ? "✈️" : slot.vertical === "Luxury" ? "💎" : slot.vertical === "Food" ? "🥗" : isUnicorn ? "🦄" : slot.vertical[0]}
                         </span>
                       </div>
                       <div>
@@ -1171,6 +1194,11 @@ const LiveSlotsFeed = () => {
                           {slot.vertical === "Flights" && (
                             <Badge className="bg-gradient-to-r from-sky-500/20 to-indigo-400/20 text-sky-300 border-sky-400/30 text-[9px] py-0 px-1.5 animate-pulse">
                               ✈️ Flight Deal
+                            </Badge>
+                          )}
+                          {slot.vertical === "Food" && (
+                            <Badge className="bg-gradient-to-r from-lime-500/20 to-green-400/20 text-lime-300 border-lime-400/30 text-[9px] py-0 px-1.5 animate-pulse">
+                              🥗 Food Deal
                             </Badge>
                           )}
                           {slot.vertical === "Luxury" && (

@@ -1,4 +1,4 @@
-import { Scissors, Plane, Ship, Utensils, Stethoscope, Truck, GraduationCap, Ticket, Car, Scale, Building, PawPrint, Palmtree, Wrench, Laptop, Trophy, SprayCan, Camera, Baby, Package, Home, Heart, Dumbbell, PlaneTakeoff, Gem } from "lucide-react";
+import { Scissors, Plane, Ship, Utensils, Stethoscope, Truck, GraduationCap, Ticket, Car, Scale, Building, PawPrint, Palmtree, Wrench, Laptop, Trophy, SprayCan, Camera, Baby, Package, Home, Heart, Dumbbell, PlaneTakeoff, Gem, Apple } from "lucide-react";
 
 const sectors = [
   {
@@ -156,6 +156,12 @@ const sectors = [
     title: "Luxury & Designer",
     description: "Authenticated designer fashion, watches, and luxury goods from sample sales and returns.",
     stat: "3.6K deals/day",
+  },
+  {
+    icon: Apple,
+    title: "Food & Grocery",
+    description: "Restaurant surplus, cancelled meal kits, and wholesale grocery clearance at up to 75% off.",
+    stat: "15K deals/day",
   },
 ];
 
