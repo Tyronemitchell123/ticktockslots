@@ -135,6 +135,7 @@ function generateSlots(): SlotRow[] {
   for (const m of selected) {
     const discount = m.vertical === "Aviation" ? 0.5 + Math.random() * 0.25
       : m.vertical === "Holiday" ? 0.55 + Math.random() * 0.25
+      : m.vertical === "Wedding" ? 0.45 + Math.random() * 0.25
       : m.vertical === "Cars" ? 0.2 + Math.random() * 0.2
       : m.vertical === "Storage" ? 0.4 + Math.random() * 0.2
       : 0.2 + Math.random() * 0.35;
@@ -142,6 +143,8 @@ function generateSlots(): SlotRow[] {
     const urgency = urgencies[Math.floor(Math.random() * 3)];
     const reasons = m.vertical === "Holiday"
       ? ["Last-minute deal", "Unsold package", "Flash sale", "Cancellation release"]
+      : m.vertical === "Wedding"
+      ? ["Date cancelled", "Postponement", "Vendor freed", "Package released"]
       : m.vertical === "Cars"
       ? ["Price drop", "Rental return", "Dealer overstock", "Test drive cancelled"]
       : m.vertical === "Storage"
