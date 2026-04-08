@@ -67,12 +67,12 @@ const HeroSection = () => {
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button variant="hero" size="lg" className="text-base px-8 py-6 rounded-xl">
+            <Button variant="hero" size="lg" className="text-base px-8 py-6 rounded-xl" onClick={() => document.getElementById("slots")?.scrollIntoView({ behavior: "smooth" })}>
               <Zap className="w-5 h-5" />
               Claim a Slot Now
               <ArrowRight className="w-5 h-5" />
             </Button>
-            <Button variant="outline" size="lg" className="text-base px-8 py-6 rounded-xl border-border/50">
+            <Button variant="outline" size="lg" className="text-base px-8 py-6 rounded-xl border-border/50" onClick={() => document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" })}>
               <Clock className="w-5 h-5" />
               List Your Inventory
             </Button>

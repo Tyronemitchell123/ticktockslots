@@ -108,7 +108,13 @@ const PricingSection = () => {
                 ))}
               </ul>
 
-              <Button variant={tier.variant} className="w-full rounded-xl py-5">
+              <Button variant={tier.variant} className="w-full rounded-xl py-5" onClick={() => {
+                if (tier.name === "Enterprise") {
+                  window.location.href = "/contact";
+                } else {
+                  window.location.href = "/auth";
+                }
+              }}>
                 {tier.cta}
               </Button>
             </div>

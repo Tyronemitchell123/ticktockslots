@@ -683,7 +683,10 @@ const Dashboard = () => {
                   </div>
                   <Badge className="bg-primary/10 text-primary border-primary/30">Current</Badge>
                 </div>
-                <Button variant="hero" className="w-full">
+                <Button variant="hero" className="w-full" onClick={() => {
+                  navigate("/#pricing");
+                  import("sonner").then(({ toast }) => toast.info("Redirecting to Premium plans…"));
+                }}>
                   <Zap className="w-4 h-4 mr-1" /> Upgrade to Premium — $9.99/mo
                 </Button>
               </div>
