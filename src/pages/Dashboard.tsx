@@ -21,7 +21,7 @@ import { useSavedSlots } from "@/hooks/use-saved-slots";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, subscribed } = useAuth();
   const [apiKeys, setApiKeys] = useState<ApiKey[]>([]);
   const [newKeyName, setNewKeyName] = useState("");
   const [showKeys, setShowKeys] = useState<Record<string, boolean>>({});
