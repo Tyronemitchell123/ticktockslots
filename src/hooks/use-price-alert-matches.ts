@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -15,9 +15,47 @@ export interface PriceAlertMatch {
   matchedAt: Date;
 }
 
+// Track which alert+slot combos we've already emailed to avoid duplicates
+const emailedMatches = new Set<string>();
+
+async function sendPriceAlertEmail(match: PriceAlertMatch, userEmail: string) {
+  const key = `${match.alertId}-${match.slotId}`;
+  if (emailedMatches.has(key)) return;
+  emailedMatches.add(key);
+
+  const savings = match.originalPrice - match.currentPrice;
+  const savingsPct = Math.round((savings / match.originalPrice) * 100);
+
+  try {
+    await supabase.functions.invoke("send-transactional-email", {
+      body: {
+        templateName: "price-alert-match",
+        recipientEmail: userEmail,
+        idempotencyKey: `price-alert-${match.alertId}-${match.slotId}`,
+        templateData: {
+          merchantName: match.merchantName,
+          vertical: match.vertical,
+          region: match.region,
+          currentPrice: `£${match.currentPrice.toFixed(2)}`,
+          originalPrice: `£${match.originalPrice.toFixed(2)}`,
+          savings: `£${savings.toFixed(2)} (${savingsPct}%)`,
+          timeDescription: match.timeDescription,
+          alertMaxPrice: `£${match.maxPrice.toFixed(2)}`,
+          slotUrl: `${window.location.origin}/dashboard`,
+        },
+      },
+    });
+  } catch (e) {
+    console.error("Failed to send price alert email", e);
+    // Remove from set so it can retry next cycle
+    emailedMatches.delete(key);
+  }
+}
+
 export function usePriceAlertMatches() {
   const { user } = useAuth();
   const [matches, setMatches] = useState<PriceAlertMatch[]>([]);
+  const prevMatchKeys = useRef<Set<string>>(new Set());
 
   const fetchMatches = useCallback(async () => {
     if (!user) { setMatches([]); return; }
@@ -59,6 +97,19 @@ export function usePriceAlertMatches() {
         }
       }
     }
+
+    // Send emails only for NEW matches (not previously seen)
+    if (user.email) {
+      for (const m of matched) {
+        const key = `${m.alertId}-${m.slotId}`;
+        if (!prevMatchKeys.current.has(key)) {
+          sendPriceAlertEmail(m, user.email);
+        }
+      }
+    }
+
+    // Update previous keys
+    prevMatchKeys.current = new Set(matched.map(m => `${m.alertId}-${m.slotId}`));
     setMatches(matched);
   }, [user]);
 
