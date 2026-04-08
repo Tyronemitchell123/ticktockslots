@@ -360,6 +360,20 @@ const MOCK_SLOTS: Slot[] = [
   { id: "st02", merchant: "Public Storage", vertical: "Storage", location: "New York, NY", region: "North America", time: "Climate unit cancelled", originalPrice: 250, currentPrice: 105, urgency: "high", timeLeft: 280 },
   { id: "st03", merchant: "Safestore", vertical: "Storage", location: "Manchester, UK", region: "UK", time: "Business unit freed", originalPrice: 320, currentPrice: 135, urgency: "medium", timeLeft: 400 },
   { id: "st04", merchant: "Extra Space Sydney", vertical: "Storage", location: "Sydney, AU", region: "Asia Pacific", time: "Garage unit available", originalPrice: 200, currentPrice: 82, urgency: "high", timeLeft: 300 },
+
+  // ===== WEDDING =====
+  { id: "w01", merchant: "Claridge's Ballroom", vertical: "Wedding", location: "Mayfair, London", region: "UK", time: "June date cancelled", originalPrice: 28000, currentPrice: 12500, urgency: "critical", timeLeft: 48 },
+  { id: "w02", merchant: "The Plaza NYC", vertical: "Wedding", location: "Manhattan, NY", region: "North America", time: "Saturday reception freed", originalPrice: 45000, currentPrice: 19500, urgency: "critical", timeLeft: 35 },
+  { id: "w03", merchant: "Château de Vaux", vertical: "Wedding", location: "Paris, FR", region: "Europe", time: "Summer postponement", originalPrice: 18000, currentPrice: 7800, urgency: "high", timeLeft: 200 },
+  { id: "w04", merchant: "Bloom & Wild Florals", vertical: "Wedding", location: "London, UK", region: "UK", time: "Floral package freed", originalPrice: 3500, currentPrice: 1450, urgency: "high", timeLeft: 150 },
+  { id: "w05", merchant: "Jade Mountain Resort", vertical: "Wedding", location: "St Lucia, LC", region: "Latin America", time: "Beach ceremony cancelled", originalPrice: 22000, currentPrice: 9200, urgency: "critical", timeLeft: 55 },
+  { id: "w06", merchant: "Ritz-Carlton Dubai", vertical: "Wedding", location: "Dubai, AE", region: "Middle East", time: "Ballroom date freed", originalPrice: 35000, currentPrice: 15500, urgency: "high", timeLeft: 180 },
+  { id: "w07", merchant: "David Austin Roses", vertical: "Wedding", location: "Wolverhampton, UK", region: "UK", time: "Bridal bouquet cancelled", originalPrice: 850, currentPrice: 350, urgency: "medium", timeLeft: 300 },
+  { id: "w08", merchant: "Cliveden House", vertical: "Wedding", location: "Berkshire, UK", region: "UK", time: "Autumn date released", originalPrice: 32000, currentPrice: 14000, urgency: "high", timeLeft: 250 },
+  { id: "w09", merchant: "Wedding Bites Catering", vertical: "Wedding", location: "Manchester, UK", region: "UK", time: "150-guest package freed", originalPrice: 8500, currentPrice: 3600, urgency: "critical", timeLeft: 40 },
+  { id: "w10", merchant: "Amalfi Coast Venue", vertical: "Wedding", location: "Ravello, IT", region: "Europe", time: "Cliffside ceremony freed", originalPrice: 25000, currentPrice: 10800, urgency: "high", timeLeft: 190 },
+  { id: "w11", merchant: "DJ & Lighting Co", vertical: "Wedding", location: "Bristol, UK", region: "UK", time: "Full evening package", originalPrice: 1200, currentPrice: 480, urgency: "medium", timeLeft: 320 },
+  { id: "w12", merchant: "Vera Wang Bridal NYC", vertical: "Wedding", location: "New York, NY", region: "North America", time: "Sample sale — gown", originalPrice: 6800, currentPrice: 2800, urgency: "critical", timeLeft: 25 },
 ];
 
 
@@ -490,6 +504,11 @@ const SLOT_DETAILS: Record<string, { description: string; includes: string[]; id
     description: "Self-storage unit available from a lease cancellation or early exit.",
     includes: ["Secure unit", "24/7 access", "Insurance option", "Flexible contract"],
     ideal: "Ideal for anyone needing storage space without the usual premium.",
+  },
+  Wedding: {
+    description: "Wedding venue, vendor, or service slot freed up by a postponement or cancellation.",
+    includes: ["Confirmed date & venue", "Original package inclusions", "Dedicated coordinator", "Setup & teardown included"],
+    ideal: "Perfect for couples wanting dream weddings at a fraction of the price.",
   },
 };
 
@@ -997,7 +1016,11 @@ const LiveSlotsFeed = () => {
                   className={`glass rounded-xl overflow-hidden transition-colors group animate-fade-in ${
                     slot.vertical === "Holiday"
                       ? "border-emerald-400/30 hover:border-emerald-400/50 shadow-[0_0_15px_-3px_rgba(16,185,129,0.15)]"
-                      : isGated ? "opacity-80" : "hover:border-primary/30"
+                      : slot.vertical === "Wedding"
+                        ? "border-pink-400/30 hover:border-pink-400/50 shadow-[0_0_15px_-3px_rgba(244,114,182,0.15)]"
+                        : slot.vertical === "Cars"
+                          ? "border-blue-400/30 hover:border-blue-400/50 shadow-[0_0_15px_-3px_rgba(96,165,250,0.15)]"
+                          : isGated ? "opacity-80" : "hover:border-primary/30"
                   }`}
                 >
                   <div
@@ -1008,12 +1031,16 @@ const LiveSlotsFeed = () => {
                       <div className={`w-12 h-12 rounded-lg flex items-center justify-center shrink-0 ${
                         slot.vertical === "Holiday"
                           ? "bg-gradient-to-br from-emerald-500/20 to-cyan-400/20 ring-1 ring-emerald-400/30"
-                          : isUnicorn
-                            ? "bg-gradient-to-br from-purple-500/20 to-pink-500/20"
-                            : "bg-muted"
+                          : slot.vertical === "Wedding"
+                            ? "bg-gradient-to-br from-pink-500/20 to-rose-400/20 ring-1 ring-pink-400/30"
+                            : slot.vertical === "Cars"
+                              ? "bg-gradient-to-br from-blue-500/20 to-sky-400/20 ring-1 ring-blue-400/30"
+                              : isUnicorn
+                                ? "bg-gradient-to-br from-purple-500/20 to-pink-500/20"
+                                : "bg-muted"
                       }`}>
                         <span className="text-lg font-bold text-primary">
-                          {slot.vertical === "Holiday" ? "🌴" : isUnicorn ? "🦄" : slot.vertical[0]}
+                          {slot.vertical === "Holiday" ? "🌴" : slot.vertical === "Wedding" ? "💒" : slot.vertical === "Cars" ? "🚘" : isUnicorn ? "🦄" : slot.vertical[0]}
                         </span>
                       </div>
                       <div>
@@ -1029,6 +1056,16 @@ const LiveSlotsFeed = () => {
                           {slot.vertical === "Holiday" && (
                             <Badge className="bg-gradient-to-r from-emerald-500/20 to-cyan-400/20 text-emerald-300 border-emerald-400/30 text-[9px] py-0 px-1.5 animate-pulse">
                               🏝️ Holiday Steal
+                            </Badge>
+                          )}
+                          {slot.vertical === "Wedding" && (
+                            <Badge className="bg-gradient-to-r from-pink-500/20 to-rose-400/20 text-pink-300 border-pink-400/30 text-[9px] py-0 px-1.5 animate-pulse">
+                              💒 Wedding Deal
+                            </Badge>
+                          )}
+                          {slot.vertical === "Cars" && (
+                            <Badge className="bg-gradient-to-r from-blue-500/20 to-sky-400/20 text-blue-300 border-blue-400/30 text-[9px] py-0 px-1.5">
+                              🚘 Car Deal
                             </Badge>
                           )}
                           {slot.isLive && (

@@ -1,4 +1,4 @@
-import { Scissors, Plane, Ship, Utensils, Stethoscope, Truck, GraduationCap, Ticket, Car, Scale, Building, PawPrint, Palmtree, Wrench, Laptop, Trophy, SprayCan, Camera, Baby, Package, Home } from "lucide-react";
+import { Scissors, Plane, Ship, Utensils, Stethoscope, Truck, GraduationCap, Ticket, Car, Scale, Building, PawPrint, Palmtree, Wrench, Laptop, Trophy, SprayCan, Camera, Baby, Package, Home, Heart } from "lucide-react";
 
 const sectors = [
   {
@@ -132,6 +132,12 @@ const sectors = [
     title: "Self Storage",
     description: "Storage units from early terminations and overstock at up to 60% off.",
     stat: "1.2K units/day",
+  },
+  {
+    icon: Heart,
+    title: "Weddings",
+    description: "Cancelled wedding venues, caterers, florists, and photographers at huge savings.",
+    stat: "2.4K deals/day",
   },
 ];
 
