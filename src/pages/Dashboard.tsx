@@ -42,6 +42,7 @@ const Dashboard = () => {
     paid_upfront: boolean;
     paid_amount: number | null;
     created_at: string;
+    source?: string;
     slots: {
       merchant_name: string;
       vertical: string;
