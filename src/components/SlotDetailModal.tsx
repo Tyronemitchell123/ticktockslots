@@ -5,7 +5,7 @@ import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle } f
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { MapPin, Clock, TrendingDown, Shield, Zap, CheckCircle2, ArrowRight, Timer, Loader2, Star, MessageSquare, Navigation } from "lucide-react";
+import { MapPin, Clock, TrendingDown, Shield, Zap, CheckCircle2, ArrowRight, Timer, Loader2, Star, MessageSquare, Navigation, CreditCard } from "lucide-react";
 import { getVendorAddress, openMapLocation } from "@/lib/vendor-addresses";
 import { detectCurrency, formatPriceInCurrency } from "@/lib/currency";
 import { getSlotRating } from "@/lib/mock-reviews";
@@ -62,6 +62,7 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
   const [liveCountdown, setLiveCountdown] = useState(0);
 
   const [bookingLoading, setBookingLoading] = useState(false);
+  const [paymentLoading, setPaymentLoading] = useState(false);
   const [bookingId, setBookingId] = useState<string | null>(null);
   const [trustScore, setTrustScore] = useState<number | null>(null);
   const { user } = useAuth();
@@ -138,6 +139,66 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
     return m > 0 ? `${m}m ${s.toString().padStart(2, "0")}s` : `${s}s`;
   };
 
+  const handleStripePayment = async () => {
+    if (!user || !slot) return;
+    setPaymentLoading(true);
+    try {
+      const nativeCurr = detectCurrency(slot.location, slot.region || "");
+      const { data, error } = await supabase.functions.invoke("create-slot-payment", {
+        body: {
+          slotId: slot.id,
+          amount: slot.currentPrice,
+          currency: nativeCurr,
+          merchantName: slot.merchant,
+          slotTime: slot.time,
+          slotLocation: slot.location,
+        },
+      });
+      if (error) throw error;
+      if (data?.url) {
+        // Claim the slot first, then redirect to payment
+        const { data: bookingData, error: claimError } = await supabase.rpc("claim_slot", {
+          _slot_id: slot.id,
+          _user_id: user.id,
+          _paid_amount: slot.currentPrice,
+          _paid_upfront: true,
+        });
+        if (claimError) throw claimError;
+        setBookingId(bookingData);
+
+        // Send confirmation email (fire-and-forget)
+        supabase.functions.invoke("send-transactional-email", {
+          body: {
+            templateName: "booking-confirmation",
+            recipientEmail: user.email,
+            idempotencyKey: `booking-confirm-${bookingData}`,
+            templateData: {
+              merchantName: slot.merchant,
+              vertical: slot.vertical,
+              location: slot.location,
+              time: slot.time,
+              originalPrice: fmtOriginal,
+              discountedPrice: fmtCurrent,
+              savings: `${fmtSaved} (${discount}%)`,
+              bookingId: bookingData,
+            },
+          },
+        }).catch((err) => console.error("Failed to send confirmation email:", err));
+
+        window.open(data.url, "_blank");
+        setStep("success");
+        toast({ title: "🎉 Slot claimed! Complete payment in the new tab." });
+      }
+    } catch (error: any) {
+      const msg = error.message?.includes("no longer available")
+        ? "This slot has already been claimed by another user."
+        : error.message || "Payment failed. Please try again.";
+      toast({ title: "Payment failed", description: msg, variant: "destructive" });
+    } finally {
+      setPaymentLoading(false);
+    }
+  };
+
   const handleConfirm = async () => {
     if (!user) {
       toast({ title: "Sign in required", description: "Please sign in to book a slot.", variant: "destructive" });
@@ -148,7 +209,6 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
 
     setBookingLoading(true);
     try {
-      // Use atomic claim_slot function to prevent double-booking
       const { data, error } = await supabase.rpc("claim_slot", {
         _slot_id: slot.id,
         _user_id: user.id,
@@ -161,7 +221,6 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
       setStep("success");
       toast({ title: "🎉 Booking confirmed!", description: `You saved ${fmtSaved} on this slot.` });
 
-      // Send booking confirmation email (fire-and-forget)
       supabase.functions.invoke("send-transactional-email", {
         body: {
           templateName: "booking-confirmation",
@@ -412,19 +471,30 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
               </div>
             </div>
 
-            <div className="flex gap-3">
-              <Button variant="outline" className="flex-1 py-5" onClick={() => setStep("details")}>
-                Back
-              </Button>
+            <div className="flex flex-col gap-3">
               <Button
                 variant="hero"
-                className="flex-1 py-5"
-                onClick={handleConfirm}
-                disabled={liveCountdown === 0 || bookingLoading}
+                className="w-full py-5"
+                onClick={handleStripePayment}
+                disabled={liveCountdown === 0 || paymentLoading}
               >
-                {bookingLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <CheckCircle2 className="w-5 h-5" />}
-                {bookingLoading ? "Booking..." : requiresUpfront ? "Pay Now & Confirm" : "Confirm & Pay"}
+                {paymentLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <CreditCard className="w-5 h-5" />}
+                {paymentLoading ? "Processing..." : `Pay ${fmtCurrent} with Stripe`}
               </Button>
+              <div className="flex gap-3">
+                <Button variant="outline" className="flex-1 py-5" onClick={() => setStep("details")}>
+                  Back
+                </Button>
+                <Button
+                  variant="outline"
+                  className="flex-1 py-5"
+                  onClick={handleConfirm}
+                  disabled={liveCountdown === 0 || bookingLoading}
+                >
+                  {bookingLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <CheckCircle2 className="w-5 h-5" />}
+                  {bookingLoading ? "Booking..." : "Claim & Pay Later"}
+                </Button>
+              </div>
             </div>
           </div>
         )}
