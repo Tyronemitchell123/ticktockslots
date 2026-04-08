@@ -156,6 +156,42 @@ const Dashboard = () => {
           ))}
         </div>
 
+        {/* Auto-Claim Weekly Digest */}
+        {(() => {
+          const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+          const autoClaimedBookings = bookings.filter(
+            (b) => (b as any).source === "auto-claim" && new Date(b.created_at) >= weekAgo
+          );
+          const totalSavings = autoClaimedBookings.reduce((sum, b) => {
+            const slot = b.slots;
+            return sum + (slot ? slot.original_price - slot.current_price : 0);
+          }, 0);
+          if (autoClaimedBookings.length === 0) return null;
+          return (
+            <div className="glass rounded-xl p-5 mb-8 border border-purple-500/20 bg-purple-500/5">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-9 h-9 rounded-lg bg-purple-500/10 flex items-center justify-center">
+                  <Bot className="w-5 h-5 text-purple-400" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-semibold text-foreground">Auto-Claim Weekly Digest</h3>
+                  <p className="text-xs text-muted-foreground">Last 7 days</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-2xl font-bold text-purple-400">{autoClaimedBookings.length}</p>
+                  <p className="text-xs text-muted-foreground">Slots auto-claimed</p>
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-green-400">£{totalSavings.toFixed(0)}</p>
+                  <p className="text-xs text-muted-foreground">Total saved</p>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
+
         <Tabs defaultValue="bookings" className="space-y-6">
           <TabsList className="glass">
             <TabsTrigger value="bookings"><ShoppingBag className="w-4 h-4 mr-1" /> My Bookings</TabsTrigger>
