@@ -7,6 +7,13 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+const VALID_PRICES = new Set([
+  "price_1TK1w5Lc6GfbZtLI0TgcaD3d", // Basic $4.99/mo
+  "price_1TK1ewLc6GfbZtLILli58Oja", // Premium $9.99/mo
+  "price_1TK1xFLc6GfbZtLI1sUoI16j", // Premium Annual $99/yr
+  "price_1TK1wtLc6GfbZtLIXW7gotda", // Enterprise $49.99/mo
+]);
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -24,6 +31,13 @@ serve(async (req) => {
     const user = data.user;
     if (!user?.email) throw new Error("User not authenticated or email not available");
 
+    const body = await req.json().catch(() => ({}));
+    const priceId = body.priceId || "price_1TK1ewLc6GfbZtLILli58Oja"; // default to Premium monthly
+
+    if (!VALID_PRICES.has(priceId)) {
+      throw new Error("Invalid price selected");
+    }
+
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2025-08-27.basil",
     });
@@ -37,12 +51,7 @@ serve(async (req) => {
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       customer_email: customerId ? undefined : user.email,
-      line_items: [
-        {
-          price: "price_1TK1ewLc6GfbZtLILli58Oja",
-          quantity: 1,
-        },
-      ],
+      line_items: [{ price: priceId, quantity: 1 }],
       mode: "subscription",
       success_url: `${req.headers.get("origin")}/dashboard?checkout=success`,
       cancel_url: `${req.headers.get("origin")}/#pricing`,
