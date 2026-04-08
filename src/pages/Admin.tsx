@@ -72,7 +72,7 @@ const Admin = () => {
       setStatsLoading(true);
       const [profilesRes, bookingsRes, slotsRes, merchantsRes] = await Promise.all([
         isAdmin ? supabase.from("profiles").select("*").limit(50) : Promise.resolve({ data: [] }),
-        supabase.from("bookings").select("*").order("created_at", { ascending: false }).limit(50),
+        supabase.from("bookings").select("*, slots(original_price, current_price)").order("created_at", { ascending: false }).limit(50),
         supabase.from("slots").select("*").order("created_at", { ascending: false }).limit(100),
         isAdmin ? supabase.from("merchants").select("*").order("created_at", { ascending: false }).limit(100) : Promise.resolve({ data: [] }),
       ]);
@@ -180,6 +180,55 @@ const Admin = () => {
                 <MetricCard icon={Activity} label="Live Slots" value={liveSlots} />
                 <MetricCard icon={TrendingUp} label="Revenue" value={`£${totalRevenue.toLocaleString()}`} />
               </div>
+
+              {/* Auto-Claim Weekly Digest */}
+              {(() => {
+                const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+                const autoClaimedThisWeek = bookings.filter(
+                  (b: any) => b.source === "auto-claim" && new Date(b.created_at) >= weekAgo
+                );
+                const totalAutoClaimed = bookings.filter((b: any) => b.source === "auto-claim");
+                return (
+                  <Card className="bg-card border-border mb-6">
+                    <CardHeader>
+                      <CardTitle className="text-base flex items-center gap-2">
+                        <Bot className="w-5 h-5 text-purple-400" /> Auto-Claim Weekly Digest
+                      </CardTitle>
+                      <CardDescription>Automated slot claims across all users</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div className="text-center p-3 bg-purple-500/10 rounded-lg">
+                          <p className="text-2xl font-bold text-purple-400">{autoClaimedThisWeek.length}</p>
+                          <p className="text-xs text-muted-foreground">This Week</p>
+                        </div>
+                        <div className="text-center p-3 bg-muted/30 rounded-lg">
+                          <p className="text-2xl font-bold text-foreground">{totalAutoClaimed.length}</p>
+                          <p className="text-xs text-muted-foreground">All Time</p>
+                        </div>
+                        <div className="text-center p-3 bg-green-500/10 rounded-lg">
+                          <p className="text-2xl font-bold text-green-400">
+                            £{autoClaimedThisWeek.reduce((sum: number, b: any) => {
+                              const slot = b.slots;
+                              return sum + (slot ? slot.original_price - slot.current_price : 0);
+                            }, 0).toFixed(0)}
+                          </p>
+                          <p className="text-xs text-muted-foreground">Saved This Week</p>
+                        </div>
+                        <div className="text-center p-3 bg-muted/30 rounded-lg">
+                          <p className="text-2xl font-bold text-foreground">
+                            {bookings.length > 0
+                              ? `${Math.round((totalAutoClaimed.length / bookings.length) * 100)}%`
+                              : "0%"}
+                          </p>
+                          <p className="text-xs text-muted-foreground">Auto-Claim Rate</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })()}
+
               <Card className="bg-card border-border">
                 <CardHeader>
                   <CardTitle className="text-base">Booking Status Breakdown</CardTitle>

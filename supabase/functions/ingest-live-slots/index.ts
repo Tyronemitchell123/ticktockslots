@@ -174,6 +174,9 @@ Deno.serve(async (req) => {
           autoClaimed++;
           console.log(`Auto-claimed slot ${slot.id} for user ${rule.user_id} (booking ${bookingId})`);
 
+          // Tag booking as auto-claim
+          await supabase.from("bookings").update({ source: "auto-claim" }).eq("id", bookingId);
+
           // Get user email from auth (via profiles + auth)
           const { data: profile } = await supabase
             .from("profiles")
