@@ -874,19 +874,22 @@ const LiveSlotsFeed = () => {
               const isExpanded = expandedSlotId === slot.id;
               const rating = getSlotRating(slot.id, slot.vertical);
 
+              const isUnicorn = isUnicornSlot(slot);
+              const isGated = isUnicorn && !subscribed;
+
               return (
                 <div
                   key={slot.id}
-                  className="glass rounded-xl overflow-hidden hover:border-primary/30 transition-colors group animate-fade-in"
+                  className={`glass rounded-xl overflow-hidden transition-colors group animate-fade-in ${isGated ? "opacity-80" : "hover:border-primary/30"}`}
                 >
                   <div
                     className="p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 cursor-pointer"
-                    onClick={() => handleClaim(slot)}
+                    onClick={() => isGated ? navigate("/#pricing") : handleClaim(slot)}
                   >
                     <div className="flex items-center gap-4 flex-1">
-                      <div className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center shrink-0">
+                      <div className={`w-12 h-12 rounded-lg flex items-center justify-center shrink-0 ${isUnicorn ? "bg-gradient-to-br from-purple-500/20 to-pink-500/20" : "bg-muted"}`}>
                         <span className="text-lg font-bold text-primary">
-                          {slot.vertical[0]}
+                          {isUnicorn ? "🦄" : slot.vertical[0]}
                         </span>
                       </div>
                       <div>
@@ -894,6 +897,11 @@ const LiveSlotsFeed = () => {
                           <span className="font-semibold text-foreground group-hover:text-primary transition-colors">
                             {slot.merchant}
                           </span>
+                          {isUnicorn && (
+                            <Badge className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border-purple-500/30 text-[9px] py-0 px-1.5">
+                              🦄 Unicorn
+                            </Badge>
+                          )}
                           {slot.isLive && (
                             <Badge variant="outline" className="bg-green-400/10 text-green-400 border-green-400/30 text-[9px] py-0 px-1.5 gap-0.5">
                               <Radio className="w-2.5 h-2.5 animate-countdown" /> {slot.source}
@@ -945,15 +953,27 @@ const LiveSlotsFeed = () => {
                         {slot.urgency === "critical" ? "🔥" : slot.urgency === "high" ? "⚡" : "📌"} {slot.timeLeft}s left
                       </Badge>
 
-                      <div className="text-right">
-                        <div className="text-sm text-muted-foreground line-through">
-                          {formatPriceInCurrency(slot.originalPrice, detectCurrency(slot.location, slot.region), displayCurrency)}
+                      {isGated ? (
+                        <div className="text-right">
+                          <div className="text-sm text-muted-foreground line-through blur-sm select-none">
+                            {formatPriceInCurrency(slot.originalPrice, detectCurrency(slot.location, slot.region), displayCurrency)}
+                          </div>
+                          <div className="text-lg font-bold text-muted-foreground blur-sm select-none flex items-center gap-1">
+                            <TrendingDown className="w-4 h-4" />
+                            {formatPriceInCurrency(slot.currentPrice, detectCurrency(slot.location, slot.region), displayCurrency)}
+                          </div>
                         </div>
-                        <div className="text-lg font-bold text-secondary flex items-center gap-1">
-                          <TrendingDown className="w-4 h-4" />
-                          {formatPriceInCurrency(slot.currentPrice, detectCurrency(slot.location, slot.region), displayCurrency)}
+                      ) : (
+                        <div className="text-right">
+                          <div className="text-sm text-muted-foreground line-through">
+                            {formatPriceInCurrency(slot.originalPrice, detectCurrency(slot.location, slot.region), displayCurrency)}
+                          </div>
+                          <div className="text-lg font-bold text-secondary flex items-center gap-1">
+                            <TrendingDown className="w-4 h-4" />
+                            {formatPriceInCurrency(slot.currentPrice, detectCurrency(slot.location, slot.region), displayCurrency)}
+                          </div>
                         </div>
-                      </div>
+                      )}
 
                       {/* Details toggle */}
                       <button
@@ -994,15 +1014,28 @@ const LiveSlotsFeed = () => {
                         <Heart className={`w-4 h-4 ${savedSlotIds.has(slot.id) ? "fill-current" : ""}`} />
                       </button>
 
-                      <button
-                        className="px-4 py-2 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/80 transition-colors glow-blue"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleClaim(slot);
-                        }}
-                      >
-                        Claim
-                      </button>
+                      {isGated ? (
+                        <button
+                          className="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500/80 to-pink-500/80 text-white font-semibold text-sm hover:from-purple-500 hover:to-pink-500 transition-colors flex items-center gap-1.5"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate("/#pricing");
+                          }}
+                        >
+                          <Lock className="w-3.5 h-3.5" />
+                          Premium
+                        </button>
+                      ) : (
+                        <button
+                          className="px-4 py-2 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/80 transition-colors glow-blue"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleClaim(slot);
+                          }}
+                        >
+                          Claim
+                        </button>
+                      )}
                     </div>
                   </div>
 
