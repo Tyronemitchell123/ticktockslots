@@ -1013,7 +1013,20 @@ const LiveSlotsFeed = () => {
           {/* Desktop pill selector */}
           <div className="hidden sm:flex items-center gap-2 flex-wrap">
             <span className="text-sm mr-1">🏷️</span>
-            {verticals.map((v) => (
+            {/* Pinned Holiday quick-filter */}
+            <button
+              onClick={() => setSelectedVertical(selectedVertical === "Holiday" ? "all" : "Holiday")}
+              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                selectedVertical === "Holiday"
+                  ? "bg-gradient-to-r from-emerald-500 to-cyan-500 text-white shadow-[0_0_12px_-2px_rgba(16,185,129,0.5)]"
+                  : "bg-gradient-to-r from-emerald-500/10 to-cyan-400/10 text-emerald-400 border border-emerald-400/30 hover:border-emerald-400/60 hover:shadow-[0_0_10px_-3px_rgba(16,185,129,0.3)]"
+              }`}
+            >
+              🏝️ Holiday Deals
+              <span className="opacity-80">({verticalCounts["Holiday"] || 0})</span>
+            </button>
+            <div className="w-px h-5 bg-border/40 mx-1" />
+            {verticals.filter(v => v !== "Holiday").map((v) => (
               <button
                 key={v}
                 onClick={() => setSelectedVertical(v)}
