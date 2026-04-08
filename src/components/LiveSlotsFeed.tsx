@@ -993,7 +993,18 @@ const LiveSlotsFeed = () => {
               <>
                 <div className="fixed inset-0 z-30" onClick={() => setVerticalDropdownOpen(false)} />
                 <div className="absolute top-full left-0 right-0 z-40 mt-1 glass rounded-xl border border-border/50 py-1 max-h-64 overflow-y-auto">
-                  {verticals.map((v) => (
+                  {/* Pinned Holiday option */}
+                  <button
+                    onClick={() => { setSelectedVertical(selectedVertical === "Holiday" ? "all" : "Holiday"); setVerticalDropdownOpen(false); }}
+                    className={`w-full px-4 py-2.5 flex items-center justify-between text-sm transition-colors ${
+                      selectedVertical === "Holiday" ? "text-emerald-400 bg-emerald-500/10" : "text-emerald-400/70 hover:bg-emerald-500/5"
+                    }`}
+                  >
+                    <span>🏝️ Holiday Deals</span>
+                    <Badge variant="outline" className="text-[10px] border-emerald-400/30 text-emerald-400">{verticalCounts["Holiday"] || 0}</Badge>
+                  </button>
+                  <div className="h-px bg-border/30 mx-3 my-1" />
+                  {verticals.filter(v => v !== "Holiday").map((v) => (
                     <button
                       key={v}
                       onClick={() => { setSelectedVertical(v); setVerticalDropdownOpen(false); }}
