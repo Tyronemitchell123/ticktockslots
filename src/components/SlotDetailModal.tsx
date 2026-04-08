@@ -52,6 +52,7 @@ const verticalDetails: Record<string, { icon: string; category: string; trustBad
   Legal: { icon: "⚖️", category: "Legal Services", trustBadge: "Regulated Firm" },
   Property: { icon: "🏠", category: "Property & Viewings", trustBadge: "Registered Agent" },
   "Pet Care": { icon: "🐾", category: "Pet Care & Vets", trustBadge: "Licensed Practice" },
+  Holiday: { icon: "🌴", category: "Holidays & Travel", trustBadge: "ATOL Protected" },
 };
 
 type Step = "details" | "confirm" | "success";
