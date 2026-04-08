@@ -169,6 +169,8 @@ function generateSlots(): SlotRow[] {
       ? ["Price drop", "Rental return", "Dealer overstock", "Test drive cancelled"]
       : m.vertical === "Gym"
       ? ["Membership cancelled", "Pass transfer", "Package freed", "Early exit deal"]
+      : m.vertical === "Flights"
+      ? ["Last seat sale", "Error fare", "Upgrade released", "Bundle deal", "Award seat freed"]
       : m.vertical === "Storage"
       ? ["Early exit", "Lease cancelled", "Unit freed", "Overstock clearance"]
       : ["Last-minute cancellation", "Schedule gap", "No-show opening", "Rescheduled client"];
