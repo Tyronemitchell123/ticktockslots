@@ -4,7 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Clock, ArrowLeft, Loader2, CheckCircle } from "lucide-react";
+import { ArrowLeft, Loader2, CheckCircle } from "lucide-react";
+import ticktockLogo from "@/assets/ticktock-logo.png";
 import { useToast } from "@/hooks/use-toast";
 
 const ResetPassword = () => {
