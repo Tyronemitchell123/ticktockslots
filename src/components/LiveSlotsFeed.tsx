@@ -1081,9 +1081,11 @@ const LiveSlotsFeed = () => {
                               ? "bg-gradient-to-br from-blue-500/20 to-sky-400/20 ring-1 ring-blue-400/30"
                               : slot.vertical === "Gym"
                                 ? "bg-gradient-to-br from-orange-500/20 to-amber-400/20 ring-1 ring-orange-400/30"
-                                : isUnicorn
-                                  ? "bg-gradient-to-br from-purple-500/20 to-pink-500/20"
-                                  : "bg-muted"
+                                : slot.vertical === "Flights"
+                                  ? "bg-gradient-to-br from-sky-500/20 to-indigo-400/20 ring-1 ring-sky-400/30"
+                                  : isUnicorn
+                                    ? "bg-gradient-to-br from-purple-500/20 to-pink-500/20"
+                                    : "bg-muted"
                       }`}>
                         <span className="text-lg font-bold text-primary">
                           {slot.vertical === "Holiday" ? "🌴" : slot.vertical === "Wedding" ? "💒" : slot.vertical === "Cars" ? "🚘" : slot.vertical === "Gym" ? "🏋️" : isUnicorn ? "🦄" : slot.vertical[0]}
