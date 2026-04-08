@@ -1039,7 +1039,9 @@ const LiveSlotsFeed = () => {
                         ? "border-pink-400/30 hover:border-pink-400/50 shadow-[0_0_15px_-3px_rgba(244,114,182,0.15)]"
                         : slot.vertical === "Cars"
                           ? "border-blue-400/30 hover:border-blue-400/50 shadow-[0_0_15px_-3px_rgba(96,165,250,0.15)]"
-                          : isGated ? "opacity-80" : "hover:border-primary/30"
+                          : slot.vertical === "Gym"
+                            ? "border-orange-400/30 hover:border-orange-400/50 shadow-[0_0_15px_-3px_rgba(251,146,60,0.15)]"
+                            : isGated ? "opacity-80" : "hover:border-primary/30"
                   }`}
                 >
                   <div
@@ -1054,12 +1056,14 @@ const LiveSlotsFeed = () => {
                             ? "bg-gradient-to-br from-pink-500/20 to-rose-400/20 ring-1 ring-pink-400/30"
                             : slot.vertical === "Cars"
                               ? "bg-gradient-to-br from-blue-500/20 to-sky-400/20 ring-1 ring-blue-400/30"
-                              : isUnicorn
-                                ? "bg-gradient-to-br from-purple-500/20 to-pink-500/20"
-                                : "bg-muted"
+                              : slot.vertical === "Gym"
+                                ? "bg-gradient-to-br from-orange-500/20 to-amber-400/20 ring-1 ring-orange-400/30"
+                                : isUnicorn
+                                  ? "bg-gradient-to-br from-purple-500/20 to-pink-500/20"
+                                  : "bg-muted"
                       }`}>
                         <span className="text-lg font-bold text-primary">
-                          {slot.vertical === "Holiday" ? "🌴" : slot.vertical === "Wedding" ? "💒" : slot.vertical === "Cars" ? "🚘" : isUnicorn ? "🦄" : slot.vertical[0]}
+                          {slot.vertical === "Holiday" ? "🌴" : slot.vertical === "Wedding" ? "💒" : slot.vertical === "Cars" ? "🚘" : slot.vertical === "Gym" ? "🏋️" : isUnicorn ? "🦄" : slot.vertical[0]}
                         </span>
                       </div>
                       <div>

@@ -139,6 +139,12 @@ const sectors = [
     description: "Cancelled wedding venues, caterers, florists, and photographers at huge savings.",
     stat: "2.4K deals/day",
   },
+  {
+    icon: Dumbbell,
+    title: "Gym Memberships",
+    description: "Monthly passes, class packs, and annual memberships from cancellations and early exits.",
+    stat: "8.2K deals/day",
+  },
 ];
 
 const SectorShowcase = () => {
