@@ -388,6 +388,22 @@ const MOCK_SLOTS: Slot[] = [
   { id: "gm10", merchant: "F45 Unlimited Month", vertical: "Gym", location: "Dubai, AE", region: "Middle East", time: "Monthly unlimited freed", originalPrice: 350, currentPrice: 145, urgency: "high", timeLeft: 160 },
   { id: "gm11", merchant: "SoulCycle 20-Pack", vertical: "Gym", location: "Beverly Hills, CA", region: "North America", time: "Ride pack cancelled", originalPrice: 700, currentPrice: 290, urgency: "critical", timeLeft: 30 },
   { id: "gm12", merchant: "David Lloyd Family", vertical: "Gym", location: "Chigwell, London", region: "UK", time: "Family membership freed", originalPrice: 2200, currentPrice: 920, urgency: "high", timeLeft: 250 },
+
+  // ===== TRAVEL & FLIGHTS =====
+  { id: "fl01", merchant: "BA Last Seat Sale", vertical: "Flights", location: "LHR → JFK", region: "UK", time: "Business class freed", originalPrice: 3200, currentPrice: 1350, urgency: "critical", timeLeft: 25 },
+  { id: "fl02", merchant: "Delta Flash Sale", vertical: "Flights", location: "ATL → CDG", region: "North America", time: "Premium economy — 2 seats", originalPrice: 1800, currentPrice: 720, urgency: "critical", timeLeft: 18 },
+  { id: "fl03", merchant: "Emirates Upgrade", vertical: "Flights", location: "DXB → LHR", region: "Middle East", time: "First class unsold", originalPrice: 8500, currentPrice: 3400, urgency: "high", timeLeft: 90 },
+  { id: "fl04", merchant: "Ryanair Error Fare", vertical: "Flights", location: "STN → BCN", region: "Europe", time: "Pricing glitch — grab now", originalPrice: 180, currentPrice: 28, urgency: "critical", timeLeft: 12 },
+  { id: "fl05", merchant: "Marriott + Flight Bundle", vertical: "Flights", location: "London → Dubai", region: "UK", time: "5-night + flights package", originalPrice: 2800, currentPrice: 1150, urgency: "high", timeLeft: 150 },
+  { id: "fl06", merchant: "Hilton + AA Bundle", vertical: "Flights", location: "LAX → MIA", region: "North America", time: "3-night beach + flights", originalPrice: 1600, currentPrice: 680, urgency: "high", timeLeft: 110 },
+  { id: "fl07", merchant: "Singapore Airlines", vertical: "Flights", location: "SIN → SYD", region: "Asia Pacific", time: "Business cancelled seat", originalPrice: 4200, currentPrice: 1750, urgency: "high", timeLeft: 85 },
+  { id: "fl08", merchant: "Lufthansa Last Min", vertical: "Flights", location: "FRA → NRT", region: "Europe", time: "Premium eco — tomorrow", originalPrice: 2200, currentPrice: 890, urgency: "critical", timeLeft: 30 },
+  { id: "fl09", merchant: "IHG + Flight Deal", vertical: "Flights", location: "Manchester → NYC", region: "UK", time: "4-night Times Sq + flights", originalPrice: 1900, currentPrice: 780, urgency: "critical", timeLeft: 22 },
+  { id: "fl10", merchant: "Qatar Airways QSuite", vertical: "Flights", location: "DOH → LHR", region: "Middle East", time: "QSuite released — 1 seat", originalPrice: 6800, currentPrice: 2800, urgency: "high", timeLeft: 120 },
+  { id: "fl11", merchant: "easyJet + Airbnb", vertical: "Flights", location: "LGW → AMS", region: "UK", time: "Weekend city break bundle", originalPrice: 420, currentPrice: 175, urgency: "medium", timeLeft: 280 },
+  { id: "fl12", merchant: "ANA Mileage Flash", vertical: "Flights", location: "NRT → LAX", region: "Asia Pacific", time: "Award seat released", originalPrice: 3800, currentPrice: 1550, urgency: "high", timeLeft: 95 },
+  { id: "fl13", merchant: "Accor + KLM Bundle", vertical: "Flights", location: "AMS → Cape Town", region: "Europe", time: "7-night safari + flights", originalPrice: 3500, currentPrice: 1450, urgency: "high", timeLeft: 200 },
+  { id: "fl14", merchant: "Virgin Atlantic", vertical: "Flights", location: "LHR → LAX", region: "UK", time: "Upper class — 2 seats left", originalPrice: 5200, currentPrice: 2100, urgency: "critical", timeLeft: 35 },
 ];
 
 
@@ -528,6 +544,11 @@ const SLOT_DETAILS: Record<string, { description: string; includes: string[]; id
     description: "Gym membership, class package, or fitness pass freed up by a cancellation or early exit.",
     includes: ["Full membership benefits", "All facilities access", "Class bookings included", "Transferable pass"],
     ideal: "Perfect for fitness enthusiasts wanting premium gym access at a massive discount.",
+  },
+  Flights: {
+    description: "Last-minute flight deal, upgrade, or flight + hotel bundle at a steep discount.",
+    includes: ["Confirmed booking", "Full baggage allowance", "Seat selection included", "Flexible rebooking option"],
+    ideal: "Perfect for spontaneous travellers wanting premium flights and bundles at budget prices.",
   },
 };
 
@@ -1041,7 +1062,9 @@ const LiveSlotsFeed = () => {
                           ? "border-blue-400/30 hover:border-blue-400/50 shadow-[0_0_15px_-3px_rgba(96,165,250,0.15)]"
                           : slot.vertical === "Gym"
                             ? "border-orange-400/30 hover:border-orange-400/50 shadow-[0_0_15px_-3px_rgba(251,146,60,0.15)]"
-                            : isGated ? "opacity-80" : "hover:border-primary/30"
+                            : slot.vertical === "Flights"
+                              ? "border-sky-400/30 hover:border-sky-400/50 shadow-[0_0_15px_-3px_rgba(56,189,248,0.15)]"
+                              : isGated ? "opacity-80" : "hover:border-primary/30"
                   }`}
                 >
                   <div
@@ -1058,12 +1081,14 @@ const LiveSlotsFeed = () => {
                               ? "bg-gradient-to-br from-blue-500/20 to-sky-400/20 ring-1 ring-blue-400/30"
                               : slot.vertical === "Gym"
                                 ? "bg-gradient-to-br from-orange-500/20 to-amber-400/20 ring-1 ring-orange-400/30"
-                                : isUnicorn
-                                  ? "bg-gradient-to-br from-purple-500/20 to-pink-500/20"
-                                  : "bg-muted"
+                                : slot.vertical === "Flights"
+                                  ? "bg-gradient-to-br from-sky-500/20 to-indigo-400/20 ring-1 ring-sky-400/30"
+                                  : isUnicorn
+                                    ? "bg-gradient-to-br from-purple-500/20 to-pink-500/20"
+                                    : "bg-muted"
                       }`}>
                         <span className="text-lg font-bold text-primary">
-                          {slot.vertical === "Holiday" ? "🌴" : slot.vertical === "Wedding" ? "💒" : slot.vertical === "Cars" ? "🚘" : slot.vertical === "Gym" ? "🏋️" : isUnicorn ? "🦄" : slot.vertical[0]}
+                          {slot.vertical === "Holiday" ? "🌴" : slot.vertical === "Wedding" ? "💒" : slot.vertical === "Cars" ? "🚘" : slot.vertical === "Gym" ? "🏋️" : slot.vertical === "Flights" ? "✈️" : isUnicorn ? "🦄" : slot.vertical[0]}
                         </span>
                       </div>
                       <div>
@@ -1094,6 +1119,11 @@ const LiveSlotsFeed = () => {
                           {slot.vertical === "Gym" && (
                             <Badge className="bg-gradient-to-r from-orange-500/20 to-amber-400/20 text-orange-300 border-orange-400/30 text-[9px] py-0 px-1.5 animate-pulse">
                               🏋️ Gym Pass
+                            </Badge>
+                          )}
+                          {slot.vertical === "Flights" && (
+                            <Badge className="bg-gradient-to-r from-sky-500/20 to-indigo-400/20 text-sky-300 border-sky-400/30 text-[9px] py-0 px-1.5 animate-pulse">
+                              ✈️ Flight Deal
                             </Badge>
                           )}
                           {slot.isLive && (
