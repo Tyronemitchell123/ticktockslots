@@ -1,4 +1,4 @@
-import { Clock } from "lucide-react";
+import ticktockLogo from "@/assets/ticktock-logo.png";
 
 const Footer = () => {
   return (
@@ -7,9 +7,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between gap-10">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <Clock className="w-5 h-5 text-primary-foreground" />
-              </div>
+              <img src={ticktockLogo} alt="TickTock Slots" className="w-8 h-8 rounded-lg" />
               <span className="font-bold text-lg text-foreground">TickTock Slots</span>
             </div>
             <p className="text-sm text-muted-foreground max-w-xs">
