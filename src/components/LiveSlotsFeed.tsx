@@ -377,6 +377,11 @@ const SLOT_DETAILS: Record<string, { description: string; includes: string[]; id
     includes: ["Licensed veterinarian/groomer", "Full appointment duration", "Health check included", "Treatment notes provided"],
     ideal: "Great for pet owners needing prompt care without emergency prices.",
   },
+  Holiday: {
+    description: "Last-minute holiday package or hotel room released at a massive discount.",
+    includes: ["Confirmed accommodation", "Original package inclusions", "Flexible check-in", "Resort amenities access"],
+    ideal: "Perfect for spontaneous travellers wanting luxury getaways at budget prices.",
+  },
 };
 
 const SlotSkeleton = () => (
@@ -880,16 +885,26 @@ const LiveSlotsFeed = () => {
               return (
                 <div
                   key={slot.id}
-                  className={`glass rounded-xl overflow-hidden transition-colors group animate-fade-in ${isGated ? "opacity-80" : "hover:border-primary/30"}`}
+                  className={`glass rounded-xl overflow-hidden transition-colors group animate-fade-in ${
+                    slot.vertical === "Holiday"
+                      ? "border-emerald-400/30 hover:border-emerald-400/50 shadow-[0_0_15px_-3px_rgba(16,185,129,0.15)]"
+                      : isGated ? "opacity-80" : "hover:border-primary/30"
+                  }`}
                 >
                   <div
                     className="p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 cursor-pointer"
                     onClick={() => isGated ? navigate("/#pricing") : handleClaim(slot)}
                   >
                     <div className="flex items-center gap-4 flex-1">
-                      <div className={`w-12 h-12 rounded-lg flex items-center justify-center shrink-0 ${isUnicorn ? "bg-gradient-to-br from-purple-500/20 to-pink-500/20" : "bg-muted"}`}>
+                      <div className={`w-12 h-12 rounded-lg flex items-center justify-center shrink-0 ${
+                        slot.vertical === "Holiday"
+                          ? "bg-gradient-to-br from-emerald-500/20 to-cyan-400/20 ring-1 ring-emerald-400/30"
+                          : isUnicorn
+                            ? "bg-gradient-to-br from-purple-500/20 to-pink-500/20"
+                            : "bg-muted"
+                      }`}>
                         <span className="text-lg font-bold text-primary">
-                          {isUnicorn ? "🦄" : slot.vertical[0]}
+                          {slot.vertical === "Holiday" ? "🌴" : isUnicorn ? "🦄" : slot.vertical[0]}
                         </span>
                       </div>
                       <div>
@@ -900,6 +915,11 @@ const LiveSlotsFeed = () => {
                           {isUnicorn && (
                             <Badge className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border-purple-500/30 text-[9px] py-0 px-1.5">
                               🦄 Unicorn
+                            </Badge>
+                          )}
+                          {slot.vertical === "Holiday" && (
+                            <Badge className="bg-gradient-to-r from-emerald-500/20 to-cyan-400/20 text-emerald-300 border-emerald-400/30 text-[9px] py-0 px-1.5 animate-pulse">
+                              🏝️ Holiday Steal
                             </Badge>
                           )}
                           {slot.isLive && (

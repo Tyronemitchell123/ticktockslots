@@ -69,6 +69,17 @@ function generateSlots(): SlotRow[] {
     // Pet Care
     { name: "Battersea Vets", vertical: "Pet Care", location: "London, UK", region: "UK", base: 85, hours: [8, 20] },
     { name: "Banfield Pet Hospital", vertical: "Pet Care", location: "Chicago, IL", region: "North America", base: 120, hours: [14, 1] },
+    // Holidays & Travel
+    { name: "Algarve Beach Resort", vertical: "Holiday", location: "Faro, PT", region: "Europe", base: 899, hours: [0, 24] },
+    { name: "Cancún Paradise Package", vertical: "Holiday", location: "Cancún, MX", region: "Latin America", base: 1200, hours: [0, 24] },
+    { name: "Bali Villa Retreat", vertical: "Holiday", location: "Bali, ID", region: "Asia Pacific", base: 650, hours: [0, 24] },
+    { name: "Santorini Island Escape", vertical: "Holiday", location: "Santorini, GR", region: "Europe", base: 1100, hours: [0, 24] },
+    { name: "Tenerife All-Inclusive", vertical: "Holiday", location: "Tenerife, ES", region: "Europe", base: 599, hours: [0, 24] },
+    { name: "Cotswolds Spa Weekend", vertical: "Holiday", location: "Cheltenham, UK", region: "UK", base: 320, hours: [0, 24] },
+    { name: "Marrakech Riad Escape", vertical: "Holiday", location: "Marrakech, MA", region: "Africa", base: 290, hours: [0, 24] },
+    { name: "Lake Como Boutique Hotel", vertical: "Holiday", location: "Como, IT", region: "Europe", base: 980, hours: [0, 24] },
+    { name: "Dubai Beach Club", vertical: "Holiday", location: "Dubai, AE", region: "Middle East", base: 1500, hours: [0, 24] },
+    { name: "Costa Rica Eco Lodge", vertical: "Holiday", location: "San José, CR", region: "Latin America", base: 480, hours: [0, 24] },
   ];
 
   // Pick merchants whose business hours overlap current UTC hour
@@ -82,10 +93,14 @@ function generateSlots(): SlotRow[] {
   const selected = [...active].sort(() => Math.random() - 0.5).slice(0, count);
 
   for (const m of selected) {
-    const discount = m.vertical === "Aviation" ? 0.5 + Math.random() * 0.25 : 0.2 + Math.random() * 0.35;
+    const discount = m.vertical === "Aviation" ? 0.5 + Math.random() * 0.25
+      : m.vertical === "Holiday" ? 0.55 + Math.random() * 0.25
+      : 0.2 + Math.random() * 0.35;
     const urgencies: Array<"critical" | "high" | "medium"> = ["critical", "high", "medium"];
     const urgency = urgencies[Math.floor(Math.random() * 3)];
-    const reasons = ["Last-minute cancellation", "Schedule gap", "No-show opening", "Rescheduled client"];
+    const reasons = m.vertical === "Holiday"
+      ? ["Last-minute deal", "Unsold package", "Flash sale", "Cancellation release"]
+      : ["Last-minute cancellation", "Schedule gap", "No-show opening", "Rescheduled client"];
     const reason = reasons[Math.floor(Math.random() * reasons.length)];
 
     slots.push({
