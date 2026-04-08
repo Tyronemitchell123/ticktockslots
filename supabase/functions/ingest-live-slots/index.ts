@@ -155,6 +155,7 @@ function generateSlots(): SlotRow[] {
       : m.vertical === "Holiday" ? 0.55 + Math.random() * 0.25
       : m.vertical === "Wedding" ? 0.45 + Math.random() * 0.25
       : m.vertical === "Gym" ? 0.4 + Math.random() * 0.25
+      : m.vertical === "Flights" ? 0.4 + Math.random() * 0.3
       : m.vertical === "Cars" ? 0.2 + Math.random() * 0.2
       : m.vertical === "Storage" ? 0.4 + Math.random() * 0.2
       : 0.2 + Math.random() * 0.35;
