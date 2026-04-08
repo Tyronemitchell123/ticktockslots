@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { User, Session } from "@supabase/supabase-js";
+import { getTierByProductId, type TierKey } from "@/lib/subscription-tiers";
 
 interface AuthContextType {
   user: User | null;
@@ -8,6 +9,7 @@ interface AuthContextType {
   loading: boolean;
   signOut: () => Promise<void>;
   subscribed: boolean;
+  subscriptionTier: TierKey | null;
   subscriptionLoading: boolean;
   subscriptionEnd: string | null;
   checkSubscription: () => Promise<void>;
@@ -19,6 +21,7 @@ const AuthContext = createContext<AuthContextType>({
   loading: true,
   signOut: async () => {},
   subscribed: false,
+  subscriptionTier: null,
   subscriptionLoading: false,
   subscriptionEnd: null,
   checkSubscription: async () => {},
@@ -31,6 +34,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [subscribed, setSubscribed] = useState(false);
+  const [subscriptionTier, setSubscriptionTier] = useState<TierKey | null>(null);
   const [subscriptionLoading, setSubscriptionLoading] = useState(false);
   const [subscriptionEnd, setSubscriptionEnd] = useState<string | null>(null);
 
@@ -47,6 +51,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (!error && data) {
         setSubscribed(data.subscribed ?? false);
         setSubscriptionEnd(data.subscription_end ?? null);
+        setSubscriptionTier(data.product_id ? getTierByProductId(data.product_id) : null);
       }
     } catch {
       // silently fail
@@ -94,7 +99,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, loading, signOut, subscribed, subscriptionLoading, subscriptionEnd, checkSubscription }}>
+    <AuthContext.Provider value={{ user, session, loading, signOut, subscribed, subscriptionTier, subscriptionLoading, subscriptionEnd, checkSubscription }}>
       {children}
     </AuthContext.Provider>
   );

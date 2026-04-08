@@ -177,6 +177,45 @@ export async function fetchFlightSlots(): Promise<LiveSlot[]> {
   return slots;
 }
 
+// ========== HOLIDAYS: Cheap last-minute holiday deals ==========
+
+const HOLIDAY_DEALS = [
+  { name: "Sunny Beach Resort, Algarve", location: "Faro, PT", region: "Europe", base: 899 },
+  { name: "Tropical Paradise Cancún", location: "Cancún, MX", region: "Latin America", base: 1200 },
+  { name: "Bali Retreat Villa", location: "Bali, ID", region: "Asia Pacific", base: 650 },
+  { name: "Maldives Overwater Suite", location: "Malé, MV", region: "Asia Pacific", base: 2800 },
+  { name: "Greek Island Hopper", location: "Santorini, GR", region: "Europe", base: 1100 },
+  { name: "Dubai Beach Club", location: "Dubai, AE", region: "Middle East", base: 1500 },
+  { name: "Lake Como Boutique", location: "Como, IT", region: "Europe", base: 980 },
+  { name: "Cape Town Safari Lodge", location: "Cape Town, ZA", region: "Africa", base: 1350 },
+  { name: "Costa Rica Eco Lodge", location: "San José, CR", region: "Latin America", base: 480 },
+  { name: "Cotswolds Spa Retreat", location: "Cheltenham, UK", region: "UK", base: 320 },
+  { name: "Tenerife All-Inclusive", location: "Tenerife, ES", region: "Europe", base: 599 },
+  { name: "Marrakech Riad Escape", location: "Marrakech, MA", region: "Africa", base: 290 },
+];
+
+export function generateHolidaySlots(): LiveSlot[] {
+  const count = 2 + Math.floor(Math.random() * 3);
+  const picked = [...HOLIDAY_DEALS].sort(() => Math.random() - 0.5).slice(0, count);
+  return picked.map((deal, i) => {
+    const discount = 0.55 + Math.random() * 0.25; // 55-80% off
+    return {
+      id: `holiday-${deal.name.replace(/\s/g, "-")}-${Date.now()}-${i}`,
+      merchant: deal.name,
+      vertical: "Holiday",
+      location: deal.location,
+      region: deal.region,
+      time: `Last-minute — ${Math.floor(1 + Math.random() * 5)} nights`,
+      originalPrice: deal.base,
+      currentPrice: Math.round(deal.base * (1 - discount)),
+      urgency: Math.random() > 0.6 ? "critical" : Math.random() > 0.3 ? "high" : "medium",
+      timeLeft: Math.floor(60 + Math.random() * 600),
+      isLive: true,
+      source: "TickTock Holidays",
+    };
+  });
+}
+
 // ========== COMBINED: Fetch all live data ==========
 
 export async function fetchAllLiveSlots(): Promise<LiveSlot[]> {
@@ -188,5 +227,6 @@ export async function fetchAllLiveSlots(): Promise<LiveSlot[]> {
   const slots: LiveSlot[] = [];
   if (weather.status === "fulfilled") slots.push(...weather.value);
   if (flights.status === "fulfilled") slots.push(...flights.value);
+  slots.push(...generateHolidaySlots());
   return slots;
 }
