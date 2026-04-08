@@ -72,7 +72,7 @@ const Admin = () => {
       setStatsLoading(true);
       const [profilesRes, bookingsRes, slotsRes, merchantsRes] = await Promise.all([
         isAdmin ? supabase.from("profiles").select("*").limit(50) : Promise.resolve({ data: [] }),
-        supabase.from("bookings").select("*").order("created_at", { ascending: false }).limit(50),
+        supabase.from("bookings").select("*, slots(original_price, current_price)").order("created_at", { ascending: false }).limit(50),
         supabase.from("slots").select("*").order("created_at", { ascending: false }).limit(100),
         isAdmin ? supabase.from("merchants").select("*").order("created_at", { ascending: false }).limit(100) : Promise.resolve({ data: [] }),
       ]);
