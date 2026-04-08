@@ -20,6 +20,8 @@ const NotificationCenter = () => {
   const [unread, setUnread] = useState(0);
   const [dismissedAlerts, setDismissedAlerts] = useState<Set<string>>(new Set());
   const priceAlertMatches = usePriceAlertMatches();
+  const { subscribed } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     notificationEngine.requestPermission();
