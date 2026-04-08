@@ -382,6 +382,51 @@ const SLOT_DETAILS: Record<string, { description: string; includes: string[]; id
     includes: ["Confirmed accommodation", "Original package inclusions", "Flexible check-in", "Resort amenities access"],
     ideal: "Perfect for spontaneous travellers wanting luxury getaways at budget prices.",
   },
+  Cars: {
+    description: "Car deal, rental, or test drive slot freed up by a cancellation or price drop.",
+    includes: ["Vehicle as listed", "Full insurance coverage", "Roadside assistance", "Flexible collection"],
+    ideal: "Perfect for drivers wanting premium vehicles at heavily discounted rates.",
+  },
+  Tools: {
+    description: "Tool hire, equipment rental, or workshop slot released from a cancellation.",
+    includes: ["Equipment as specified", "Safety gear included", "Delivery available", "Usage guidance"],
+    ideal: "Great for DIY enthusiasts and tradespeople needing gear at short notice.",
+  },
+  "Home & Garden": {
+    description: "Home improvement or gardening service slot freed up by a rescheduled booking.",
+    includes: ["Qualified professional", "Materials included", "Tidy-up afterwards", "Satisfaction guarantee"],
+    ideal: "Ideal for homeowners wanting quality work without the usual wait.",
+  },
+  Technology: {
+    description: "Tech repair, gadget deal, or setup service slot available from a cancellation.",
+    includes: ["Certified technician", "Genuine parts", "Warranty maintained", "Data protection assured"],
+    ideal: "Great for getting urgent tech issues resolved at reduced rates.",
+  },
+  Sports: {
+    description: "Sports court, facility booking, or coaching session freed up by a no-show.",
+    includes: ["Full session duration", "Equipment available", "Qualified coach", "Changing facilities"],
+    ideal: "Perfect for athletes wanting premium facility time at drop-in prices.",
+  },
+  Cleaning: {
+    description: "Professional cleaning service slot available from a last-minute cancellation.",
+    includes: ["Vetted & insured cleaner", "All products supplied", "Full duration", "Satisfaction guarantee"],
+    ideal: "Ideal for busy households needing a professional clean at short notice.",
+  },
+  Photography: {
+    description: "Photography session or studio hire slot released from a rescheduled shoot.",
+    includes: ["Professional photographer", "Studio/location access", "Basic editing included", "Digital delivery"],
+    ideal: "Perfect for capturing special moments at a fraction of regular rates.",
+  },
+  Childcare: {
+    description: "Nursery place, childminder, or activity session freed up by a cancellation.",
+    includes: ["Registered provider", "Full session length", "Meals/snacks included", "Activity programme"],
+    ideal: "Great for parents needing reliable childcare at short notice.",
+  },
+  Storage: {
+    description: "Self-storage unit available from a lease cancellation or early exit.",
+    includes: ["Secure unit", "24/7 access", "Insurance option", "Flexible contract"],
+    ideal: "Ideal for anyone needing storage space without the usual premium.",
+  },
 };
 
 const SlotSkeleton = () => (
