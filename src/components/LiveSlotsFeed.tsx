@@ -402,9 +402,15 @@ const SlotSkeleton = () => (
   </div>
 );
 
+const UNICORN_IDS = new Set(["907", "920", "924", "930", "201", "300", "312", "800", "950", "700"]);
+
+const isUnicornSlot = (slot: Slot) => UNICORN_IDS.has(slot.id) || (slot.originalPrice > 0 && ((slot.originalPrice - slot.currentPrice) / slot.originalPrice) > 0.55);
+
 const LiveSlotsFeed = () => {
   const { savedSlotIds, toggleSave } = useSavedSlots();
   const { toast } = useToast();
+  const { subscribed } = useAuth();
+  const navigate = useNavigate();
   const [slots, setSlots] = useState(MOCK_SLOTS);
   const [initialLoading, setInitialLoading] = useState(true);
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
