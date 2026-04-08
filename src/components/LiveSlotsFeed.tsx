@@ -545,6 +545,11 @@ const SLOT_DETAILS: Record<string, { description: string; includes: string[]; id
     includes: ["Full membership benefits", "All facilities access", "Class bookings included", "Transferable pass"],
     ideal: "Perfect for fitness enthusiasts wanting premium gym access at a massive discount.",
   },
+  Flights: {
+    description: "Last-minute flight deal, upgrade, or flight + hotel bundle at a steep discount.",
+    includes: ["Confirmed booking", "Full baggage allowance", "Seat selection included", "Flexible rebooking option"],
+    ideal: "Perfect for spontaneous travellers wanting premium flights and bundles at budget prices.",
+  },
 };
 
 const SlotSkeleton = () => (
