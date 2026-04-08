@@ -52,14 +52,15 @@ export const VerticalScene: React.FC<VerticalSceneProps> = ({
   const floatY = Math.sin(frame * 0.06) * 6;
 
   // Bottom progress dots
+  const totalDots = 10;
   const dots = (
     <div style={{
       position: "absolute", bottom: 50, left: "50%",
-      transform: "translateX(-50%)", display: "flex", gap: 8,
+      transform: "translateX(-50%)", display: "flex", gap: 6,
     }}>
-      {[0, 1, 2, 3, 4, 5].map((i) => (
+      {Array.from({ length: totalDots }).map((_, i) => (
         <div key={i} style={{
-          width: i === index ? 40 : 8, height: 4, borderRadius: 2,
+          width: i === index ? 32 : 6, height: 4, borderRadius: 2,
           backgroundColor: i === index ? accentColor : "rgba(148,163,184,0.3)",
           transition: "none",
         }} />
