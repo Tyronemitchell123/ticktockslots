@@ -63,6 +63,7 @@ const verticalDetails: Record<string, { icon: string; category: string; trustBad
   Childcare: { icon: "👶", category: "Childcare & Nursery", trustBadge: "Ofsted Registered" },
   Storage: { icon: "📦", category: "Self Storage", trustBadge: "SSA Accredited" },
   Wedding: { icon: "💒", category: "Weddings & Events", trustBadge: "Approved Venue" },
+  Gym: { icon: "🏋️", category: "Gym Memberships", trustBadge: "Registered Facility" },
 };
 
 type Step = "details" | "confirm" | "success";

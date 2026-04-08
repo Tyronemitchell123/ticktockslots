@@ -120,6 +120,15 @@ function generateSlots(): SlotRow[] {
     { name: "Bloom & Wild Florals", vertical: "Wedding", location: "London, UK", region: "UK", base: 3500, hours: [0, 24] },
     { name: "Amalfi Coast Venue", vertical: "Wedding", location: "Ravello, IT", region: "Europe", base: 25000, hours: [0, 24] },
     { name: "Cliveden House Wedding", vertical: "Wedding", location: "Berkshire, UK", region: "UK", base: 32000, hours: [0, 24] },
+    // Gym Memberships
+    { name: "PureGym Annual Pass", vertical: "Gym", location: "London, UK", region: "UK", base: 299, hours: [0, 24] },
+    { name: "Equinox All Access", vertical: "Gym", location: "New York, NY", region: "North America", base: 3600, hours: [0, 24] },
+    { name: "Virgin Active Gold", vertical: "Gym", location: "London, UK", region: "UK", base: 540, hours: [0, 24] },
+    { name: "ClassPass 50 Credits", vertical: "Gym", location: "Los Angeles, CA", region: "North America", base: 199, hours: [0, 24] },
+    { name: "Barry's 10-Pack", vertical: "Gym", location: "London, UK", region: "UK", base: 250, hours: [0, 24] },
+    { name: "McFIT Quarterly", vertical: "Gym", location: "Berlin, DE", region: "Europe", base: 120, hours: [0, 24] },
+    { name: "Anytime Fitness Pass", vertical: "Gym", location: "Sydney, AU", region: "Asia Pacific", base: 480, hours: [0, 24] },
+    { name: "F45 Unlimited Month", vertical: "Gym", location: "Dubai, AE", region: "Middle East", base: 350, hours: [0, 24] },
   ];
 
   // Pick merchants whose business hours overlap current UTC hour
@@ -136,6 +145,7 @@ function generateSlots(): SlotRow[] {
     const discount = m.vertical === "Aviation" ? 0.5 + Math.random() * 0.25
       : m.vertical === "Holiday" ? 0.55 + Math.random() * 0.25
       : m.vertical === "Wedding" ? 0.45 + Math.random() * 0.25
+      : m.vertical === "Gym" ? 0.4 + Math.random() * 0.25
       : m.vertical === "Cars" ? 0.2 + Math.random() * 0.2
       : m.vertical === "Storage" ? 0.4 + Math.random() * 0.2
       : 0.2 + Math.random() * 0.35;
@@ -147,6 +157,8 @@ function generateSlots(): SlotRow[] {
       ? ["Date cancelled", "Postponement", "Vendor freed", "Package released"]
       : m.vertical === "Cars"
       ? ["Price drop", "Rental return", "Dealer overstock", "Test drive cancelled"]
+      : m.vertical === "Gym"
+      ? ["Membership cancelled", "Pass transfer", "Package freed", "Early exit deal"]
       : m.vertical === "Storage"
       ? ["Early exit", "Lease cancelled", "Unit freed", "Overstock clearance"]
       : ["Last-minute cancellation", "Schedule gap", "No-show opening", "Rescheduled client"];
