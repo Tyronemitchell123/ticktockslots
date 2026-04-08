@@ -491,6 +491,11 @@ const SLOT_DETAILS: Record<string, { description: string; includes: string[]; id
     includes: ["Secure unit", "24/7 access", "Insurance option", "Flexible contract"],
     ideal: "Ideal for anyone needing storage space without the usual premium.",
   },
+  Wedding: {
+    description: "Wedding venue, vendor, or service slot freed up by a postponement or cancellation.",
+    includes: ["Confirmed date & venue", "Original package inclusions", "Dedicated coordinator", "Setup & teardown included"],
+    ideal: "Perfect for couples wanting dream weddings at a fraction of the price.",
+  },
 };
 
 const SlotSkeleton = () => (
