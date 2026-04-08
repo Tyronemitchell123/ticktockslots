@@ -418,6 +418,20 @@ const MOCK_SLOTS: Slot[] = [
   { id: "lx10", merchant: "Harvey Nichols Sale", vertical: "Luxury", location: "Leeds, UK", region: "UK", time: "Burberry trench — ex-display", originalPrice: 1990, currentPrice: 790, urgency: "high", timeLeft: 200 },
   { id: "lx11", merchant: "Rebag Authenticated", vertical: "Luxury", location: "Miami, FL", region: "North America", time: "Louis Vuitton — verified", originalPrice: 3800, currentPrice: 1550, urgency: "critical", timeLeft: 22 },
   { id: "lx12", merchant: "Dubai Mall Luxury", vertical: "Luxury", location: "Dubai, AE", region: "Middle East", time: "Cartier bracelet — return", originalPrice: 7200, currentPrice: 2900, urgency: "high", timeLeft: 110 },
+
+  // ===== FOOD & GROCERY =====
+  { id: "fg01", merchant: "Too Good To Go", vertical: "Food", location: "London, UK", region: "UK", time: "Restaurant surplus bag", originalPrice: 25, currentPrice: 8, urgency: "critical", timeLeft: 15 },
+  { id: "fg02", merchant: "HelloFresh Cancelled", vertical: "Food", location: "Manchester, UK", region: "UK", time: "Meal kit — subscriber exit", originalPrice: 50, currentPrice: 18, urgency: "high", timeLeft: 90 },
+  { id: "fg03", merchant: "OLIO Community", vertical: "Food", location: "Birmingham, UK", region: "UK", time: "Bakery surplus — today only", originalPrice: 18, currentPrice: 5, urgency: "critical", timeLeft: 20 },
+  { id: "fg04", merchant: "Costco Wholesale", vertical: "Food", location: "Watford, UK", region: "UK", time: "Bulk clearance — short date", originalPrice: 120, currentPrice: 42, urgency: "high", timeLeft: 180 },
+  { id: "fg05", merchant: "Gousto Box Cancel", vertical: "Food", location: "London, UK", region: "UK", time: "3-recipe box — unclaimed", originalPrice: 35, currentPrice: 12, urgency: "critical", timeLeft: 25 },
+  { id: "fg06", merchant: "Whole Foods Surplus", vertical: "Food", location: "New York, NY", region: "North America", time: "Organic produce clearance", originalPrice: 60, currentPrice: 22, urgency: "critical", timeLeft: 18 },
+  { id: "fg07", merchant: "Oddbox Veg Rescue", vertical: "Food", location: "London, UK", region: "UK", time: "Wonky veg box — extra stock", originalPrice: 15, currentPrice: 5, urgency: "high", timeLeft: 120 },
+  { id: "fg08", merchant: "Marks & Spencer Food", vertical: "Food", location: "Leeds, UK", region: "UK", time: "Dine-in deal — overstock", originalPrice: 20, currentPrice: 8, urgency: "high", timeLeft: 60 },
+  { id: "fg09", merchant: "Instacart Flash", vertical: "Food", location: "Los Angeles, CA", region: "North America", time: "Grocery bundle — cancelled order", originalPrice: 85, currentPrice: 32, urgency: "high", timeLeft: 95 },
+  { id: "fg10", merchant: "Abel & Cole Organic", vertical: "Food", location: "Bristol, UK", region: "UK", time: "Organic box — subscriber pause", originalPrice: 28, currentPrice: 10, urgency: "critical", timeLeft: 30 },
+  { id: "fg11", merchant: "Carrefour Clearance", vertical: "Food", location: "Paris, FR", region: "Europe", time: "Short-date premium goods", originalPrice: 45, currentPrice: 15, urgency: "critical", timeLeft: 22 },
+  { id: "fg12", merchant: "Spinneys Surplus", vertical: "Food", location: "Dubai, AE", region: "Middle East", time: "Gourmet deli clearance", originalPrice: 70, currentPrice: 25, urgency: "high", timeLeft: 110 },
 ];
 
 
@@ -568,6 +582,11 @@ const SLOT_DETAILS: Record<string, { description: string; includes: string[]; id
     description: "Authenticated designer goods, luxury watches, and high-end fashion from sample sales and verified returns.",
     includes: ["Certificate of authenticity", "Original packaging", "Return guarantee", "Expert verification"],
     ideal: "Perfect for style-conscious shoppers wanting luxury brands at a fraction of retail.",
+  },
+  Food: {
+    description: "Restaurant surplus, cancelled meal kits, and wholesale grocery clearance at massive savings.",
+    includes: ["Quality guaranteed", "Same-day collection", "Full product details", "Freshness assured"],
+    ideal: "Great for food lovers wanting premium groceries and meals at a fraction of the price.",
   },
 };
 
