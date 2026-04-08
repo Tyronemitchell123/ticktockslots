@@ -1196,6 +1196,11 @@ const LiveSlotsFeed = () => {
                               ✈️ Flight Deal
                             </Badge>
                           )}
+                          {slot.vertical === "Food" && (
+                            <Badge className="bg-gradient-to-r from-lime-500/20 to-green-400/20 text-lime-300 border-lime-400/30 text-[9px] py-0 px-1.5 animate-pulse">
+                              🥗 Food Deal
+                            </Badge>
+                          )}
                           {slot.vertical === "Luxury" && (
                             <Badge className="bg-gradient-to-r from-amber-500/20 to-yellow-400/20 text-amber-300 border-amber-400/30 text-[9px] py-0 px-1.5 animate-pulse">
                               💎 Luxury Deal

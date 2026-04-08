@@ -1,4 +1,4 @@
-import { Scissors, Plane, Ship, Utensils, Stethoscope, Truck, GraduationCap, Ticket, Car, Scale, Building, PawPrint, Palmtree, Wrench, Laptop, Trophy, SprayCan, Camera, Baby, Package, Home, Heart, Dumbbell, PlaneTakeoff, Gem } from "lucide-react";
+import { Scissors, Plane, Ship, Utensils, Stethoscope, Truck, GraduationCap, Ticket, Car, Scale, Building, PawPrint, Palmtree, Wrench, Laptop, Trophy, SprayCan, Camera, Baby, Package, Home, Heart, Dumbbell, PlaneTakeoff, Gem, Apple } from "lucide-react";
 
 const sectors = [
   {
