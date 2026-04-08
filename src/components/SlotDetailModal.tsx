@@ -53,6 +53,15 @@ const verticalDetails: Record<string, { icon: string; category: string; trustBad
   Property: { icon: "🏠", category: "Property & Viewings", trustBadge: "Registered Agent" },
   "Pet Care": { icon: "🐾", category: "Pet Care & Vets", trustBadge: "Licensed Practice" },
   Holiday: { icon: "🌴", category: "Holidays & Travel", trustBadge: "ATOL Protected" },
+  Cars: { icon: "🚘", category: "Car Deals & Rentals", trustBadge: "DVLA Verified" },
+  Tools: { icon: "🔧", category: "Tools & Hardware", trustBadge: "Trade Certified" },
+  "Home & Garden": { icon: "🏡", category: "Home & Garden Services", trustBadge: "TrustMark Approved" },
+  Technology: { icon: "💻", category: "Tech & Gadgets", trustBadge: "Manufacturer Authorised" },
+  Sports: { icon: "⚽", category: "Sports & Recreation", trustBadge: "Certified Facility" },
+  Cleaning: { icon: "🧹", category: "Cleaning Services", trustBadge: "Vetted & Insured" },
+  Photography: { icon: "📸", category: "Photography & Studios", trustBadge: "Professional Member" },
+  Childcare: { icon: "👶", category: "Childcare & Nursery", trustBadge: "Ofsted Registered" },
+  Storage: { icon: "📦", category: "Self Storage", trustBadge: "SSA Accredited" },
 };
 
 type Step = "details" | "confirm" | "success";

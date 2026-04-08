@@ -296,6 +296,70 @@ const MOCK_SLOTS: Slot[] = [
   { id: "950", merchant: "Ossiano Restaurant", vertical: "Dining", location: "Atlantis, Dubai", region: "Middle East", time: "9:00 PM Today", originalPrice: 550, currentPrice: 280, urgency: "critical", timeLeft: 22 },
   { id: "951", merchant: "Amara Spa Dubai", vertical: "Beauty", location: "JBR, Dubai", region: "Middle East", time: "11:00 AM Today", originalPrice: 300, currentPrice: 135, urgency: "high", timeLeft: 85 },
   { id: "952", merchant: "Saudi German Hospital", vertical: "Health", location: "Jeddah, SA", region: "Middle East", time: "10:00 AM Tomorrow", originalPrice: 280, currentPrice: 125, urgency: "medium", timeLeft: 370 },
+
+  // ===== CARS & VEHICLES =====
+  { id: "c01", merchant: "CarMax Clearance", vertical: "Cars", location: "Dallas, TX", region: "North America", time: "Test drive cancelled", originalPrice: 28500, currentPrice: 22800, urgency: "high", timeLeft: 240 },
+  { id: "c02", merchant: "Enterprise Car Sales", vertical: "Cars", location: "Chicago, IL", region: "North America", time: "Rental return — like new", originalPrice: 18000, currentPrice: 11900, urgency: "critical", timeLeft: 45 },
+  { id: "c03", merchant: "Arnold Clark Cars", vertical: "Cars", location: "Glasgow, UK", region: "UK", time: "Dealer overstock — must go", originalPrice: 15995, currentPrice: 10500, urgency: "critical", timeLeft: 30 },
+  { id: "c04", merchant: "AutoTrader Premium", vertical: "Cars", location: "London, UK", region: "UK", time: "Price drop — 1 owner", originalPrice: 24000, currentPrice: 17500, urgency: "high", timeLeft: 180 },
+  { id: "c05", merchant: "Sixt Rent Cancellation", vertical: "Cars", location: "Berlin, DE", region: "Europe", time: "7-day rental slot freed", originalPrice: 490, currentPrice: 220, urgency: "high", timeLeft: 120 },
+  { id: "c06", merchant: "Toyota Pre-Owned", vertical: "Cars", location: "Tokyo, JP", region: "Asia Pacific", time: "Trade-in clearance", originalPrice: 19800, currentPrice: 13200, urgency: "medium", timeLeft: 350 },
+  { id: "c07", merchant: "Hertz Gold Upgrade", vertical: "Cars", location: "Miami, FL", region: "North America", time: "Free upgrade available", originalPrice: 380, currentPrice: 165, urgency: "critical", timeLeft: 22 },
+  { id: "c08", merchant: "Cazoo Express", vertical: "Cars", location: "Manchester, UK", region: "UK", time: "Cancelled delivery slot", originalPrice: 22000, currentPrice: 15800, urgency: "high", timeLeft: 200 },
+
+  // ===== TOOLS & HARDWARE =====
+  { id: "t01", merchant: "HSS Hire", vertical: "Tools", location: "Birmingham, UK", region: "UK", time: "Cancelled hire — power tools", originalPrice: 85, currentPrice: 35, urgency: "high", timeLeft: 120 },
+  { id: "t02", merchant: "Sunbelt Rentals", vertical: "Tools", location: "Atlanta, GA", region: "North America", time: "Excavator slot freed", originalPrice: 450, currentPrice: 195, urgency: "medium", timeLeft: 300 },
+  { id: "t03", merchant: "Travis Perkins", vertical: "Tools", location: "Leeds, UK", region: "UK", time: "Workshop cancelled", originalPrice: 120, currentPrice: 48, urgency: "critical", timeLeft: 28 },
+  { id: "t04", merchant: "Hilti Centre", vertical: "Tools", location: "Munich, DE", region: "Europe", time: "Demo unit clearance", originalPrice: 680, currentPrice: 290, urgency: "high", timeLeft: 160 },
+  { id: "t05", merchant: "Home Depot Rental", vertical: "Tools", location: "Houston, TX", region: "North America", time: "Pressure washer freed", originalPrice: 95, currentPrice: 38, urgency: "high", timeLeft: 85 },
+
+  // ===== HOME & GARDEN =====
+  { id: "hg01", merchant: "Pimlico Plumbers", vertical: "Home & Garden", location: "London, UK", region: "UK", time: "Emergency slot freed", originalPrice: 180, currentPrice: 75, urgency: "critical", timeLeft: 18 },
+  { id: "hg02", merchant: "HomeServe", vertical: "Home & Garden", location: "Bristol, UK", region: "UK", time: "Boiler service cancelled", originalPrice: 120, currentPrice: 52, urgency: "high", timeLeft: 95 },
+  { id: "hg03", merchant: "TaskRabbit Pro", vertical: "Home & Garden", location: "New York, NY", region: "North America", time: "Handyman slot freed", originalPrice: 95, currentPrice: 42, urgency: "high", timeLeft: 70 },
+  { id: "hg04", merchant: "Flymo Lawn Service", vertical: "Home & Garden", location: "Surrey, UK", region: "UK", time: "Garden maintenance gap", originalPrice: 80, currentPrice: 32, urgency: "medium", timeLeft: 280 },
+  { id: "hg05", merchant: "Mr. Electric", vertical: "Home & Garden", location: "Dallas, TX", region: "North America", time: "Electrician no-show", originalPrice: 220, currentPrice: 95, urgency: "critical", timeLeft: 35 },
+  { id: "hg06", merchant: "Jardiland", vertical: "Home & Garden", location: "Paris, FR", region: "Europe", time: "Landscaping cancelled", originalPrice: 350, currentPrice: 150, urgency: "high", timeLeft: 140 },
+
+  // ===== TECHNOLOGY =====
+  { id: "tc01", merchant: "Apple Genius Bar", vertical: "Technology", location: "Regent St, London", region: "UK", time: "Repair slot freed", originalPrice: 149, currentPrice: 65, urgency: "critical", timeLeft: 25 },
+  { id: "tc02", merchant: "Samsung Service", vertical: "Technology", location: "Seoul, KR", region: "Asia Pacific", time: "Screen repair cancelled", originalPrice: 220, currentPrice: 95, urgency: "high", timeLeft: 90 },
+  { id: "tc03", merchant: "Best Buy Geek Squad", vertical: "Technology", location: "Los Angeles, CA", region: "North America", time: "Setup appointment freed", originalPrice: 180, currentPrice: 78, urgency: "high", timeLeft: 110 },
+  { id: "tc04", merchant: "Currys Tech Team", vertical: "Technology", location: "Manchester, UK", region: "UK", time: "TV setup cancelled", originalPrice: 99, currentPrice: 42, urgency: "medium", timeLeft: 280 },
+  { id: "tc05", merchant: "MediaMarkt Repair", vertical: "Technology", location: "Berlin, DE", region: "Europe", time: "Laptop fix slot freed", originalPrice: 160, currentPrice: 68, urgency: "high", timeLeft: 75 },
+
+  // ===== SPORTS & RECREATION =====
+  { id: "sp01", merchant: "David Lloyd Club", vertical: "Sports", location: "Chigwell, London", region: "UK", time: "Tennis court freed", originalPrice: 45, currentPrice: 18, urgency: "critical", timeLeft: 20 },
+  { id: "sp02", merchant: "Chelsea Piers", vertical: "Sports", location: "Manhattan, NY", region: "North America", time: "Basketball court no-show", originalPrice: 120, currentPrice: 52, urgency: "high", timeLeft: 65 },
+  { id: "sp03", merchant: "Topgolf Dallas", vertical: "Sports", location: "Dallas, TX", region: "North America", time: "Bay cancelled", originalPrice: 65, currentPrice: 28, urgency: "high", timeLeft: 80 },
+  { id: "sp04", merchant: "All England Club", vertical: "Sports", location: "Wimbledon, London", region: "UK", time: "Coaching slot freed", originalPrice: 95, currentPrice: 38, urgency: "critical", timeLeft: 15 },
+  { id: "sp05", merchant: "Roland Garros Club", vertical: "Sports", location: "Paris, FR", region: "Europe", time: "Clay court available", originalPrice: 80, currentPrice: 32, urgency: "high", timeLeft: 100 },
+  { id: "sp06", merchant: "Bondi Surf School", vertical: "Sports", location: "Sydney, AU", region: "Asia Pacific", time: "Surf lesson cancelled", originalPrice: 85, currentPrice: 35, urgency: "medium", timeLeft: 250 },
+
+  // ===== CLEANING =====
+  { id: "cl01", merchant: "Molly Maid", vertical: "Cleaning", location: "London, UK", region: "UK", time: "Deep clean cancelled", originalPrice: 150, currentPrice: 62, urgency: "critical", timeLeft: 22 },
+  { id: "cl02", merchant: "Merry Maids", vertical: "Cleaning", location: "Chicago, IL", region: "North America", time: "Office clean no-show", originalPrice: 200, currentPrice: 85, urgency: "high", timeLeft: 75 },
+  { id: "cl03", merchant: "Hassle.com", vertical: "Cleaning", location: "Bristol, UK", region: "UK", time: "End-of-tenancy freed", originalPrice: 280, currentPrice: 120, urgency: "high", timeLeft: 95 },
+  { id: "cl04", merchant: "Helpling", vertical: "Cleaning", location: "Berlin, DE", region: "Europe", time: "Weekly slot freed", originalPrice: 60, currentPrice: 25, urgency: "medium", timeLeft: 320 },
+
+  // ===== PHOTOGRAPHY =====
+  { id: "ph01", merchant: "Venture Photography", vertical: "Photography", location: "London, UK", region: "UK", time: "Family shoot cancelled", originalPrice: 350, currentPrice: 145, urgency: "critical", timeLeft: 28 },
+  { id: "ph02", merchant: "Portrait Innovations", vertical: "Photography", location: "Atlanta, GA", region: "North America", time: "Studio slot freed", originalPrice: 180, currentPrice: 75, urgency: "high", timeLeft: 90 },
+  { id: "ph03", merchant: "Flytographer", vertical: "Photography", location: "Paris, FR", region: "Europe", time: "Couples shoot cancelled", originalPrice: 420, currentPrice: 180, urgency: "high", timeLeft: 110 },
+  { id: "ph04", merchant: "Max Spielmann", vertical: "Photography", location: "Manchester, UK", region: "UK", time: "Passport photo express", originalPrice: 15, currentPrice: 6, urgency: "medium", timeLeft: 200 },
+
+  // ===== CHILDCARE =====
+  { id: "cc01", merchant: "Bright Horizons", vertical: "Childcare", location: "London, UK", region: "UK", time: "Nursery place freed", originalPrice: 85, currentPrice: 35, urgency: "critical", timeLeft: 30 },
+  { id: "cc02", merchant: "KinderCare", vertical: "Childcare", location: "Los Angeles, CA", region: "North America", time: "After-school slot open", originalPrice: 65, currentPrice: 28, urgency: "high", timeLeft: 85 },
+  { id: "cc03", merchant: "Busy Bees", vertical: "Childcare", location: "Birmingham, UK", region: "UK", time: "Holiday club place", originalPrice: 45, currentPrice: 18, urgency: "high", timeLeft: 120 },
+  { id: "cc04", merchant: "Kids Club Dubai", vertical: "Childcare", location: "Dubai, AE", region: "Middle East", time: "Activity session freed", originalPrice: 120, currentPrice: 50, urgency: "medium", timeLeft: 200 },
+
+  // ===== STORAGE =====
+  { id: "st01", merchant: "Big Yellow Storage", vertical: "Storage", location: "London, UK", region: "UK", time: "10x10 unit — early exit", originalPrice: 180, currentPrice: 75, urgency: "high", timeLeft: 350 },
+  { id: "st02", merchant: "Public Storage", vertical: "Storage", location: "New York, NY", region: "North America", time: "Climate unit cancelled", originalPrice: 250, currentPrice: 105, urgency: "high", timeLeft: 280 },
+  { id: "st03", merchant: "Safestore", vertical: "Storage", location: "Manchester, UK", region: "UK", time: "Business unit freed", originalPrice: 320, currentPrice: 135, urgency: "medium", timeLeft: 400 },
+  { id: "st04", merchant: "Extra Space Sydney", vertical: "Storage", location: "Sydney, AU", region: "Asia Pacific", time: "Garage unit available", originalPrice: 200, currentPrice: 82, urgency: "high", timeLeft: 300 },
 ];
 
 
@@ -381,6 +445,51 @@ const SLOT_DETAILS: Record<string, { description: string; includes: string[]; id
     description: "Last-minute holiday package or hotel room released at a massive discount.",
     includes: ["Confirmed accommodation", "Original package inclusions", "Flexible check-in", "Resort amenities access"],
     ideal: "Perfect for spontaneous travellers wanting luxury getaways at budget prices.",
+  },
+  Cars: {
+    description: "Car deal, rental, or test drive slot freed up by a cancellation or price drop.",
+    includes: ["Vehicle as listed", "Full insurance coverage", "Roadside assistance", "Flexible collection"],
+    ideal: "Perfect for drivers wanting premium vehicles at heavily discounted rates.",
+  },
+  Tools: {
+    description: "Tool hire, equipment rental, or workshop slot released from a cancellation.",
+    includes: ["Equipment as specified", "Safety gear included", "Delivery available", "Usage guidance"],
+    ideal: "Great for DIY enthusiasts and tradespeople needing gear at short notice.",
+  },
+  "Home & Garden": {
+    description: "Home improvement or gardening service slot freed up by a rescheduled booking.",
+    includes: ["Qualified professional", "Materials included", "Tidy-up afterwards", "Satisfaction guarantee"],
+    ideal: "Ideal for homeowners wanting quality work without the usual wait.",
+  },
+  Technology: {
+    description: "Tech repair, gadget deal, or setup service slot available from a cancellation.",
+    includes: ["Certified technician", "Genuine parts", "Warranty maintained", "Data protection assured"],
+    ideal: "Great for getting urgent tech issues resolved at reduced rates.",
+  },
+  Sports: {
+    description: "Sports court, facility booking, or coaching session freed up by a no-show.",
+    includes: ["Full session duration", "Equipment available", "Qualified coach", "Changing facilities"],
+    ideal: "Perfect for athletes wanting premium facility time at drop-in prices.",
+  },
+  Cleaning: {
+    description: "Professional cleaning service slot available from a last-minute cancellation.",
+    includes: ["Vetted & insured cleaner", "All products supplied", "Full duration", "Satisfaction guarantee"],
+    ideal: "Ideal for busy households needing a professional clean at short notice.",
+  },
+  Photography: {
+    description: "Photography session or studio hire slot released from a rescheduled shoot.",
+    includes: ["Professional photographer", "Studio/location access", "Basic editing included", "Digital delivery"],
+    ideal: "Perfect for capturing special moments at a fraction of regular rates.",
+  },
+  Childcare: {
+    description: "Nursery place, childminder, or activity session freed up by a cancellation.",
+    includes: ["Registered provider", "Full session length", "Meals/snacks included", "Activity programme"],
+    ideal: "Great for parents needing reliable childcare at short notice.",
+  },
+  Storage: {
+    description: "Self-storage unit available from a lease cancellation or early exit.",
+    includes: ["Secure unit", "24/7 access", "Insurance option", "Flexible contract"],
+    ideal: "Ideal for anyone needing storage space without the usual premium.",
   },
 };
 

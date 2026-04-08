@@ -1,4 +1,4 @@
-import { Scissors, Plane, Ship, Utensils, Stethoscope, Truck, GraduationCap, Ticket, Car, Scale, Home, PawPrint, Palmtree } from "lucide-react";
+import { Scissors, Plane, Ship, Utensils, Stethoscope, Truck, GraduationCap, Ticket, Car, Scale, Building, PawPrint, Palmtree, Wrench, Laptop, Trophy, SprayCan, Camera, Baby, Package, Home } from "lucide-react";
 
 const sectors = [
   {
@@ -62,7 +62,7 @@ const sectors = [
     stat: "1.8K slots/day",
   },
   {
-    icon: Home,
+    icon: Building,
     title: "Property & Viewings",
     description: "Estate agent viewings, surveys, and valuations filled from dropped bookings.",
     stat: "2.5K slots/day",
@@ -78,6 +78,60 @@ const sectors = [
     title: "Holidays & Travel",
     description: "Last-minute holiday packages, hotel rooms, and tour slots at up to 80% off.",
     stat: "9K deals/day",
+  },
+  {
+    icon: Car,
+    title: "Car Deals & Rentals",
+    description: "Cancelled test drives, rental returns, and dealer overstock at massive discounts.",
+    stat: "4.2K deals/day",
+  },
+  {
+    icon: Wrench,
+    title: "Tools & Hardware",
+    description: "Tool hire, equipment rental, and workshop slots freed up by cancellations.",
+    stat: "2.8K slots/day",
+  },
+  {
+    icon: Home,
+    title: "Home & Garden",
+    description: "Plumbers, electricians, landscapers — cancelled appointments filled instantly.",
+    stat: "6.5K slots/day",
+  },
+  {
+    icon: Laptop,
+    title: "Technology",
+    description: "Tech repairs, gadget trade-ins, and setup services at discounted rates.",
+    stat: "3.4K slots/day",
+  },
+  {
+    icon: Trophy,
+    title: "Sports & Recreation",
+    description: "Court bookings, coaching sessions, and gym classes freed up by no-shows.",
+    stat: "7.1K slots/day",
+  },
+  {
+    icon: SprayCan,
+    title: "Cleaning Services",
+    description: "Professional home and office cleaning slots from last-minute cancellations.",
+    stat: "5.3K slots/day",
+  },
+  {
+    icon: Camera,
+    title: "Photography",
+    description: "Studio sessions, event photography, and portrait shoots at steep discounts.",
+    stat: "1.9K slots/day",
+  },
+  {
+    icon: Baby,
+    title: "Childcare & Nursery",
+    description: "Nursery places, holiday clubs, and childminder slots reclaimed in real-time.",
+    stat: "3.7K slots/day",
+  },
+  {
+    icon: Package,
+    title: "Self Storage",
+    description: "Storage units from early terminations and overstock at up to 60% off.",
+    stat: "1.2K units/day",
   },
 ];
 
