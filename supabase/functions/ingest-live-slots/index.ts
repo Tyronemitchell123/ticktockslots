@@ -80,6 +80,39 @@ function generateSlots(): SlotRow[] {
     { name: "Lake Como Boutique Hotel", vertical: "Holiday", location: "Como, IT", region: "Europe", base: 980, hours: [0, 24] },
     { name: "Dubai Beach Club", vertical: "Holiday", location: "Dubai, AE", region: "Middle East", base: 1500, hours: [0, 24] },
     { name: "Costa Rica Eco Lodge", vertical: "Holiday", location: "San José, CR", region: "Latin America", base: 480, hours: [0, 24] },
+    // Cars & Vehicles
+    { name: "Arnold Clark Clearance", vertical: "Cars", location: "Glasgow, UK", region: "UK", base: 15995, hours: [8, 20] },
+    { name: "CarMax Price Drop", vertical: "Cars", location: "Dallas, TX", region: "North America", base: 22000, hours: [13, 23] },
+    { name: "Sixt Rental Return", vertical: "Cars", location: "Berlin, DE", region: "Europe", base: 490, hours: [7, 21] },
+    { name: "Hertz Gold Upgrade", vertical: "Cars", location: "Miami, FL", region: "North America", base: 380, hours: [14, 1] },
+    // Tools & Hardware
+    { name: "HSS Hire Cancelled", vertical: "Tools", location: "Birmingham, UK", region: "UK", base: 85, hours: [7, 18] },
+    { name: "Sunbelt Rentals", vertical: "Tools", location: "Atlanta, GA", region: "North America", base: 450, hours: [12, 22] },
+    { name: "Hilti Centre Demo", vertical: "Tools", location: "Munich, DE", region: "Europe", base: 680, hours: [8, 18] },
+    // Home & Garden
+    { name: "Pimlico Plumbers", vertical: "Home & Garden", location: "London, UK", region: "UK", base: 180, hours: [8, 20] },
+    { name: "TaskRabbit Handyman", vertical: "Home & Garden", location: "New York, NY", region: "North America", base: 95, hours: [13, 23] },
+    { name: "HomeServe Boiler", vertical: "Home & Garden", location: "Bristol, UK", region: "UK", base: 120, hours: [8, 18] },
+    // Technology
+    { name: "Apple Genius Bar", vertical: "Technology", location: "London, UK", region: "UK", base: 149, hours: [9, 21] },
+    { name: "Geek Squad Repair", vertical: "Technology", location: "Los Angeles, CA", region: "North America", base: 180, hours: [15, 2] },
+    { name: "Samsung Service Centre", vertical: "Technology", location: "Seoul, KR", region: "Asia Pacific", base: 220, hours: [0, 12] },
+    // Sports & Recreation
+    { name: "David Lloyd Tennis", vertical: "Sports", location: "London, UK", region: "UK", base: 45, hours: [7, 22] },
+    { name: "Chelsea Piers Court", vertical: "Sports", location: "New York, NY", region: "North America", base: 120, hours: [13, 1] },
+    { name: "Topgolf Bay", vertical: "Sports", location: "Dallas, TX", region: "North America", base: 65, hours: [15, 2] },
+    // Cleaning
+    { name: "Molly Maid Deep Clean", vertical: "Cleaning", location: "London, UK", region: "UK", base: 150, hours: [8, 18] },
+    { name: "Merry Maids Office", vertical: "Cleaning", location: "Chicago, IL", region: "North America", base: 200, hours: [13, 23] },
+    // Photography
+    { name: "Venture Photography", vertical: "Photography", location: "London, UK", region: "UK", base: 350, hours: [9, 19] },
+    { name: "Flytographer Session", vertical: "Photography", location: "Paris, FR", region: "Europe", base: 420, hours: [9, 20] },
+    // Childcare
+    { name: "Bright Horizons", vertical: "Childcare", location: "London, UK", region: "UK", base: 85, hours: [7, 18] },
+    { name: "KinderCare After School", vertical: "Childcare", location: "Los Angeles, CA", region: "North America", base: 65, hours: [14, 22] },
+    // Storage
+    { name: "Big Yellow Storage", vertical: "Storage", location: "London, UK", region: "UK", base: 180, hours: [0, 24] },
+    { name: "Public Storage NYC", vertical: "Storage", location: "New York, NY", region: "North America", base: 250, hours: [0, 24] },
   ];
 
   // Pick merchants whose business hours overlap current UTC hour
