@@ -93,10 +93,14 @@ function generateSlots(): SlotRow[] {
   const selected = [...active].sort(() => Math.random() - 0.5).slice(0, count);
 
   for (const m of selected) {
-    const discount = m.vertical === "Aviation" ? 0.5 + Math.random() * 0.25 : 0.2 + Math.random() * 0.35;
+    const discount = m.vertical === "Aviation" ? 0.5 + Math.random() * 0.25
+      : m.vertical === "Holiday" ? 0.55 + Math.random() * 0.25
+      : 0.2 + Math.random() * 0.35;
     const urgencies: Array<"critical" | "high" | "medium"> = ["critical", "high", "medium"];
     const urgency = urgencies[Math.floor(Math.random() * 3)];
-    const reasons = ["Last-minute cancellation", "Schedule gap", "No-show opening", "Rescheduled client"];
+    const reasons = m.vertical === "Holiday"
+      ? ["Last-minute deal", "Unsold package", "Flash sale", "Cancellation release"]
+      : ["Last-minute cancellation", "Schedule gap", "No-show opening", "Rescheduled client"];
     const reason = reasons[Math.floor(Math.random() * reasons.length)];
 
     slots.push({
