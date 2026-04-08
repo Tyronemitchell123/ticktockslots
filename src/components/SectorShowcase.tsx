@@ -157,6 +157,12 @@ const sectors = [
     description: "Authenticated designer fashion, watches, and luxury goods from sample sales and returns.",
     stat: "3.6K deals/day",
   },
+  {
+    icon: Apple,
+    title: "Food & Grocery",
+    description: "Restaurant surplus, cancelled meal kits, and wholesale grocery clearance at up to 75% off.",
+    stat: "15K deals/day",
+  },
 ];
 
 const SectorShowcase = () => {
