@@ -113,6 +113,13 @@ function generateSlots(): SlotRow[] {
     // Storage
     { name: "Big Yellow Storage", vertical: "Storage", location: "London, UK", region: "UK", base: 180, hours: [0, 24] },
     { name: "Public Storage NYC", vertical: "Storage", location: "New York, NY", region: "North America", base: 250, hours: [0, 24] },
+    // Wedding
+    { name: "Claridge's Ballroom", vertical: "Wedding", location: "London, UK", region: "UK", base: 28000, hours: [0, 24] },
+    { name: "The Plaza NYC Wedding", vertical: "Wedding", location: "New York, NY", region: "North America", base: 45000, hours: [0, 24] },
+    { name: "Château de Vaux", vertical: "Wedding", location: "Paris, FR", region: "Europe", base: 18000, hours: [0, 24] },
+    { name: "Bloom & Wild Florals", vertical: "Wedding", location: "London, UK", region: "UK", base: 3500, hours: [0, 24] },
+    { name: "Amalfi Coast Venue", vertical: "Wedding", location: "Ravello, IT", region: "Europe", base: 25000, hours: [0, 24] },
+    { name: "Cliveden House Wedding", vertical: "Wedding", location: "Berkshire, UK", region: "UK", base: 32000, hours: [0, 24] },
   ];
 
   // Pick merchants whose business hours overlap current UTC hour

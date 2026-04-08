@@ -1016,7 +1016,11 @@ const LiveSlotsFeed = () => {
                   className={`glass rounded-xl overflow-hidden transition-colors group animate-fade-in ${
                     slot.vertical === "Holiday"
                       ? "border-emerald-400/30 hover:border-emerald-400/50 shadow-[0_0_15px_-3px_rgba(16,185,129,0.15)]"
-                      : isGated ? "opacity-80" : "hover:border-primary/30"
+                      : slot.vertical === "Wedding"
+                        ? "border-pink-400/30 hover:border-pink-400/50 shadow-[0_0_15px_-3px_rgba(244,114,182,0.15)]"
+                        : slot.vertical === "Cars"
+                          ? "border-blue-400/30 hover:border-blue-400/50 shadow-[0_0_15px_-3px_rgba(96,165,250,0.15)]"
+                          : isGated ? "opacity-80" : "hover:border-primary/30"
                   }`}
                 >
                   <div
@@ -1027,12 +1031,16 @@ const LiveSlotsFeed = () => {
                       <div className={`w-12 h-12 rounded-lg flex items-center justify-center shrink-0 ${
                         slot.vertical === "Holiday"
                           ? "bg-gradient-to-br from-emerald-500/20 to-cyan-400/20 ring-1 ring-emerald-400/30"
-                          : isUnicorn
-                            ? "bg-gradient-to-br from-purple-500/20 to-pink-500/20"
-                            : "bg-muted"
+                          : slot.vertical === "Wedding"
+                            ? "bg-gradient-to-br from-pink-500/20 to-rose-400/20 ring-1 ring-pink-400/30"
+                            : slot.vertical === "Cars"
+                              ? "bg-gradient-to-br from-blue-500/20 to-sky-400/20 ring-1 ring-blue-400/30"
+                              : isUnicorn
+                                ? "bg-gradient-to-br from-purple-500/20 to-pink-500/20"
+                                : "bg-muted"
                       }`}>
                         <span className="text-lg font-bold text-primary">
-                          {slot.vertical === "Holiday" ? "🌴" : isUnicorn ? "🦄" : slot.vertical[0]}
+                          {slot.vertical === "Holiday" ? "🌴" : slot.vertical === "Wedding" ? "💒" : slot.vertical === "Cars" ? "🚘" : isUnicorn ? "🦄" : slot.vertical[0]}
                         </span>
                       </div>
                       <div>
@@ -1048,6 +1056,16 @@ const LiveSlotsFeed = () => {
                           {slot.vertical === "Holiday" && (
                             <Badge className="bg-gradient-to-r from-emerald-500/20 to-cyan-400/20 text-emerald-300 border-emerald-400/30 text-[9px] py-0 px-1.5 animate-pulse">
                               🏝️ Holiday Steal
+                            </Badge>
+                          )}
+                          {slot.vertical === "Wedding" && (
+                            <Badge className="bg-gradient-to-r from-pink-500/20 to-rose-400/20 text-pink-300 border-pink-400/30 text-[9px] py-0 px-1.5 animate-pulse">
+                              💒 Wedding Deal
+                            </Badge>
+                          )}
+                          {slot.vertical === "Cars" && (
+                            <Badge className="bg-gradient-to-r from-blue-500/20 to-sky-400/20 text-blue-300 border-blue-400/30 text-[9px] py-0 px-1.5">
+                              🚘 Car Deal
                             </Badge>
                           )}
                           {slot.isLive && (
