@@ -66,7 +66,7 @@ const Dashboard = () => {
       setBookingsLoading(true);
       supabase
         .from("bookings")
-        .select("id, status, paid_upfront, paid_amount, created_at, slots(merchant_name, vertical, location, time_description, current_price, original_price)")
+        .select("id, status, paid_upfront, paid_amount, created_at, source, slots(merchant_name, vertical, location, time_description, current_price, original_price)")
         .eq("user_id", user.id)
         .order("created_at", { ascending: false })
         .then(({ data }) => {
