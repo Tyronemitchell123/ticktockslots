@@ -62,6 +62,7 @@ const SlotDetailModal = ({ slot, open, onOpenChange, displayCurrency = "GBP" }: 
   const [liveCountdown, setLiveCountdown] = useState(0);
 
   const [bookingLoading, setBookingLoading] = useState(false);
+  const [paymentLoading, setPaymentLoading] = useState(false);
   const [bookingId, setBookingId] = useState<string | null>(null);
   const [trustScore, setTrustScore] = useState<number | null>(null);
   const { user } = useAuth();
