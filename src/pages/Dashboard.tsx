@@ -131,11 +131,20 @@ const Dashboard = () => {
               <span className="font-bold text-foreground">Command Center</span>
             </div>
           </div>
-          <Badge variant="outline" className="bg-green-400/10 text-green-400 border-green-400/30">
-            <Activity className="w-3 h-3 mr-1" /> All Systems Operational
-          </Badge>
-        </div>
-      </div>
+          <div className="flex items-center gap-2">
+            {subscribed ? (
+              <Badge className="bg-primary/10 text-primary border-primary/30">
+                <Crown className="w-3 h-3 mr-1" /> Premium
+              </Badge>
+            ) : (
+              <Badge variant="outline" className="text-muted-foreground">
+                Free Plan
+              </Badge>
+            )}
+            <Badge variant="outline" className="bg-green-400/10 text-green-400 border-green-400/30">
+              <Activity className="w-3 h-3 mr-1" /> All Systems Operational
+            </Badge>
+          </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* AI Status Cards */}
