@@ -138,6 +138,15 @@ function generateSlots(): SlotRow[] {
     { name: "Virgin Atlantic Upper", vertical: "Flights", location: "LHR → LAX", region: "UK", base: 5200, hours: [0, 24] },
     { name: "Marriott + Flight Bundle", vertical: "Flights", location: "London → Dubai", region: "UK", base: 2800, hours: [0, 24] },
     { name: "Hilton + AA Bundle", vertical: "Flights", location: "LAX → MIA", region: "North America", base: 1600, hours: [0, 24] },
+    // Luxury & Designer
+    { name: "Harrods Sample Sale", vertical: "Luxury", location: "London, UK", region: "UK", base: 2400, hours: [0, 24] },
+    { name: "The RealReal Verified", vertical: "Luxury", location: "New York, NY", region: "North America", base: 5200, hours: [0, 24] },
+    { name: "Vestiaire Collective", vertical: "Luxury", location: "Paris, FR", region: "Europe", base: 3800, hours: [0, 24] },
+    { name: "Watches of Switzerland", vertical: "Luxury", location: "London, UK", region: "UK", base: 9800, hours: [0, 24] },
+    { name: "Net-a-Porter Returns", vertical: "Luxury", location: "London, UK", region: "UK", base: 1800, hours: [0, 24] },
+    { name: "Chrono24 Certified", vertical: "Luxury", location: "Munich, DE", region: "Europe", base: 6500, hours: [0, 24] },
+    { name: "Saks OFF 5TH", vertical: "Luxury", location: "Beverly Hills, CA", region: "North America", base: 3200, hours: [0, 24] },
+    { name: "Dubai Mall Luxury", vertical: "Luxury", location: "Dubai, AE", region: "Middle East", base: 7200, hours: [0, 24] },
   ];
 
   // Pick merchants whose business hours overlap current UTC hour
@@ -158,6 +167,7 @@ function generateSlots(): SlotRow[] {
       : m.vertical === "Flights" ? 0.4 + Math.random() * 0.3
       : m.vertical === "Cars" ? 0.2 + Math.random() * 0.2
       : m.vertical === "Storage" ? 0.4 + Math.random() * 0.2
+      : m.vertical === "Luxury" ? 0.45 + Math.random() * 0.25
       : 0.2 + Math.random() * 0.35;
     const urgencies: Array<"critical" | "high" | "medium"> = ["critical", "high", "medium"];
     const urgency = urgencies[Math.floor(Math.random() * 3)];
@@ -173,6 +183,8 @@ function generateSlots(): SlotRow[] {
       ? ["Last seat sale", "Error fare", "Upgrade released", "Bundle deal", "Award seat freed"]
       : m.vertical === "Storage"
       ? ["Early exit", "Lease cancelled", "Unit freed", "Overstock clearance"]
+      : m.vertical === "Luxury"
+      ? ["Sample sale", "Authenticated return", "Price drop", "Consignment deal", "Ex-display item"]
       : ["Last-minute cancellation", "Schedule gap", "No-show opening", "Rescheduled client"];
     const reason = reasons[Math.floor(Math.random() * reasons.length)];
 

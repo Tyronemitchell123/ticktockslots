@@ -1,4 +1,4 @@
-import { Scissors, Plane, Ship, Utensils, Stethoscope, Truck, GraduationCap, Ticket, Car, Scale, Building, PawPrint, Palmtree, Wrench, Laptop, Trophy, SprayCan, Camera, Baby, Package, Home, Heart, Dumbbell, PlaneTakeoff } from "lucide-react";
+import { Scissors, Plane, Ship, Utensils, Stethoscope, Truck, GraduationCap, Ticket, Car, Scale, Building, PawPrint, Palmtree, Wrench, Laptop, Trophy, SprayCan, Camera, Baby, Package, Home, Heart, Dumbbell, PlaneTakeoff, Gem } from "lucide-react";
 
 const sectors = [
   {
@@ -150,6 +150,12 @@ const sectors = [
     title: "Travel & Flights",
     description: "Last-minute flights, upgrades, error fares, and flight + hotel bundles at huge savings.",
     stat: "11K deals/day",
+  },
+  {
+    icon: Gem,
+    title: "Luxury & Designer",
+    description: "Authenticated designer fashion, watches, and luxury goods from sample sales and returns.",
+    stat: "3.6K deals/day",
   },
 ];
 

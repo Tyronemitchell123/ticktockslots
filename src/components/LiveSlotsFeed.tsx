@@ -404,6 +404,20 @@ const MOCK_SLOTS: Slot[] = [
   { id: "fl12", merchant: "ANA Mileage Flash", vertical: "Flights", location: "NRT → LAX", region: "Asia Pacific", time: "Award seat released", originalPrice: 3800, currentPrice: 1550, urgency: "high", timeLeft: 95 },
   { id: "fl13", merchant: "Accor + KLM Bundle", vertical: "Flights", location: "AMS → Cape Town", region: "Europe", time: "7-night safari + flights", originalPrice: 3500, currentPrice: 1450, urgency: "high", timeLeft: 200 },
   { id: "fl14", merchant: "Virgin Atlantic", vertical: "Flights", location: "LHR → LAX", region: "UK", time: "Upper class — 2 seats left", originalPrice: 5200, currentPrice: 2100, urgency: "critical", timeLeft: 35 },
+
+  // ===== LUXURY & DESIGNER =====
+  { id: "lx01", merchant: "Harrods Sample Sale", vertical: "Luxury", location: "Knightsbridge, London", region: "UK", time: "Designer handbag — returned", originalPrice: 2400, currentPrice: 980, urgency: "critical", timeLeft: 18 },
+  { id: "lx02", merchant: "Selfridges Clearance", vertical: "Luxury", location: "Oxford Street, London", region: "UK", time: "Watch trade-in deal", originalPrice: 8500, currentPrice: 3400, urgency: "high", timeLeft: 120 },
+  { id: "lx03", merchant: "The RealReal", vertical: "Luxury", location: "New York, NY", region: "North America", time: "Authenticated Chanel — price drop", originalPrice: 5200, currentPrice: 2100, urgency: "critical", timeLeft: 25 },
+  { id: "lx04", merchant: "Vestiaire Collective", vertical: "Luxury", location: "Paris, FR", region: "Europe", time: "Hermès Birkin — consignment", originalPrice: 12000, currentPrice: 4800, urgency: "critical", timeLeft: 12 },
+  { id: "lx05", merchant: "Watches of Switzerland", vertical: "Luxury", location: "Bond Street, London", region: "UK", time: "Pre-owned Rolex — serviced", originalPrice: 9800, currentPrice: 4200, urgency: "high", timeLeft: 90 },
+  { id: "lx06", merchant: "Net-a-Porter Returns", vertical: "Luxury", location: "London, UK", region: "UK", time: "Designer dress — unworn return", originalPrice: 1800, currentPrice: 720, urgency: "high", timeLeft: 150 },
+  { id: "lx07", merchant: "Farfetch Flash", vertical: "Luxury", location: "Milan, IT", region: "Europe", time: "Gucci loafers — overstock", originalPrice: 890, currentPrice: 355, urgency: "medium", timeLeft: 280 },
+  { id: "lx08", merchant: "Saks OFF 5TH", vertical: "Luxury", location: "Beverly Hills, CA", region: "North America", time: "Prada sample sale", originalPrice: 3200, currentPrice: 1280, urgency: "critical", timeLeft: 30 },
+  { id: "lx09", merchant: "Chrono24 Certified", vertical: "Luxury", location: "Munich, DE", region: "Europe", time: "Omega Speedmaster — mint", originalPrice: 6500, currentPrice: 2700, urgency: "high", timeLeft: 180 },
+  { id: "lx10", merchant: "Harvey Nichols Sale", vertical: "Luxury", location: "Leeds, UK", region: "UK", time: "Burberry trench — ex-display", originalPrice: 1990, currentPrice: 790, urgency: "high", timeLeft: 200 },
+  { id: "lx11", merchant: "Rebag Authenticated", vertical: "Luxury", location: "Miami, FL", region: "North America", time: "Louis Vuitton — verified", originalPrice: 3800, currentPrice: 1550, urgency: "critical", timeLeft: 22 },
+  { id: "lx12", merchant: "Dubai Mall Luxury", vertical: "Luxury", location: "Dubai, AE", region: "Middle East", time: "Cartier bracelet — return", originalPrice: 7200, currentPrice: 2900, urgency: "high", timeLeft: 110 },
 ];
 
 
@@ -549,6 +563,11 @@ const SLOT_DETAILS: Record<string, { description: string; includes: string[]; id
     description: "Last-minute flight deal, upgrade, or flight + hotel bundle at a steep discount.",
     includes: ["Confirmed booking", "Full baggage allowance", "Seat selection included", "Flexible rebooking option"],
     ideal: "Perfect for spontaneous travellers wanting premium flights and bundles at budget prices.",
+  },
+  Luxury: {
+    description: "Authenticated designer goods, luxury watches, and high-end fashion from sample sales and verified returns.",
+    includes: ["Certificate of authenticity", "Original packaging", "Return guarantee", "Expert verification"],
+    ideal: "Perfect for style-conscious shoppers wanting luxury brands at a fraction of retail.",
   },
 };
 
@@ -1088,7 +1107,9 @@ const LiveSlotsFeed = () => {
                             ? "border-orange-400/30 hover:border-orange-400/50 shadow-[0_0_15px_-3px_rgba(251,146,60,0.15)]"
                             : slot.vertical === "Flights"
                               ? "border-sky-400/30 hover:border-sky-400/50 shadow-[0_0_15px_-3px_rgba(56,189,248,0.15)]"
-                              : isGated ? "opacity-80" : "hover:border-primary/30"
+                              : slot.vertical === "Luxury"
+                                ? "border-amber-400/30 hover:border-amber-400/50 shadow-[0_0_15px_-3px_rgba(251,191,36,0.2)]"
+                                : isGated ? "opacity-80" : "hover:border-primary/30"
                   }`}
                 >
                   <div
@@ -1107,12 +1128,14 @@ const LiveSlotsFeed = () => {
                                 ? "bg-gradient-to-br from-orange-500/20 to-amber-400/20 ring-1 ring-orange-400/30"
                                 : slot.vertical === "Flights"
                                   ? "bg-gradient-to-br from-sky-500/20 to-indigo-400/20 ring-1 ring-sky-400/30"
-                                  : isUnicorn
-                                    ? "bg-gradient-to-br from-purple-500/20 to-pink-500/20"
-                                    : "bg-muted"
+                                  : slot.vertical === "Luxury"
+                                    ? "bg-gradient-to-br from-amber-500/20 to-yellow-400/20 ring-1 ring-amber-400/30"
+                                    : isUnicorn
+                                      ? "bg-gradient-to-br from-purple-500/20 to-pink-500/20"
+                                      : "bg-muted"
                       }`}>
                         <span className="text-lg font-bold text-primary">
-                          {slot.vertical === "Holiday" ? "🌴" : slot.vertical === "Wedding" ? "💒" : slot.vertical === "Cars" ? "🚘" : slot.vertical === "Gym" ? "🏋️" : slot.vertical === "Flights" ? "✈️" : isUnicorn ? "🦄" : slot.vertical[0]}
+                          {slot.vertical === "Holiday" ? "🌴" : slot.vertical === "Wedding" ? "💒" : slot.vertical === "Cars" ? "🚘" : slot.vertical === "Gym" ? "🏋️" : slot.vertical === "Flights" ? "✈️" : slot.vertical === "Luxury" ? "💎" : isUnicorn ? "🦄" : slot.vertical[0]}
                         </span>
                       </div>
                       <div>
@@ -1148,6 +1171,11 @@ const LiveSlotsFeed = () => {
                           {slot.vertical === "Flights" && (
                             <Badge className="bg-gradient-to-r from-sky-500/20 to-indigo-400/20 text-sky-300 border-sky-400/30 text-[9px] py-0 px-1.5 animate-pulse">
                               ✈️ Flight Deal
+                            </Badge>
+                          )}
+                          {slot.vertical === "Luxury" && (
+                            <Badge className="bg-gradient-to-r from-amber-500/20 to-yellow-400/20 text-amber-300 border-amber-400/30 text-[9px] py-0 px-1.5 animate-pulse">
+                              💎 Luxury Deal
                             </Badge>
                           )}
                           {slot.isLive && (

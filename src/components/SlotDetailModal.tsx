@@ -65,6 +65,7 @@ const verticalDetails: Record<string, { icon: string; category: string; trustBad
   Wedding: { icon: "💒", category: "Weddings & Events", trustBadge: "Approved Venue" },
   Gym: { icon: "🏋️", category: "Gym Memberships", trustBadge: "Registered Facility" },
   Flights: { icon: "✈️", category: "Travel & Flights", trustBadge: "ATOL/IATA Protected" },
+  Luxury: { icon: "💎", category: "Luxury & Designer", trustBadge: "Authenticated Item" },
 };
 
 type Step = "details" | "confirm" | "success";
