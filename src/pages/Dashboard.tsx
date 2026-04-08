@@ -376,7 +376,9 @@ const Dashboard = () => {
                           </div>
                         </div>
                         {insight.action && (
-                          <Button variant="outline" size="sm" className="text-xs shrink-0">
+                          <Button variant="outline" size="sm" className="text-xs shrink-0" onClick={() => {
+                            import("sonner").then(({ toast }) => toast.success(`Action triggered: ${insight.action}`, { description: insight.title }));
+                          }}>
                             {insight.action}
                           </Button>
                         )}
