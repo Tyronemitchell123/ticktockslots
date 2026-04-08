@@ -90,6 +90,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "bookings_merchant_id_fkey"
+            columns: ["merchant_id"]
+            isOneToOne: false
+            referencedRelation: "merchants_public"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "bookings_slot_id_fkey"
             columns: ["slot_id"]
             isOneToOne: false
@@ -409,6 +416,13 @@ export type Database = {
             referencedRelation: "merchants"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "fk_slots_merchant"
+            columns: ["merchant_id"]
+            isOneToOne: false
+            referencedRelation: "merchants_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       suppressed_emails: {
@@ -491,7 +505,42 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      merchants_public: {
+        Row: {
+          created_at: string | null
+          id: string | null
+          is_verified: boolean | null
+          location: string | null
+          logo_url: string | null
+          name: string | null
+          region: string | null
+          updated_at: string | null
+          vertical: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string | null
+          is_verified?: boolean | null
+          location?: string | null
+          logo_url?: string | null
+          name?: string | null
+          region?: string | null
+          updated_at?: string | null
+          vertical?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string | null
+          is_verified?: boolean | null
+          location?: string | null
+          logo_url?: string | null
+          name?: string | null
+          region?: string | null
+          updated_at?: string | null
+          vertical?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       claim_slot: {
