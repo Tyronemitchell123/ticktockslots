@@ -1,4 +1,4 @@
-import { Scissors, Plane, Ship, Utensils, Stethoscope, Truck, GraduationCap, Ticket, Car, Scale, Home, PawPrint } from "lucide-react";
+import { Scissors, Plane, Ship, Utensils, Stethoscope, Truck, GraduationCap, Ticket, Car, Scale, Home, PawPrint, Palmtree } from "lucide-react";
 
 const sectors = [
   {
@@ -72,6 +72,12 @@ const sectors = [
     title: "Pet Care & Vets",
     description: "Vet appointments, grooming, and pet boarding slots reclaimed in real-time.",
     stat: "5K slots/day",
+  },
+  {
+    icon: Palmtree,
+    title: "Holidays & Travel",
+    description: "Last-minute holiday packages, hotel rooms, and tour slots at up to 80% off.",
+    stat: "9K deals/day",
   },
 ];
 
