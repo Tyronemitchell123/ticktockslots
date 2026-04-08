@@ -374,6 +374,20 @@ const MOCK_SLOTS: Slot[] = [
   { id: "w10", merchant: "Amalfi Coast Venue", vertical: "Wedding", location: "Ravello, IT", region: "Europe", time: "Cliffside ceremony freed", originalPrice: 25000, currentPrice: 10800, urgency: "high", timeLeft: 190 },
   { id: "w11", merchant: "DJ & Lighting Co", vertical: "Wedding", location: "Bristol, UK", region: "UK", time: "Full evening package", originalPrice: 1200, currentPrice: 480, urgency: "medium", timeLeft: 320 },
   { id: "w12", merchant: "Vera Wang Bridal NYC", vertical: "Wedding", location: "New York, NY", region: "North America", time: "Sample sale — gown", originalPrice: 6800, currentPrice: 2800, urgency: "critical", timeLeft: 25 },
+
+  // ===== GYM MEMBERSHIPS =====
+  { id: "gm01", merchant: "PureGym Annual Pass", vertical: "Gym", location: "London, UK", region: "UK", time: "12-month pass cancelled", originalPrice: 299, currentPrice: 125, urgency: "critical", timeLeft: 35 },
+  { id: "gm02", merchant: "Equinox All Access", vertical: "Gym", location: "Manhattan, NY", region: "North America", time: "Premium membership freed", originalPrice: 3600, currentPrice: 1500, urgency: "high", timeLeft: 120 },
+  { id: "gm03", merchant: "Virgin Active Gold", vertical: "Gym", location: "Kensington, London", region: "UK", time: "6-month pass — early exit", originalPrice: 540, currentPrice: 220, urgency: "high", timeLeft: 180 },
+  { id: "gm04", merchant: "Barry's 10-Pack", vertical: "Gym", location: "Soho, London", region: "UK", time: "Class pack cancelled", originalPrice: 250, currentPrice: 105, urgency: "critical", timeLeft: 28 },
+  { id: "gm05", merchant: "Lifetime Fitness", vertical: "Gym", location: "Chicago, IL", region: "North America", time: "Family plan freed", originalPrice: 2400, currentPrice: 980, urgency: "high", timeLeft: 200 },
+  { id: "gm06", merchant: "The Gym Group", vertical: "Gym", location: "Manchester, UK", region: "UK", time: "Annual pass — half price", originalPrice: 180, currentPrice: 75, urgency: "medium", timeLeft: 350 },
+  { id: "gm07", merchant: "ClassPass Credits", vertical: "Gym", location: "Los Angeles, CA", region: "North America", time: "50-credit bundle freed", originalPrice: 199, currentPrice: 82, urgency: "critical", timeLeft: 22 },
+  { id: "gm08", merchant: "McFIT Premium", vertical: "Gym", location: "Berlin, DE", region: "Europe", time: "Quarterly pass cancelled", originalPrice: 120, currentPrice: 48, urgency: "high", timeLeft: 140 },
+  { id: "gm09", merchant: "Anytime Fitness", vertical: "Gym", location: "Sydney, AU", region: "Asia Pacific", time: "Key fob transfer", originalPrice: 480, currentPrice: 195, urgency: "medium", timeLeft: 300 },
+  { id: "gm10", merchant: "F45 Unlimited Month", vertical: "Gym", location: "Dubai, AE", region: "Middle East", time: "Monthly unlimited freed", originalPrice: 350, currentPrice: 145, urgency: "high", timeLeft: 160 },
+  { id: "gm11", merchant: "SoulCycle 20-Pack", vertical: "Gym", location: "Beverly Hills, CA", region: "North America", time: "Ride pack cancelled", originalPrice: 700, currentPrice: 290, urgency: "critical", timeLeft: 30 },
+  { id: "gm12", merchant: "David Lloyd Family", vertical: "Gym", location: "Chigwell, London", region: "UK", time: "Family membership freed", originalPrice: 2200, currentPrice: 920, urgency: "high", timeLeft: 250 },
 ];
 
 
@@ -509,6 +523,11 @@ const SLOT_DETAILS: Record<string, { description: string; includes: string[]; id
     description: "Wedding venue, vendor, or service slot freed up by a postponement or cancellation.",
     includes: ["Confirmed date & venue", "Original package inclusions", "Dedicated coordinator", "Setup & teardown included"],
     ideal: "Perfect for couples wanting dream weddings at a fraction of the price.",
+  },
+  Gym: {
+    description: "Gym membership, class package, or fitness pass freed up by a cancellation or early exit.",
+    includes: ["Full membership benefits", "All facilities access", "Class bookings included", "Transferable pass"],
+    ideal: "Perfect for fitness enthusiasts wanting premium gym access at a massive discount.",
   },
 };
 
