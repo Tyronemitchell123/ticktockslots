@@ -147,6 +147,15 @@ function generateSlots(): SlotRow[] {
     { name: "Chrono24 Certified", vertical: "Luxury", location: "Munich, DE", region: "Europe", base: 6500, hours: [0, 24] },
     { name: "Saks OFF 5TH", vertical: "Luxury", location: "Beverly Hills, CA", region: "North America", base: 3200, hours: [0, 24] },
     { name: "Dubai Mall Luxury", vertical: "Luxury", location: "Dubai, AE", region: "Middle East", base: 7200, hours: [0, 24] },
+    // Food & Grocery
+    { name: "Too Good To Go", vertical: "Food", location: "London, UK", region: "UK", base: 25, hours: [8, 22] },
+    { name: "HelloFresh Cancel", vertical: "Food", location: "Manchester, UK", region: "UK", base: 50, hours: [0, 24] },
+    { name: "Whole Foods Surplus", vertical: "Food", location: "New York, NY", region: "North America", base: 60, hours: [13, 23] },
+    { name: "Oddbox Veg Rescue", vertical: "Food", location: "London, UK", region: "UK", base: 15, hours: [7, 20] },
+    { name: "Costco Clearance", vertical: "Food", location: "Watford, UK", region: "UK", base: 120, hours: [8, 21] },
+    { name: "Gousto Box Cancel", vertical: "Food", location: "London, UK", region: "UK", base: 35, hours: [0, 24] },
+    { name: "Carrefour Short-Date", vertical: "Food", location: "Paris, FR", region: "Europe", base: 45, hours: [7, 22] },
+    { name: "Instacart Flash", vertical: "Food", location: "Los Angeles, CA", region: "North America", base: 85, hours: [15, 2] },
   ];
 
   // Pick merchants whose business hours overlap current UTC hour
@@ -168,6 +177,7 @@ function generateSlots(): SlotRow[] {
       : m.vertical === "Cars" ? 0.2 + Math.random() * 0.2
       : m.vertical === "Storage" ? 0.4 + Math.random() * 0.2
       : m.vertical === "Luxury" ? 0.45 + Math.random() * 0.25
+      : m.vertical === "Food" ? 0.5 + Math.random() * 0.3
       : 0.2 + Math.random() * 0.35;
     const urgencies: Array<"critical" | "high" | "medium"> = ["critical", "high", "medium"];
     const urgency = urgencies[Math.floor(Math.random() * 3)];
@@ -185,6 +195,8 @@ function generateSlots(): SlotRow[] {
       ? ["Early exit", "Lease cancelled", "Unit freed", "Overstock clearance"]
       : m.vertical === "Luxury"
       ? ["Sample sale", "Authenticated return", "Price drop", "Consignment deal", "Ex-display item"]
+      : m.vertical === "Food"
+      ? ["Restaurant surplus", "Meal kit cancelled", "Short-date clearance", "Bulk overstock", "Subscriber pause"]
       : ["Last-minute cancellation", "Schedule gap", "No-show opening", "Rescheduled client"];
     const reason = reasons[Math.floor(Math.random() * reasons.length)];
 
