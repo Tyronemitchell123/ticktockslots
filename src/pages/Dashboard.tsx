@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Zap, ArrowLeft, Brain, Key, Calendar, CreditCard, TrendingUp,
   Copy, Eye, EyeOff, Trash2, Plus, RefreshCw, CheckCircle2,
-  AlertTriangle, BarChart3, Activity, Cpu, Target, Bot, ShoppingBag, Clock, MapPin, Heart,
+  AlertTriangle, BarChart3, Activity, Cpu, Target, Bot, ShoppingBag, Clock, MapPin, Heart, Crown,
 } from "lucide-react";
 import { getApiKeys, createApiKey, revokeApiKey, deleteApiKey, type ApiKey } from "@/lib/api-keys";
 import { generateInsights, generateDemandForecast, generateWeeklyRevenue, generateSectorBreakdown, generateFillRateTimeline, getAutomationStatus, type AiInsight } from "@/lib/ai-engine";
@@ -21,7 +21,7 @@ import { useSavedSlots } from "@/hooks/use-saved-slots";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, subscribed } = useAuth();
   const [apiKeys, setApiKeys] = useState<ApiKey[]>([]);
   const [newKeyName, setNewKeyName] = useState("");
   const [showKeys, setShowKeys] = useState<Record<string, boolean>>({});
@@ -131,9 +131,20 @@ const Dashboard = () => {
               <span className="font-bold text-foreground">Command Center</span>
             </div>
           </div>
-          <Badge variant="outline" className="bg-green-400/10 text-green-400 border-green-400/30">
-            <Activity className="w-3 h-3 mr-1" /> All Systems Operational
-          </Badge>
+          <div className="flex items-center gap-2">
+            {subscribed ? (
+              <Badge className="bg-primary/10 text-primary border-primary/30">
+                <Crown className="w-3 h-3 mr-1" /> Premium
+              </Badge>
+            ) : (
+              <Badge variant="outline" className="text-muted-foreground">
+                Free Plan
+              </Badge>
+            )}
+            <Badge variant="outline" className="bg-green-400/10 text-green-400 border-green-400/30">
+              <Activity className="w-3 h-3 mr-1" /> All Systems Operational
+            </Badge>
+          </div>
         </div>
       </div>
 
