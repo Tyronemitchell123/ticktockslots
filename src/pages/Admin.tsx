@@ -15,7 +15,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import {
   ArrowLeft, Users, ShoppingBag, BarChart3, Bell, Bot, Trash2, Plus,
   TrendingUp, Activity, Shield, Zap, Store, CheckCircle2, XCircle, Pencil, Save, X,
-  CalendarPlus, Mail,
+  CalendarPlus, Mail, DollarSign, CreditCard, ArrowUpRight, Loader2,
 } from "lucide-react";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
