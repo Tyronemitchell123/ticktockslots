@@ -1123,7 +1123,7 @@ const LiveSlotsFeed = () => {
               </button>
             </div>
           ) : (
-            visibleSlots.map((slot) => {
+            visibleSlots.map((slot, idx) => {
               const details = SLOT_DETAILS[slot.vertical];
               const isExpanded = expandedSlotId === slot.id;
               const rating = getSlotRating(slot.id, slot.vertical);
@@ -1133,7 +1133,7 @@ const LiveSlotsFeed = () => {
 
               return (
                 <div
-                  key={slot.id}
+                  key={`${slot.id}-${idx}`}
                   className={`glass rounded-xl overflow-hidden transition-colors group animate-fade-in ${
                     slot.vertical === "Holiday"
                       ? "border-emerald-400/30 hover:border-emerald-400/50 shadow-[0_0_15px_-3px_rgba(16,185,129,0.15)]"
