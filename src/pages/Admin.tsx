@@ -93,6 +93,11 @@ const Admin = () => {
     fetchAdminData();
   }, [user, isAdmin, adminLoading]);
 
+  const refreshMerchants = async () => {
+    const { data } = await supabase.from("merchants").select("*").order("created_at", { ascending: false }).limit(100);
+    if (data) setMerchants(data);
+  };
+
   const refreshCommissions = async () => {
     const [c, p] = await Promise.all([
       supabase.from("commissions").select("*, merchants(name)").order("created_at", { ascending: false }).limit(200),
