@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ticktockLogo from "@/assets/ticktock-logo.png";
+import logoRevealAsset from "@/assets/ticktock-logo-reveal.mp4.asset.json";
 import {
   Clock, Zap, Mail, CheckCircle2, Loader2, Users,
   Utensils, Plane, Hotel, Scissors, Dumbbell, Star,
