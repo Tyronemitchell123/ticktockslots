@@ -218,7 +218,7 @@ const MerchantSlots = () => {
                 </div>
                 {currentPrice && originalPrice && parseFloat(currentPrice) < parseFloat(originalPrice) && (
                   <div className="rounded-md bg-primary/10 p-3 text-sm text-primary">
-                    💰 Customer saves {formatPriceInCurrency(parseFloat(originalPrice) - parseFloat(currentPrice))} ({Math.round((1 - parseFloat(currentPrice) / parseFloat(originalPrice)) * 100)}% off) — You earn {formatPriceInCurrency(parseFloat(currentPrice) * 0.7)} (70%)
+                    💰 Customer saves {formatPrice(parseFloat(originalPrice, "GBP") - parseFloat(currentPrice))} ({Math.round((1 - parseFloat(currentPrice) / parseFloat(originalPrice)) * 100)}% off) — You earn {formatPrice(parseFloat(currentPrice, "GBP") * 0.7)} (70%)
                   </div>
                 )}
                 <Button type="submit" className="w-full" disabled={creating}>
@@ -287,8 +287,8 @@ const MerchantSlots = () => {
                             <p className="text-xs text-muted-foreground">{slot.location}</p>
                           </TableCell>
                           <TableCell>
-                            <span className="line-through text-xs text-muted-foreground mr-1">{formatPriceInCurrency(slot.original_price)}</span>
-                            <span className="font-semibold text-primary">{formatPriceInCurrency(slot.current_price)}</span>
+                            <span className="line-through text-xs text-muted-foreground mr-1">{formatPrice(slot.original_price, "GBP")}</span>
+                            <span className="font-semibold text-primary">{formatPrice(slot.current_price, "GBP")}</span>
                           </TableCell>
                           <TableCell>
                             <Badge variant={slot.urgency === "critical" ? "destructive" : slot.urgency === "high" ? "default" : "secondary"}>
@@ -335,7 +335,7 @@ const MerchantSlots = () => {
                             <p className="font-medium text-sm">{slot.time_description}</p>
                             <p className="text-xs text-muted-foreground">{slot.location}</p>
                           </TableCell>
-                          <TableCell>{formatPriceInCurrency(slot.current_price)}</TableCell>
+                          <TableCell>{formatPrice(slot.current_price, "GBP")}</TableCell>
                           <TableCell><Badge variant="outline">Filled</Badge></TableCell>
                           <TableCell className="text-xs text-muted-foreground">
                             {new Date(slot.created_at).toLocaleDateString()}
