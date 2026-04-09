@@ -165,18 +165,16 @@ export default function MerchantProspecting() {
       const phones = markdown.match(phoneRegex) || [];
       const phone = phones[0]?.trim() || null;
 
-      const updates: Record<string, any> = {
-        scraped_data: { ...lead.scraped_data, scrape_result: { markdown: markdown.slice(0, 5000), metadata } },
-        status: "scraped",
-        description: metadata?.description || lead.description,
-      };
-      if (contactEmail) updates.contact_email = contactEmail;
-      if (phone) updates.phone = phone;
-      if (metadata?.ogImage) updates.logo_url = metadata.ogImage;
-
       const { error } = await supabase
         .from("merchant_leads")
-        .update(updates)
+        .update({
+          scraped_data: { ...lead.scraped_data, scrape_result: { markdown: markdown.slice(0, 5000), metadata } },
+          status: "scraped" as string,
+          description: metadata?.description || lead.description,
+          contact_email: contactEmail || lead.contact_email,
+          phone: phone || lead.phone,
+          logo_url: metadata?.ogImage || lead.logo_url,
+        })
         .eq("id", lead.id);
 
       if (error) throw error;
