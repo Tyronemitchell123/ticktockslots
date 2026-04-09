@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ticktockLogo from "@/assets/ticktock-logo.png";
+import logoRevealAsset from "@/assets/ticktock-logo-reveal.mp4.asset.json";
 import {
   Clock, Zap, Mail, CheckCircle2, Loader2, Users,
   Utensils, Plane, Hotel, Scissors, Dumbbell, Star,
@@ -147,6 +148,26 @@ const WaitlistLanding = () => {
               <p className="text-xs text-muted-foreground">Free to join • No spam • Unsubscribe anytime</p>
             </form>
           )}
+        </div>
+
+        {/* Marketing video showcase */}
+        <div className="mt-20 max-w-4xl mx-auto w-full px-4">
+          <p className="text-center text-sm text-muted-foreground mb-6 uppercase tracking-widest font-medium">
+            See what's coming
+          </p>
+          <div className="relative rounded-2xl overflow-hidden border border-border/50 shadow-2xl bg-black">
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              className="w-full aspect-video object-cover"
+              poster="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80"
+            >
+              <source src={logoRevealAsset.url} type="video/mp4" />
+            </video>
+          </div>
         </div>
 
         {/* Sectors preview */}
