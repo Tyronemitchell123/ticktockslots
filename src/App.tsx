@@ -30,6 +30,7 @@ const EmailDashboard = lazy(() => import("./pages/EmailDashboard"));
 const Billing = lazy(() => import("./pages/Billing"));
 const MerchantEarnings = lazy(() => import("./pages/MerchantEarnings"));
 const MerchantRegister = lazy(() => import("./pages/MerchantRegister"));
+const MerchantSlots = lazy(() => import("./pages/MerchantSlots"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
