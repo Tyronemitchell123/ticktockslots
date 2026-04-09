@@ -30,6 +30,7 @@ const EmailDashboard = lazy(() => import("./pages/EmailDashboard"));
 const Billing = lazy(() => import("./pages/Billing"));
 const MerchantEarnings = lazy(() => import("./pages/MerchantEarnings"));
 const MerchantRegister = lazy(() => import("./pages/MerchantRegister"));
+const MerchantSlots = lazy(() => import("./pages/MerchantSlots"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -66,6 +67,7 @@ const App = () => (
                 <Route path="/admin/emails" element={<ProtectedRoute><EmailDashboard /></ProtectedRoute>} />
                 <Route path="/merchant/earnings" element={<ProtectedRoute><MerchantEarnings /></ProtectedRoute>} />
                 <Route path="/merchant/register" element={<ProtectedRoute><MerchantRegister /></ProtectedRoute>} />
+                <Route path="/merchant/slots" element={<ProtectedRoute><MerchantSlots /></ProtectedRoute>} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
