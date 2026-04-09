@@ -271,11 +271,8 @@ const LiveSlotsFeed = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Fetch live slots from database + trigger ingestion
+  // Fetch live slots from database (real merchant slots only)
   useEffect(() => {
-    // Trigger edge function to ingest fresh slots (fire-and-forget)
-    supabase.functions.invoke("ingest-live-slots", { method: "POST" }).catch(() => {});
-
     const loadFromDb = async () => {
       try {
         const { data, error } = await supabase
@@ -288,30 +285,32 @@ const LiveSlotsFeed = () => {
 
         if (error) {
           console.warn("DB fetch error:", error);
+          setInitialLoading(false);
           return;
         }
 
-        if (data && data.length > 0) {
-          const dbSlots: Slot[] = data.map((s) => ({
-            id: s.id,
-            merchant: s.merchant_name,
-            vertical: s.vertical,
-            location: s.location,
-            region: s.region,
-            time: s.time_description,
-            originalPrice: Number(s.original_price),
-            currentPrice: Number(s.current_price),
-            urgency: s.urgency as "critical" | "high" | "medium",
-            timeLeft: s.time_left,
-            isLive: true,
-            source: s.source,
-          }));
-          setSlots((prev) => {
-            const mockOnly = prev.filter((s) => !s.isLive);
-            return [...dbSlots, ...mockOnly];
-          });
-          setLiveCount(dbSlots.length);
-        }
+        const dbSlots: Slot[] = (data || []).map((s) => ({
+          id: s.id,
+          merchant: s.merchant_name,
+          vertical: s.vertical,
+          location: s.location,
+          region: s.region,
+          time: s.time_description,
+          originalPrice: Number(s.original_price),
+          currentPrice: Number(s.current_price),
+          urgency: s.urgency as "critical" | "high" | "medium",
+          timeLeft: s.time_left,
+          isLive: true,
+          source: s.source,
+        }));
+        setSlots(dbSlots);
+        setLiveCount(dbSlots.length);
+        setInitialLoading(false);
+      } catch (e) {
+        console.warn("Live data fetch failed:", e);
+        setInitialLoading(false);
+      }
+    };
         setInitialLoading(false);
       } catch (e) {
         console.warn("Live data fetch failed:", e);
