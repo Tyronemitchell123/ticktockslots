@@ -272,6 +272,7 @@ export type Database = {
           stripe_account_id: string | null
           stripe_onboarding_complete: boolean
           updated_at: string
+          user_id: string | null
           vertical: string
         }
         Insert: {
@@ -286,6 +287,7 @@ export type Database = {
           stripe_account_id?: string | null
           stripe_onboarding_complete?: boolean
           updated_at?: string
+          user_id?: string | null
           vertical: string
         }
         Update: {
@@ -300,6 +302,7 @@ export type Database = {
           stripe_account_id?: string | null
           stripe_onboarding_complete?: boolean
           updated_at?: string
+          user_id?: string | null
           vertical?: string
         }
         Relationships: []
