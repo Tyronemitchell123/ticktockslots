@@ -7,6 +7,7 @@ import HowItWorks from "@/components/HowItWorks";
 import SectorShowcase from "@/components/SectorShowcase";
 import PricingSection from "@/components/PricingSection";
 import Footer from "@/components/Footer";
+import NewsletterSignup from "@/components/NewsletterSignup";
 
 const GlobeBackground = lazy(() => import("@/components/GlobeBackground"));
 
@@ -27,6 +28,7 @@ const Index = () => {
       <div id="how"><HowItWorks /></div>
       <div id="sectors"><SectorShowcase /></div>
       <div id="pricing"><PricingSection /></div>
+      <NewsletterSignup />
       <Footer />
     </div>
   );
