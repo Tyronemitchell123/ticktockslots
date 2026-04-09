@@ -150,6 +150,26 @@ const WaitlistLanding = () => {
           )}
         </div>
 
+        {/* Marketing video showcase */}
+        <div className="mt-20 max-w-4xl mx-auto w-full px-4">
+          <p className="text-center text-sm text-muted-foreground mb-6 uppercase tracking-widest font-medium">
+            See what's coming
+          </p>
+          <div className="relative rounded-2xl overflow-hidden border border-border/50 shadow-2xl bg-black">
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              className="w-full aspect-video object-cover"
+              poster="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80"
+            >
+              <source src={logoRevealAsset.url} type="video/mp4" />
+            </video>
+          </div>
+        </div>
+
         {/* Sectors preview */}
         <div className="mt-20 max-w-3xl mx-auto w-full">
           <p className="text-center text-sm text-muted-foreground mb-6 uppercase tracking-widest font-medium">
