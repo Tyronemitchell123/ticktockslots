@@ -13,3 +13,7 @@ project_id = "efjlejpniwzdrsbiziec"
     verify_jwt = true
   [functions.send-transactional-email]
     verify_jwt = false
+  [functions.firecrawl-scrape]
+    verify_jwt = false
+  [functions.firecrawl-search]
+    verify_jwt = false
