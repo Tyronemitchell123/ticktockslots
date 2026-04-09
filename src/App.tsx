@@ -67,6 +67,7 @@ const App = () => (
                 <Route path="/admin/emails" element={<ProtectedRoute><EmailDashboard /></ProtectedRoute>} />
                 <Route path="/merchant/earnings" element={<ProtectedRoute><MerchantEarnings /></ProtectedRoute>} />
                 <Route path="/merchant/register" element={<ProtectedRoute><MerchantRegister /></ProtectedRoute>} />
+                <Route path="/merchant/slots" element={<ProtectedRoute><MerchantSlots /></ProtectedRoute>} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
