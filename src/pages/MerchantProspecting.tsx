@@ -17,7 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import {
   Search, Globe, Mail, Plus, RefreshCw, ExternalLink, Loader2,
-  Building2, UserPlus, Eye, Trash2
+  Building2, UserPlus, Eye, Trash2, Send
 } from "lucide-react";
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger
@@ -65,6 +65,7 @@ export default function MerchantProspecting() {
   const [searching, setSearching] = useState(false);
   const [scraping, setScraping] = useState<string | null>(null);
   const [selectedLead, setSelectedLead] = useState<MerchantLead | null>(null);
+  const [sendingOutreach, setSendingOutreach] = useState<string | null>(null);
 
   useEffect(() => {
     if (!adminLoading && (!user || !isAdmin)) navigate("/dashboard");
