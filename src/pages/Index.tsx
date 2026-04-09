@@ -28,6 +28,7 @@ const Index = () => {
       <div id="how"><HowItWorks /></div>
       <div id="sectors"><SectorShowcase /></div>
       <div id="pricing"><PricingSection /></div>
+      <NewsletterSignup />
       <Footer />
     </div>
   );
