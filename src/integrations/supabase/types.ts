@@ -544,6 +544,20 @@ export type Database = {
         }
         Relationships: []
       }
+      recent_claims: {
+        Row: {
+          created_at: string | null
+          deal: string | null
+          display_initial: string | null
+          display_name: string | null
+          id: string | null
+          location: string | null
+          region: string | null
+          savings: number | null
+          vertical: string | null
+        }
+        Relationships: []
+      }
       reviews_public: {
         Row: {
           comment: string | null
