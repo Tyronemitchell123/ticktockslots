@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Plus, Loader2, Trash2, Store, CalendarClock, Package } from "lucide-react";
-import { formatPriceInCurrency } from "@/lib/currency";
+import { formatPrice } from "@/lib/currency";
 import type { Tables } from "@/integrations/supabase/types";
 
 const VERTICALS = ["Restaurants", "Hotels", "Spas", "Salons", "Fitness", "Entertainment", "Travel", "Healthcare"];
