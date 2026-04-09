@@ -43,7 +43,7 @@ const Dashboard = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [trust, setTrust] = useState<TrustScore | null>(null);
   const [loading, setLoading] = useState(true);
-  const currency = detectCurrency();
+  const currency = "GBP";
 
   useEffect(() => {
     if (!user) return;
