@@ -33,6 +33,10 @@ const Admin = () => {
   const [bookings, setBookings] = useState<any[]>([]);
   const [slots, setSlots] = useState<any[]>([]);
   const [merchants, setMerchants] = useState<any[]>([]);
+  const [commissions, setCommissions] = useState<any[]>([]);
+  const [payouts, setPayouts] = useState<any[]>([]);
+  const [payingOut, setPayingOut] = useState<string | null>(null);
+  const [onboardingMerchant, setOnboardingMerchant] = useState<string | null>(null);
   const [statsLoading, setStatsLoading] = useState(true);
 
   // Merchant editing
