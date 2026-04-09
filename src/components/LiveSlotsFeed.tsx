@@ -26,7 +26,7 @@ interface Slot {
   source?: string;
 }
 
-const MOCK_SLOTS: Slot[] = [
+const MOCK_SLOTS: Slot[] = [];
   // ===== UK =====
   { id: "1", merchant: "Luxe Hair Studio", vertical: "Beauty", location: "Manhattan, NY", region: "North America", time: "2:30 PM Today", originalPrice: 180, currentPrice: 89, urgency: "critical", timeLeft: 23 },
   { id: "13", merchant: "Harley Street Clinic", vertical: "Health", location: "London, UK", region: "UK", time: "10:30 AM Tomorrow", originalPrice: 400, currentPrice: 195, urgency: "high", timeLeft: 150 },
