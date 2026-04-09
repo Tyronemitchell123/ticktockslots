@@ -544,20 +544,6 @@ export type Database = {
         }
         Relationships: []
       }
-      recent_claims: {
-        Row: {
-          created_at: string | null
-          deal: string | null
-          display_initial: string | null
-          display_name: string | null
-          id: string | null
-          location: string | null
-          region: string | null
-          savings: number | null
-          vertical: string | null
-        }
-        Relationships: []
-      }
       reviews_public: {
         Row: {
           comment: string | null
@@ -611,6 +597,18 @@ export type Database = {
       enqueue_email: {
         Args: { payload: Json; queue_name: string }
         Returns: number
+      }
+      get_recent_claims: {
+        Args: { claim_limit?: number }
+        Returns: {
+          created_at: string
+          deal: string
+          display_name: string
+          location: string
+          region: string
+          savings: number
+          vertical: string
+        }[]
       }
       has_role: {
         Args: {
