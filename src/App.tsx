@@ -63,6 +63,7 @@ const App = () => (
                 <Route path="/unsubscribe" element={<Unsubscribe />} />
                 <Route path="/billing" element={<ProtectedRoute><Billing /></ProtectedRoute>} />
                 <Route path="/admin/emails" element={<ProtectedRoute><EmailDashboard /></ProtectedRoute>} />
+                <Route path="/merchant/earnings" element={<ProtectedRoute><MerchantEarnings /></ProtectedRoute>} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
