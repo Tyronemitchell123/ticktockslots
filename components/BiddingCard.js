@@ -1,0 +1,1 @@
+// BiddingCard component code here
