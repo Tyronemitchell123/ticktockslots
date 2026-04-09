@@ -266,6 +266,10 @@ export type Database = {
           created_at: string
           description: string | null
           id: string
+          invitation_accepted_at: string | null
+          invitation_opened_at: string | null
+          invitation_sent_at: string | null
+          invitation_token: string | null
           location: string | null
           logo_url: string | null
           notes: string | null
@@ -284,6 +288,10 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          invitation_accepted_at?: string | null
+          invitation_opened_at?: string | null
+          invitation_sent_at?: string | null
+          invitation_token?: string | null
           location?: string | null
           logo_url?: string | null
           notes?: string | null
@@ -302,6 +310,10 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          invitation_accepted_at?: string | null
+          invitation_opened_at?: string | null
+          invitation_sent_at?: string | null
+          invitation_token?: string | null
           location?: string | null
           logo_url?: string | null
           notes?: string | null
