@@ -75,13 +75,14 @@ const Admin = () => {
 
     const fetchAdminData = async () => {
       setStatsLoading(true);
-      const [profilesRes, bookingsRes, slotsRes, merchantsRes, commissionsRes, payoutsRes] = await Promise.all([
+      const [profilesRes, bookingsRes, slotsRes, merchantsRes, commissionsRes, payoutsRes, subscribersRes] = await Promise.all([
         isAdmin ? supabase.from("profiles").select("*").limit(50) : Promise.resolve({ data: [] }),
         supabase.from("bookings").select("*, slots(original_price, current_price)").order("created_at", { ascending: false }).limit(50),
         supabase.from("slots").select("*").order("created_at", { ascending: false }).limit(100),
         isAdmin ? supabase.from("merchants").select("*").order("created_at", { ascending: false }).limit(100) : Promise.resolve({ data: [] }),
         isAdmin ? supabase.from("commissions").select("*, merchants(name)").order("created_at", { ascending: false }).limit(200) : Promise.resolve({ data: [] }),
         isAdmin ? supabase.from("payouts").select("*, merchants(name)").order("created_at", { ascending: false }).limit(100) : Promise.resolve({ data: [] }),
+        isAdmin ? supabase.from("subscribers" as any).select("*").order("subscribed_at", { ascending: false }).limit(500) : Promise.resolve({ data: [] }),
       ]);
       setUsers(profilesRes.data || []);
       setBookings(bookingsRes.data || []);
@@ -89,6 +90,7 @@ const Admin = () => {
       setMerchants(merchantsRes.data || []);
       setCommissions(commissionsRes.data || []);
       setPayouts(payoutsRes.data || []);
+      setSubscribers((subscribersRes.data as any[]) || []);
       setStatsLoading(false);
     };
     fetchAdminData();
