@@ -15,7 +15,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import {
   ArrowLeft, Users, ShoppingBag, BarChart3, Bell, Bot, Trash2, Plus,
   TrendingUp, Activity, Shield, Zap, Store, CheckCircle2, XCircle, Pencil, Save, X,
-  CalendarPlus, Mail,
+  CalendarPlus, Mail, DollarSign, CreditCard, ArrowUpRight, Loader2,
 } from "lucide-react";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
@@ -33,6 +33,10 @@ const Admin = () => {
   const [bookings, setBookings] = useState<any[]>([]);
   const [slots, setSlots] = useState<any[]>([]);
   const [merchants, setMerchants] = useState<any[]>([]);
+  const [commissions, setCommissions] = useState<any[]>([]);
+  const [payouts, setPayouts] = useState<any[]>([]);
+  const [payingOut, setPayingOut] = useState<string | null>(null);
+  const [onboardingMerchant, setOnboardingMerchant] = useState<string | null>(null);
   const [statsLoading, setStatsLoading] = useState(true);
 
   // Merchant editing
@@ -70,16 +74,20 @@ const Admin = () => {
 
     const fetchAdminData = async () => {
       setStatsLoading(true);
-      const [profilesRes, bookingsRes, slotsRes, merchantsRes] = await Promise.all([
+      const [profilesRes, bookingsRes, slotsRes, merchantsRes, commissionsRes, payoutsRes] = await Promise.all([
         isAdmin ? supabase.from("profiles").select("*").limit(50) : Promise.resolve({ data: [] }),
         supabase.from("bookings").select("*, slots(original_price, current_price)").order("created_at", { ascending: false }).limit(50),
         supabase.from("slots").select("*").order("created_at", { ascending: false }).limit(100),
         isAdmin ? supabase.from("merchants").select("*").order("created_at", { ascending: false }).limit(100) : Promise.resolve({ data: [] }),
+        isAdmin ? supabase.from("commissions").select("*, merchants(name)").order("created_at", { ascending: false }).limit(200) : Promise.resolve({ data: [] }),
+        isAdmin ? supabase.from("payouts").select("*, merchants(name)").order("created_at", { ascending: false }).limit(100) : Promise.resolve({ data: [] }),
       ]);
       setUsers(profilesRes.data || []);
       setBookings(bookingsRes.data || []);
       setSlots(slotsRes.data || []);
       setMerchants(merchantsRes.data || []);
+      setCommissions(commissionsRes.data || []);
+      setPayouts(payoutsRes.data || []);
       setStatsLoading(false);
     };
     fetchAdminData();
@@ -88,6 +96,50 @@ const Admin = () => {
   const refreshMerchants = async () => {
     const { data } = await supabase.from("merchants").select("*").order("created_at", { ascending: false }).limit(100);
     if (data) setMerchants(data);
+  };
+
+  const refreshCommissions = async () => {
+    const [c, p] = await Promise.all([
+      supabase.from("commissions").select("*, merchants(name)").order("created_at", { ascending: false }).limit(200),
+      supabase.from("payouts").select("*, merchants(name)").order("created_at", { ascending: false }).limit(100),
+    ]);
+    setCommissions(c.data || []);
+    setPayouts(p.data || []);
+  };
+
+  const handleOnboardMerchant = async (merchantId: string) => {
+    setOnboardingMerchant(merchantId);
+    try {
+      const { data, error } = await supabase.functions.invoke("connect-merchant", {
+        body: { merchant_id: merchantId },
+      });
+      if (error) throw error;
+      if (data?.url) {
+        window.open(data.url, "_blank");
+        toast.success("Stripe Connect onboarding opened in new tab");
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Failed to onboard merchant");
+    } finally {
+      setOnboardingMerchant(null);
+    }
+  };
+
+  const handlePayout = async (merchantId: string) => {
+    setPayingOut(merchantId);
+    try {
+      const { data, error } = await supabase.functions.invoke("process-payout", {
+        body: { merchant_id: merchantId },
+      });
+      if (error) throw error;
+      toast.success(`Payout of £${data.amount.toFixed(2)} sent for ${data.commissions_paid} booking(s)`);
+      refreshCommissions();
+      refreshMerchants();
+    } catch (err: any) {
+      toast.error(err.message || "Failed to process payout");
+    } finally {
+      setPayingOut(null);
+    }
   };
 
   const toggleVerify = async (id: string, current: boolean) => {
@@ -165,6 +217,7 @@ const Admin = () => {
                 <TabsTrigger value="bookings"><ShoppingBag className="w-4 h-4 mr-1" />Bookings</TabsTrigger>
                 <TabsTrigger value="merchants"><Store className="w-4 h-4 mr-1" />Merchants</TabsTrigger>
                 <TabsTrigger value="slots"><CalendarPlus className="w-4 h-4 mr-1" />Add Slot</TabsTrigger>
+                <TabsTrigger value="commissions"><DollarSign className="w-4 h-4 mr-1" />Commissions</TabsTrigger>
               </>
             )}
             <TabsTrigger value="alerts"><Bell className="w-4 h-4 mr-1" />Price Alerts</TabsTrigger>
@@ -660,6 +713,132 @@ const Admin = () => {
                   >
                     <Plus className="w-4 h-4 mr-1" /> Publish Slot
                   </Button>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          )}
+
+          {/* Commissions Tab (Admin Only) */}
+          {isAdmin && (
+            <TabsContent value="commissions">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                <MetricCard icon={DollarSign} label="Total Revenue" value={`£${commissions.reduce((s: number, c: any) => s + Number(c.gross_amount), 0).toFixed(2)}`} />
+                <MetricCard icon={CreditCard} label="Platform Fees (30%)" value={`£${commissions.reduce((s: number, c: any) => s + Number(c.platform_fee), 0).toFixed(2)}`} />
+                <MetricCard icon={ArrowUpRight} label="Merchant Payouts (70%)" value={`£${commissions.reduce((s: number, c: any) => s + Number(c.merchant_payout), 0).toFixed(2)}`} />
+                <MetricCard icon={Activity} label="Pending Payouts" value={commissions.filter((c: any) => c.status === "pending").length} />
+              </div>
+
+              <Card className="bg-card border-border mb-6">
+                <CardHeader>
+                  <CardTitle className="text-lg">Merchant Payouts</CardTitle>
+                  <CardDescription>Onboard merchants to Stripe Connect and process payouts</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Merchant</TableHead>
+                        <TableHead>Stripe Status</TableHead>
+                        <TableHead>Pending</TableHead>
+                        <TableHead>Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {merchants.map((m: any) => {
+                        const pendingAmount = commissions
+                          .filter((c: any) => c.merchant_id === m.id && c.status === "pending")
+                          .reduce((s: number, c: any) => s + Number(c.merchant_payout), 0);
+                        const pendingCount = commissions.filter((c: any) => c.merchant_id === m.id && c.status === "pending").length;
+                        return (
+                          <TableRow key={m.id}>
+                            <TableCell className="font-medium">{m.name}</TableCell>
+                            <TableCell>
+                              {m.stripe_onboarding_complete ? (
+                                <Badge className="bg-green-500/10 text-green-500 border-green-500/30">Connected</Badge>
+                              ) : m.stripe_account_id ? (
+                                <Badge variant="outline" className="text-yellow-500 border-yellow-500/30">Pending</Badge>
+                              ) : (
+                                <Badge variant="outline" className="text-muted-foreground">Not Connected</Badge>
+                              )}
+                            </TableCell>
+                            <TableCell>
+                              {pendingCount > 0 ? (
+                                <span className="text-sm font-mono">£{pendingAmount.toFixed(2)} ({pendingCount})</span>
+                              ) : (
+                                <span className="text-sm text-muted-foreground">—</span>
+                              )}
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex gap-2">
+                                {!m.stripe_onboarding_complete && (
+                                  <Button size="sm" variant="outline" onClick={() => handleOnboardMerchant(m.id)} disabled={onboardingMerchant === m.id}>
+                                    {onboardingMerchant === m.id ? <Loader2 className="w-3 h-3 animate-spin mr-1" /> : <CreditCard className="w-3 h-3 mr-1" />}
+                                    {m.stripe_account_id ? "Resume" : "Connect Stripe"}
+                                  </Button>
+                                )}
+                                {m.stripe_onboarding_complete && pendingCount > 0 && (
+                                  <Button size="sm" onClick={() => handlePayout(m.id)} disabled={payingOut === m.id}>
+                                    {payingOut === m.id ? <Loader2 className="w-3 h-3 animate-spin mr-1" /> : <ArrowUpRight className="w-3 h-3 mr-1" />}
+                                    Pay £{pendingAmount.toFixed(2)}
+                                  </Button>
+                                )}
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card border-border">
+                <CardHeader>
+                  <CardTitle className="text-lg">Commission Ledger</CardTitle>
+                  <CardDescription>All commission records with 70/30 split breakdown</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Date</TableHead>
+                          <TableHead>Merchant</TableHead>
+                          <TableHead>Gross</TableHead>
+                          <TableHead>Platform (30%)</TableHead>
+                          <TableHead>Merchant (70%)</TableHead>
+                          <TableHead>Status</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {commissions.length === 0 ? (
+                          <TableRow>
+                            <TableCell colSpan={6} className="text-center text-muted-foreground py-8">
+                              No commissions yet — created automatically when bookings are confirmed or paid.
+                            </TableCell>
+                          </TableRow>
+                        ) : (
+                          commissions.map((c: any) => (
+                            <TableRow key={c.id}>
+                              <TableCell className="text-xs font-mono">{new Date(c.created_at).toLocaleDateString()}</TableCell>
+                              <TableCell>{c.merchants?.name || "Unknown"}</TableCell>
+                              <TableCell className="font-mono">£{Number(c.gross_amount).toFixed(2)}</TableCell>
+                              <TableCell className="font-mono text-primary">£{Number(c.platform_fee).toFixed(2)}</TableCell>
+                              <TableCell className="font-mono">£{Number(c.merchant_payout).toFixed(2)}</TableCell>
+                              <TableCell>
+                                <Badge
+                                  variant={c.status === "paid" ? "default" : "outline"}
+                                  className={c.status === "paid" ? "bg-green-500/10 text-green-500 border-green-500/30" : c.status === "failed" ? "text-destructive border-destructive/30" : ""}
+                                >
+                                  {c.status}
+                                </Badge>
+                              </TableCell>
+                            </TableRow>
+                          ))
+                        )}
+                      </TableBody>
+                    </Table>
+                  </div>
                 </CardContent>
               </Card>
             </TabsContent>
