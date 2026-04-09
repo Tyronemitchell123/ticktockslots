@@ -108,6 +108,70 @@ export type Database = {
           },
         ]
       }
+      commissions: {
+        Row: {
+          booking_id: string
+          created_at: string
+          gross_amount: number
+          id: string
+          merchant_id: string
+          merchant_payout: number
+          platform_fee: number
+          platform_fee_pct: number
+          status: string
+          stripe_transfer_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          booking_id: string
+          created_at?: string
+          gross_amount: number
+          id?: string
+          merchant_id: string
+          merchant_payout: number
+          platform_fee: number
+          platform_fee_pct?: number
+          status?: string
+          stripe_transfer_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          booking_id?: string
+          created_at?: string
+          gross_amount?: number
+          id?: string
+          merchant_id?: string
+          merchant_payout?: number
+          platform_fee?: number
+          platform_fee_pct?: number
+          status?: string
+          stripe_transfer_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "commissions_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commissions_merchant_id_fkey"
+            columns: ["merchant_id"]
+            isOneToOne: false
+            referencedRelation: "merchants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commissions_merchant_id_fkey"
+            columns: ["merchant_id"]
+            isOneToOne: false
+            referencedRelation: "merchants_public"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       email_send_log: {
         Row: {
           created_at: string
@@ -205,6 +269,8 @@ export type Database = {
           logo_url: string | null
           name: string
           region: string
+          stripe_account_id: string | null
+          stripe_onboarding_complete: boolean
           updated_at: string
           vertical: string
         }
@@ -217,6 +283,8 @@ export type Database = {
           logo_url?: string | null
           name: string
           region: string
+          stripe_account_id?: string | null
+          stripe_onboarding_complete?: boolean
           updated_at?: string
           vertical: string
         }
@@ -229,10 +297,60 @@ export type Database = {
           logo_url?: string | null
           name?: string
           region?: string
+          stripe_account_id?: string | null
+          stripe_onboarding_complete?: boolean
           updated_at?: string
           vertical?: string
         }
         Relationships: []
+      }
+      payouts: {
+        Row: {
+          amount: number
+          commission_ids: string[]
+          created_at: string
+          id: string
+          merchant_id: string
+          status: string
+          stripe_payout_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          commission_ids?: string[]
+          created_at?: string
+          id?: string
+          merchant_id: string
+          status?: string
+          stripe_payout_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          commission_ids?: string[]
+          created_at?: string
+          id?: string
+          merchant_id?: string
+          status?: string
+          stripe_payout_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payouts_merchant_id_fkey"
+            columns: ["merchant_id"]
+            isOneToOne: false
+            referencedRelation: "merchants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payouts_merchant_id_fkey"
+            columns: ["merchant_id"]
+            isOneToOne: false
+            referencedRelation: "merchants_public"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       price_alerts: {
         Row: {
