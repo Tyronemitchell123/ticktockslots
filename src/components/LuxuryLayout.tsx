@@ -1,10 +1,12 @@
-// LuxuryLayout.tsx - Luxury layout component
-import React from 'react';
-import './LuxuryLayout.css';
+import React, { ReactNode } from 'react';
 
-const LuxuryLayout: React.FC = ({ children }) => {
+interface LuxuryLayoutProps {
+    children: ReactNode;
+}
+
+const LuxuryLayout: React.FC<LuxuryLayoutProps> = ({ children }) => {
     return (
-        <div className="luxury-layout">
+        <div className="min-h-screen bg-background text-foreground">
             {children}
         </div>
     );
