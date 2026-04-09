@@ -221,7 +221,7 @@ const LiveSlotsFeed = () => {
   const { toast } = useToast();
   const { subscribed } = useAuth();
   const navigate = useNavigate();
-  const [slots, setSlots] = useState(MOCK_SLOTS);
+  const [slots, setSlots] = useState<Slot[]>([]);
   const [initialLoading, setInitialLoading] = useState(true);
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
