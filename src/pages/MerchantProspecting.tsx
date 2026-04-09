@@ -408,6 +408,20 @@ export default function MerchantProspecting() {
                                 <Globe className="h-4 w-4" />
                               )}
                             </Button>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => handleSendOutreach(lead)}
+                              disabled={sendingOutreach === lead.id || !lead.contact_email || lead.outreach_sent_at !== null}
+                              title={lead.outreach_sent_at ? "Outreach already sent" : lead.contact_email ? "Send outreach email" : "No email — scrape first"}
+                              className={lead.outreach_sent_at ? "text-muted-foreground" : "text-primary"}
+                            >
+                              {sendingOutreach === lead.id ? (
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                              ) : (
+                                <Send className="h-4 w-4" />
+                              )}
+                            </Button>
                             <Dialog>
                               <DialogTrigger asChild>
                                 <Button size="sm" variant="ghost" onClick={() => setSelectedLead(lead)} title="View details">
@@ -425,6 +439,7 @@ export default function MerchantProspecting() {
                                   {lead.vertical && <p><strong>Vertical:</strong> {lead.vertical}</p>}
                                   {lead.region && <p><strong>Region:</strong> {lead.region}</p>}
                                   {lead.description && <p><strong>Description:</strong> {lead.description}</p>}
+                                  {lead.outreach_sent_at && <p><strong>Outreach sent:</strong> {new Date(lead.outreach_sent_at).toLocaleString()}</p>}
                                   {lead.scraped_data?.scrape_result?.markdown && (
                                     <div>
                                       <strong>Scraped Content (preview):</strong>
@@ -437,7 +452,7 @@ export default function MerchantProspecting() {
                               </DialogContent>
                             </Dialog>
                             <Button size="sm" variant="ghost" onClick={() => handleDelete(lead.id)} title="Delete">
-                              <Trash2 className="h-4 w-4 text-red-400" />
+                              <Trash2 className="h-4 w-4 text-destructive" />
                             </Button>
                           </div>
                         </TableCell>
