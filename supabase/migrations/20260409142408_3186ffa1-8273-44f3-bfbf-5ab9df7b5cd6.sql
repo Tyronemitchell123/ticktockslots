@@ -1,0 +1,1 @@
+DELETE FROM public.slots WHERE source = 'SlotPilot Engine';
