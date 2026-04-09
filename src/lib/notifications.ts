@@ -51,7 +51,7 @@ class NotificationEngine {
     this.listeners.forEach((l) => l(notification));
 
     // Browser notification
-    if (Notification.permission === "granted") {
+    if (typeof Notification !== "undefined" && Notification.permission === "granted") {
       new Notification(notification.title, { body: notification.message, icon: "/placeholder.svg" });
     }
   }
@@ -96,7 +96,7 @@ class NotificationEngine {
   }
 
   requestPermission() {
-    if ("Notification" in window && Notification.permission === "default") {
+    if (typeof Notification !== "undefined" && "Notification" in window && Notification.permission === "default") {
       Notification.requestPermission();
     }
   }
