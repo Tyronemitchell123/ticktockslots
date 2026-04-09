@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import './Dashboard.css';
-import LuxuryLayout from '../components/LuxuryLayout';
-import AIAssistant from '../components/AIAssistant';
 
 interface DashboardStats {
     totalServices: number;
@@ -17,7 +14,6 @@ const Dashboard: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
-            // Simulate API call
             await new Promise(resolve => setTimeout(resolve, 500));
             setData({
                 totalServices: 24,
@@ -31,66 +27,56 @@ const Dashboard: React.FC = () => {
     }, []);
 
     if (loading) {
-        return <div className="loading">Loading your premium dashboard...</div>;
+        return <div className="flex items-center justify-center min-h-screen text-foreground">Loading your premium dashboard...</div>;
     }
 
     return (
-        <LuxuryLayout>
-            <div className="dashboard-container">
-                <header className="dashboard-header">
-                    <h1>Welcome to Aurelia Private Concierge</h1>
-                    <p>Your Personal Luxury Management Platform</p>
+        <div className="min-h-screen bg-background text-foreground p-6">
+            <div className="max-w-6xl mx-auto space-y-8">
+                <header className="text-center space-y-2">
+                    <h1 className="text-3xl font-bold">Welcome to Aurelia Private Concierge</h1>
+                    <p className="text-muted-foreground">Your Personal Luxury Management Platform</p>
                 </header>
-                <section className="stats-grid">
-                    <div className="stat-card">
-                        <h3>Total Services</h3>
-                        <p className="stat-value">{data?.totalServices}</p>
-                    </div>
-                    <div className="stat-card">
-                        <h3>Active Auctions</h3>
-                        <p className="stat-value">{data?.activeAuctions}</p>
-                    </div>
-                    <div className="stat-card">
-                        <h3>Account Balance</h3>
-                        <p className="stat-value">{data?.accountBalance}</p>
-                    </div>
-                    <div className="stat-card">
-                        <h3>Upcoming Events</h3>
-                        <p className="stat-value">{data?.upcomingEvents}</p>
+                <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {[
+                        { label: 'Total Services', value: data?.totalServices },
+                        { label: 'Active Auctions', value: data?.activeAuctions },
+                        { label: 'Account Balance', value: data?.accountBalance },
+                        { label: 'Upcoming Events', value: data?.upcomingEvents },
+                    ].map((stat) => (
+                        <div key={stat.label} className="rounded-lg border border-border bg-card p-4 text-center">
+                            <h3 className="text-sm text-muted-foreground">{stat.label}</h3>
+                            <p className="text-2xl font-bold text-primary">{stat.value}</p>
+                        </div>
+                    ))}
+                </section>
+                <section className="space-y-4">
+                    <h2 className="text-xl font-semibold">Quick Actions</h2>
+                    <div className="flex flex-wrap gap-3">
+                        {['Browse Services', 'View Auctions', 'Manage Events', 'Payment Center'].map((action) => (
+                            <button key={action} className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
+                                {action}
+                            </button>
+                        ))}
                     </div>
                 </section>
-                <section className="quick-actions">
-                    <h2>Quick Actions</h2>
-                    <div className="action-buttons">
-                        <button className="action-btn">Browse Services</button>
-                        <button className="action-btn">View Auctions</button>
-                        <button className="action-btn">Manage Events</button>
-                        <button className="action-btn">Payment Center</button>
-                    </div>
-                </section>
-                <section className="ai-section">
-                    <h2>Your AI Concierge Assistant</h2>
-                    <AIAssistant />
-                </section>
-                <section className="recent-activity">
-                    <h2>Recent Activity</h2>
-                    <div className="activity-list">
-                        <div className="activity-item">
-                            <span className="activity-title">Private Jet Charter</span>
-                            <span className="activity-date">April 8, 2026</span>
-                        </div>
-                        <div className="activity-item">
-                            <span className="activity-title">Luxury Yacht Rental</span>
-                            <span className="activity-date">April 7, 2026</span>
-                        </div>
-                        <div className="activity-item">
-                            <span className="activity-title">Michelin Star Dining</span>
-                            <span className="activity-date">April 6, 2026</span>
-                        </div>
+                <section className="space-y-4">
+                    <h2 className="text-xl font-semibold">Recent Activity</h2>
+                    <div className="space-y-2">
+                        {[
+                            { title: 'Private Jet Charter', date: 'April 8, 2026' },
+                            { title: 'Luxury Yacht Rental', date: 'April 7, 2026' },
+                            { title: 'Michelin Star Dining', date: 'April 6, 2026' },
+                        ].map((item) => (
+                            <div key={item.title} className="flex justify-between items-center rounded-md border border-border bg-card px-4 py-3">
+                                <span className="font-medium">{item.title}</span>
+                                <span className="text-sm text-muted-foreground">{item.date}</span>
+                            </div>
+                        ))}
                     </div>
                 </section>
             </div>
-        </LuxuryLayout>
+        </div>
     );
 };
 
