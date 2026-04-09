@@ -687,12 +687,21 @@ const LiveSlotsFeed = () => {
         <div className="grid gap-4">
           {initialLoading ? (
             Array.from({ length: 6 }).map((_, i) => <SlotSkeleton key={i} />)
+          ) : slots.length === 0 ? (
+            <div className="glass rounded-xl p-12 text-center space-y-4">
+              <Clock className="w-12 h-12 text-primary mx-auto" />
+              <h3 className="text-xl font-bold text-foreground">No live slots yet</h3>
+              <p className="text-muted-foreground max-w-md mx-auto">
+                Real merchant cancellation slots will appear here as businesses post them.
+                Check back soon or join the waitlist to get notified!
+              </p>
+            </div>
           ) : filteredSlots.length === 0 ? (
             <div className="glass rounded-xl p-10 text-center">
               <Globe className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
-              <p className="text-muted-foreground">No live slots in this region right now.</p>
-              <button onClick={() => setSelectedRegion("all")} className="text-primary text-sm mt-2 hover:underline">
-                View all regions →
+              <p className="text-muted-foreground">No live slots match your filters right now.</p>
+              <button onClick={() => { setSelectedRegion("all"); setSelectedVertical("all"); setSearchQuery(""); }} className="text-primary text-sm mt-2 hover:underline">
+                Clear filters →
               </button>
             </div>
           ) : (
