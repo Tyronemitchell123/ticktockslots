@@ -311,12 +311,6 @@ const LiveSlotsFeed = () => {
         setInitialLoading(false);
       }
     };
-        setInitialLoading(false);
-      } catch (e) {
-        console.warn("Live data fetch failed:", e);
-        setInitialLoading(false);
-      }
-    };
     loadFromDb();
     const interval = setInterval(loadFromDb, 15000);
 
