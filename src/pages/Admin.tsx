@@ -848,6 +848,69 @@ const Admin = () => {
             </TabsContent>
           )}
 
+          {isAdmin && (
+            <TabsContent value="subscribers">
+              <Card className="bg-card border-border">
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle className="text-foreground">Email Subscribers</CardTitle>
+                      <CardDescription>{subscribers.filter((s: any) => s.is_active).length} active subscribers</CardDescription>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        const active = subscribers.filter((s: any) => s.is_active);
+                        const csv = ["Email,Source,Subscribed At", ...active.map((s: any) => `${s.email},${s.source},${s.subscribed_at}`)].join("\n");
+                        const blob = new Blob([csv], { type: "text/csv" });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement("a");
+                        a.href = url;
+                        a.download = `subscribers-${new Date().toISOString().split("T")[0]}.csv`;
+                        a.click();
+                        URL.revokeObjectURL(url);
+                        toast.success("Subscriber list exported!");
+                      }}
+                    >
+                      <ArrowUpRight className="w-4 h-4 mr-1" /> Export CSV
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Email</TableHead>
+                          <TableHead>Source</TableHead>
+                          <TableHead>Subscribed</TableHead>
+                          <TableHead>Status</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {subscribers.length === 0 ? (
+                          <TableRow><TableCell colSpan={4} className="text-center text-muted-foreground py-8">No subscribers yet</TableCell></TableRow>
+                        ) : subscribers.map((sub: any) => (
+                          <TableRow key={sub.id}>
+                            <TableCell className="font-medium text-foreground">{sub.email}</TableCell>
+                            <TableCell><Badge variant="outline">{sub.source}</Badge></TableCell>
+                            <TableCell className="text-muted-foreground">{new Date(sub.subscribed_at).toLocaleDateString()}</TableCell>
+                            <TableCell>
+                              <Badge variant={sub.is_active ? "default" : "secondary"}>
+                                {sub.is_active ? "Active" : "Unsubscribed"}
+                              </Badge>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          )}
+
         </Tabs>
       </div>
     </div>
