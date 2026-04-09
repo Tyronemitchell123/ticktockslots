@@ -28,6 +28,7 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const Unsubscribe = lazy(() => import("./pages/Unsubscribe"));
 const EmailDashboard = lazy(() => import("./pages/EmailDashboard"));
 const Billing = lazy(() => import("./pages/Billing"));
+const MerchantEarnings = lazy(() => import("./pages/MerchantEarnings"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
