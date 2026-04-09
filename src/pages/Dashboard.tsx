@@ -11,7 +11,7 @@ import {
   ShoppingBag, TrendingDown, Shield, Heart, Clock, MapPin,
   CheckCircle2, XCircle, AlertTriangle, ArrowRight, CreditCard
 } from "lucide-react";
-import { formatPriceInCurrency, detectCurrency } from "@/lib/currency";
+import { formatPrice } from "@/lib/currency";
 
 interface Booking {
   id: string;
