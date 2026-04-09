@@ -168,6 +168,25 @@ const WaitlistLanding = () => {
               <source src={logoRevealAsset.url} type="video/mp4" />
             </video>
           </div>
+
+          {/* Verticals marketing reel */}
+          <div className="mt-8">
+            <p className="text-center text-xs text-muted-foreground mb-4 uppercase tracking-widest">
+              Sectors we're launching
+            </p>
+            <div className="relative rounded-2xl overflow-hidden border border-border/50 shadow-2xl bg-black">
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                className="w-full aspect-video object-cover"
+              >
+                <source src="/videos/hero-bg.mp4" type="video/mp4" />
+              </video>
+            </div>
+          </div>
         </div>
 
         {/* Sectors preview */}
