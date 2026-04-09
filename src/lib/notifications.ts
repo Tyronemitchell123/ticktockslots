@@ -17,7 +17,10 @@ class NotificationEngine {
   private intervalId: ReturnType<typeof setInterval> | null = null;
 
   constructor() {
-    this.startSimulation();
+    // Only start simulation in browser environments
+    if (typeof window !== "undefined") {
+      this.startSimulation();
+    }
   }
 
   subscribe(listener: NotificationListener) {
