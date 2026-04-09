@@ -1,35 +1,58 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Zap, Clock, ArrowRight, ChevronDown } from "lucide-react";
+import logoRevealAsset from "@/assets/ticktock-logo-reveal.mp4.asset.json";
 
 const HeroSection = () => {
   const [countdown, setCountdown] = useState(47);
-  const [slotsLive, setSlotsLive] = useState(2847);
+  const [showMarketing, setShowMarketing] = useState(false);
+  const logoVideoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCountdown((prev) => (prev <= 0 ? 120 : prev - 1));
-      setSlotsLive((prev) => prev + Math.floor(Math.random() * 3) - 1);
     }, 1000);
     return () => clearInterval(timer);
   }, []);
+
+  const handleLogoEnd = () => {
+    setShowMarketing(true);
+  };
 
   return (
     <section className="relative min-h-screen flex flex-col overflow-hidden">
       {/* === VIDEO HERO — full viewport === */}
       <div className="relative flex-1 flex items-center justify-center min-h-[70vh] md:min-h-[80vh]">
-        {/* Video background — high visibility */}
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          className="absolute inset-0 w-full h-full object-cover brightness-150"
-          poster="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80"
-        >
-          <source src="/videos/hero-bg.mp4" type="video/mp4" />
-        </video>
+        {/* Logo reveal — plays once on load */}
+        {!showMarketing && (
+          <video
+            ref={logoVideoRef}
+            autoPlay
+            muted
+            playsInline
+            preload="auto"
+            onEnded={handleLogoEnd}
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ background: "#000" }}
+          >
+            <source src={logoRevealAsset.url} type="video/mp4" />
+          </video>
+        )}
+
+        {/* Marketing video — loops after logo reveal */}
+        {showMarketing && (
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className="absolute inset-0 w-full h-full object-cover brightness-110"
+            poster="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80"
+          >
+            <source src="/videos/hero-bg.mp4" type="video/mp4" />
+          </video>
+        )}
 
         {/* Subtle gradient for top/bottom blend */}
         <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-transparent to-background" />
