@@ -259,6 +259,63 @@ export type Database = {
         }
         Relationships: []
       }
+      merchant_leads: {
+        Row: {
+          business_name: string
+          contact_email: string | null
+          created_at: string
+          description: string | null
+          id: string
+          location: string | null
+          logo_url: string | null
+          notes: string | null
+          outreach_sent_at: string | null
+          phone: string | null
+          region: string | null
+          scraped_data: Json | null
+          status: string
+          updated_at: string
+          vertical: string | null
+          website_url: string | null
+        }
+        Insert: {
+          business_name: string
+          contact_email?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          location?: string | null
+          logo_url?: string | null
+          notes?: string | null
+          outreach_sent_at?: string | null
+          phone?: string | null
+          region?: string | null
+          scraped_data?: Json | null
+          status?: string
+          updated_at?: string
+          vertical?: string | null
+          website_url?: string | null
+        }
+        Update: {
+          business_name?: string
+          contact_email?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          location?: string | null
+          logo_url?: string | null
+          notes?: string | null
+          outreach_sent_at?: string | null
+          phone?: string | null
+          region?: string | null
+          scraped_data?: Json | null
+          status?: string
+          updated_at?: string
+          vertical?: string | null
+          website_url?: string | null
+        }
+        Relationships: []
+      }
       merchants: {
         Row: {
           contact_email: string | null
