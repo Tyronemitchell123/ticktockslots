@@ -1,6 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { formatDistanceToNow } from "date-fns";
 
-const CLAIMS = [
+interface Claim {
+  name: string;
+  deal: string;
+  savings: string;
+  location: string;
+  ago: string;
+}
+
+const MOCK_CLAIMS: Claim[] = [
   { name: "Sarah M.", deal: "Spa Treatment", savings: "£45", location: "London", ago: "2m ago" },
   { name: "James T.", deal: "Business Class Flight", savings: "$1,200", location: "New York", ago: "3m ago" },
   { name: "Priya K.", deal: "Wedding Venue", savings: "£2,800", location: "Manchester", ago: "5m ago" },
@@ -19,8 +29,32 @@ const CLAIMS = [
   { name: "Nathan W.", deal: "Catering Package", savings: "£750", location: "Cardiff", ago: "25m ago" },
 ];
 
+const currencyByRegion: Record<string, string> = {
+  UK: "£", US: "$", EU: "€",
+};
+
 const ClaimsBanner = () => {
   const [offset, setOffset] = useState(0);
+  const [dbClaims, setDbClaims] = useState<Claim[]>([]);
+
+  useEffect(() => {
+    const fetchClaims = async () => {
+      const { data, error } = await supabase.rpc("get_recent_claims", { claim_limit: 30 });
+      if (!error && data && data.length > 0) {
+        const mapped: Claim[] = data.map((row: any) => ({
+          name: row.display_name || "User",
+          deal: row.deal,
+          savings: `${currencyByRegion[row.region] || "£"}${Number(row.savings).toLocaleString()}`,
+          location: row.location,
+          ago: formatDistanceToNow(new Date(row.created_at), { addSuffix: false }) + " ago",
+        }));
+        setDbClaims(mapped);
+      }
+    };
+    fetchClaims();
+  }, []);
+
+  const claims = dbClaims.length > 0 ? dbClaims : MOCK_CLAIMS;
 
   useEffect(() => {
     const id = requestAnimationFrame(function tick() {
@@ -30,8 +64,8 @@ const ClaimsBanner = () => {
     return () => cancelAnimationFrame(id);
   }, []);
 
-  const items = [...CLAIMS, ...CLAIMS];
-  const resetPoint = CLAIMS.length * 320;
+  const items = useMemo(() => [...claims, ...claims], [claims]);
+  const resetPoint = claims.length * 320;
 
   return (
     <section className="relative overflow-hidden border-y border-border/30 bg-muted/30 py-3">
