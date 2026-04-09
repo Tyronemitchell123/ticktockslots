@@ -218,7 +218,7 @@ const MerchantSlots = () => {
                 </div>
                 {currentPrice && originalPrice && parseFloat(currentPrice) < parseFloat(originalPrice) && (
                   <div className="rounded-md bg-primary/10 p-3 text-sm text-primary">
-                    💰 Customer saves {formatPrice(parseFloat(originalPrice, "GBP") - parseFloat(currentPrice))} ({Math.round((1 - parseFloat(currentPrice) / parseFloat(originalPrice)) * 100)}% off) — You earn {formatPrice(parseFloat(currentPrice, "GBP") * 0.7)} (70%)
+                    💰 Customer saves {formatPrice(parseFloat(originalPrice) - parseFloat(currentPrice), "GBP")} ({Math.round((1 - parseFloat(currentPrice) / parseFloat(originalPrice)) * 100)}% off) — You earn {formatPrice(parseFloat(currentPrice) * 0.7, "GBP")} (70%)
                   </div>
                 )}
                 <Button type="submit" className="w-full" disabled={creating}>
