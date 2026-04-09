@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import ClaimsBanner from "@/components/ClaimsBanner";
 import LiveSlotsFeed from "@/components/LiveSlotsFeed";
 import HowItWorks from "@/components/HowItWorks";
 import SectorShowcase from "@/components/SectorShowcase";
@@ -14,6 +15,7 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <HeroSection />
+      <ClaimsBanner />
       <div id="slots" className="relative">
         <Suspense fallback={null}>
           <GlobeBackground />
