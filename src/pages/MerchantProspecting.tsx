@@ -211,6 +211,42 @@ export default function MerchantProspecting() {
     }
   };
 
+  const handleSendOutreach = async (lead: MerchantLead) => {
+    if (!lead.contact_email) {
+      toast.error("No email address — scrape the website first");
+      return;
+    }
+    setSendingOutreach(lead.id);
+    try {
+      const { error } = await supabase.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "merchant-outreach",
+          recipientEmail: lead.contact_email,
+          idempotencyKey: `outreach-${lead.id}`,
+          templateData: {
+            businessName: lead.business_name,
+            vertical: lead.vertical,
+            region: lead.region,
+          },
+        },
+      });
+      if (error) throw error;
+
+      await supabase
+        .from("merchant_leads")
+        .update({ status: "contacted", outreach_sent_at: new Date().toISOString() })
+        .eq("id", lead.id);
+
+      toast.success(`Outreach email sent to ${lead.contact_email}`);
+      await fetchLeads();
+    } catch (err) {
+      console.error("Outreach failed", err);
+      toast.error("Failed to send outreach email");
+    } finally {
+      setSendingOutreach(null);
+    }
+  };
+
   if (adminLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
