@@ -29,6 +29,7 @@ const Navbar = () => {
           <a href="#how" className="hover:text-foreground transition-colors">How It Works</a>
           <a href="#sectors" className="hover:text-foreground transition-colors">Sectors</a>
           <a href="#pricing" className="hover:text-foreground transition-colors">Pricing</a>
+          <a href="/for-business" className="hover:text-foreground transition-colors font-medium text-primary">For Business</a>
         </div>
 
         <div className="flex items-center gap-3">
