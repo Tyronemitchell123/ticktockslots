@@ -74,24 +74,67 @@ const Admin = () => {
 
     const fetchAdminData = async () => {
       setStatsLoading(true);
-      const [profilesRes, bookingsRes, slotsRes, merchantsRes] = await Promise.all([
+      const [profilesRes, bookingsRes, slotsRes, merchantsRes, commissionsRes, payoutsRes] = await Promise.all([
         isAdmin ? supabase.from("profiles").select("*").limit(50) : Promise.resolve({ data: [] }),
         supabase.from("bookings").select("*, slots(original_price, current_price)").order("created_at", { ascending: false }).limit(50),
         supabase.from("slots").select("*").order("created_at", { ascending: false }).limit(100),
         isAdmin ? supabase.from("merchants").select("*").order("created_at", { ascending: false }).limit(100) : Promise.resolve({ data: [] }),
+        isAdmin ? supabase.from("commissions").select("*, merchants(name)").order("created_at", { ascending: false }).limit(200) : Promise.resolve({ data: [] }),
+        isAdmin ? supabase.from("payouts").select("*, merchants(name)").order("created_at", { ascending: false }).limit(100) : Promise.resolve({ data: [] }),
       ]);
       setUsers(profilesRes.data || []);
       setBookings(bookingsRes.data || []);
       setSlots(slotsRes.data || []);
       setMerchants(merchantsRes.data || []);
+      setCommissions(commissionsRes.data || []);
+      setPayouts(payoutsRes.data || []);
       setStatsLoading(false);
     };
     fetchAdminData();
   }, [user, isAdmin, adminLoading]);
 
-  const refreshMerchants = async () => {
-    const { data } = await supabase.from("merchants").select("*").order("created_at", { ascending: false }).limit(100);
-    if (data) setMerchants(data);
+  const refreshCommissions = async () => {
+    const [c, p] = await Promise.all([
+      supabase.from("commissions").select("*, merchants(name)").order("created_at", { ascending: false }).limit(200),
+      supabase.from("payouts").select("*, merchants(name)").order("created_at", { ascending: false }).limit(100),
+    ]);
+    setCommissions(c.data || []);
+    setPayouts(p.data || []);
+  };
+
+  const handleOnboardMerchant = async (merchantId: string) => {
+    setOnboardingMerchant(merchantId);
+    try {
+      const { data, error } = await supabase.functions.invoke("connect-merchant", {
+        body: { merchant_id: merchantId },
+      });
+      if (error) throw error;
+      if (data?.url) {
+        window.open(data.url, "_blank");
+        toast.success("Stripe Connect onboarding opened in new tab");
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Failed to onboard merchant");
+    } finally {
+      setOnboardingMerchant(null);
+    }
+  };
+
+  const handlePayout = async (merchantId: string) => {
+    setPayingOut(merchantId);
+    try {
+      const { data, error } = await supabase.functions.invoke("process-payout", {
+        body: { merchant_id: merchantId },
+      });
+      if (error) throw error;
+      toast.success(`Payout of £${data.amount.toFixed(2)} sent for ${data.commissions_paid} booking(s)`);
+      refreshCommissions();
+      refreshMerchants();
+    } catch (err: any) {
+      toast.error(err.message || "Failed to process payout");
+    } finally {
+      setPayingOut(null);
+    }
   };
 
   const toggleVerify = async (id: string, current: boolean) => {
