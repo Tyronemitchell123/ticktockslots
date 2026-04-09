@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import ClaimsBanner from "@/components/ClaimsBanner";
 import LiveSlotsFeed from "@/components/LiveSlotsFeed";
 import HowItWorks from "@/components/HowItWorks";
 import SectorShowcase from "@/components/SectorShowcase";
