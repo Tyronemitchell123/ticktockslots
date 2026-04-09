@@ -67,6 +67,7 @@ const verticalDetails: Record<string, { icon: string; category: string; trustBad
   Flights: { icon: "✈️", category: "Travel & Flights", trustBadge: "ATOL/IATA Protected" },
   Luxury: { icon: "💎", category: "Luxury & Designer", trustBadge: "Authenticated Item" },
   Food: { icon: "🥗", category: "Food & Grocery", trustBadge: "Quality Assured" },
+  Electronics: { icon: "📱", category: "Electronics & Tech", trustBadge: "Certified Refurbished" },
 };
 
 type Step = "details" | "confirm" | "success";
