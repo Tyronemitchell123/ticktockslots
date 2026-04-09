@@ -718,6 +718,132 @@ const Admin = () => {
             </TabsContent>
           )}
 
+          {/* Commissions Tab (Admin Only) */}
+          {isAdmin && (
+            <TabsContent value="commissions">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                <MetricCard icon={DollarSign} label="Total Revenue" value={`£${commissions.reduce((s: number, c: any) => s + Number(c.gross_amount), 0).toFixed(2)}`} />
+                <MetricCard icon={CreditCard} label="Platform Fees (30%)" value={`£${commissions.reduce((s: number, c: any) => s + Number(c.platform_fee), 0).toFixed(2)}`} />
+                <MetricCard icon={ArrowUpRight} label="Merchant Payouts (70%)" value={`£${commissions.reduce((s: number, c: any) => s + Number(c.merchant_payout), 0).toFixed(2)}`} />
+                <MetricCard icon={Activity} label="Pending Payouts" value={commissions.filter((c: any) => c.status === "pending").length} />
+              </div>
+
+              <Card className="bg-card border-border mb-6">
+                <CardHeader>
+                  <CardTitle className="text-lg">Merchant Payouts</CardTitle>
+                  <CardDescription>Onboard merchants to Stripe Connect and process payouts</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Merchant</TableHead>
+                        <TableHead>Stripe Status</TableHead>
+                        <TableHead>Pending</TableHead>
+                        <TableHead>Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {merchants.map((m: any) => {
+                        const pendingAmount = commissions
+                          .filter((c: any) => c.merchant_id === m.id && c.status === "pending")
+                          .reduce((s: number, c: any) => s + Number(c.merchant_payout), 0);
+                        const pendingCount = commissions.filter((c: any) => c.merchant_id === m.id && c.status === "pending").length;
+                        return (
+                          <TableRow key={m.id}>
+                            <TableCell className="font-medium">{m.name}</TableCell>
+                            <TableCell>
+                              {m.stripe_onboarding_complete ? (
+                                <Badge className="bg-green-500/10 text-green-500 border-green-500/30">Connected</Badge>
+                              ) : m.stripe_account_id ? (
+                                <Badge variant="outline" className="text-yellow-500 border-yellow-500/30">Pending</Badge>
+                              ) : (
+                                <Badge variant="outline" className="text-muted-foreground">Not Connected</Badge>
+                              )}
+                            </TableCell>
+                            <TableCell>
+                              {pendingCount > 0 ? (
+                                <span className="text-sm font-mono">£{pendingAmount.toFixed(2)} ({pendingCount})</span>
+                              ) : (
+                                <span className="text-sm text-muted-foreground">—</span>
+                              )}
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex gap-2">
+                                {!m.stripe_onboarding_complete && (
+                                  <Button size="sm" variant="outline" onClick={() => handleOnboardMerchant(m.id)} disabled={onboardingMerchant === m.id}>
+                                    {onboardingMerchant === m.id ? <Loader2 className="w-3 h-3 animate-spin mr-1" /> : <CreditCard className="w-3 h-3 mr-1" />}
+                                    {m.stripe_account_id ? "Resume" : "Connect Stripe"}
+                                  </Button>
+                                )}
+                                {m.stripe_onboarding_complete && pendingCount > 0 && (
+                                  <Button size="sm" onClick={() => handlePayout(m.id)} disabled={payingOut === m.id}>
+                                    {payingOut === m.id ? <Loader2 className="w-3 h-3 animate-spin mr-1" /> : <ArrowUpRight className="w-3 h-3 mr-1" />}
+                                    Pay £{pendingAmount.toFixed(2)}
+                                  </Button>
+                                )}
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card border-border">
+                <CardHeader>
+                  <CardTitle className="text-lg">Commission Ledger</CardTitle>
+                  <CardDescription>All commission records with 70/30 split breakdown</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Date</TableHead>
+                          <TableHead>Merchant</TableHead>
+                          <TableHead>Gross</TableHead>
+                          <TableHead>Platform (30%)</TableHead>
+                          <TableHead>Merchant (70%)</TableHead>
+                          <TableHead>Status</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {commissions.length === 0 ? (
+                          <TableRow>
+                            <TableCell colSpan={6} className="text-center text-muted-foreground py-8">
+                              No commissions yet — created automatically when bookings are confirmed or paid.
+                            </TableCell>
+                          </TableRow>
+                        ) : (
+                          commissions.map((c: any) => (
+                            <TableRow key={c.id}>
+                              <TableCell className="text-xs font-mono">{new Date(c.created_at).toLocaleDateString()}</TableCell>
+                              <TableCell>{c.merchants?.name || "Unknown"}</TableCell>
+                              <TableCell className="font-mono">£{Number(c.gross_amount).toFixed(2)}</TableCell>
+                              <TableCell className="font-mono text-primary">£{Number(c.platform_fee).toFixed(2)}</TableCell>
+                              <TableCell className="font-mono">£{Number(c.merchant_payout).toFixed(2)}</TableCell>
+                              <TableCell>
+                                <Badge
+                                  variant={c.status === "paid" ? "default" : "outline"}
+                                  className={c.status === "paid" ? "bg-green-500/10 text-green-500 border-green-500/30" : c.status === "failed" ? "text-destructive border-destructive/30" : ""}
+                                >
+                                  {c.status}
+                                </Badge>
+                              </TableCell>
+                            </TableRow>
+                          ))
+                        )}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          )}
+
         </Tabs>
       </div>
     </div>
