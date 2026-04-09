@@ -122,7 +122,7 @@ const Dashboard = () => {
           <Card>
             <CardContent className="pt-6 text-center">
               <TrendingDown className="w-8 h-8 mx-auto text-emerald-500 mb-2" />
-              <p className="text-2xl font-bold text-foreground">{formatPriceInCurrency(totalSavings, currency)}</p>
+              <p className="text-2xl font-bold text-foreground">{formatPrice(totalSavings, currency)}</p>
               <p className="text-xs text-muted-foreground">Total Saved</p>
             </CardContent>
           </Card>
@@ -212,7 +212,7 @@ const Dashboard = () => {
                       </Badge>
                       {b.slot && (
                         <p className="text-xs text-emerald-500 mt-1">
-                          Saved {formatPriceInCurrency(b.slot.original_price - b.slot.current_price, currency)}
+                          Saved {formatPrice(b.slot.original_price - b.slot.current_price, currency)}
                         </p>
                       )}
                     </div>
@@ -247,10 +247,10 @@ const Dashboard = () => {
                         <Badge variant="outline" className="text-xs">{d.vertical}</Badge>
                         <div className="text-xs">
                           <span className="line-through text-muted-foreground mr-1">
-                            {formatPriceInCurrency(d.originalPrice, currency)}
+                            {formatPrice(d.originalPrice, currency)}
                           </span>
                           <span className="font-bold text-emerald-500">
-                            {formatPriceInCurrency(d.currentPrice, currency)}
+                            {formatPrice(d.currentPrice, currency)}
                           </span>
                         </div>
                       </div>
