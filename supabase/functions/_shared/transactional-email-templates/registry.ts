@@ -14,6 +14,7 @@ import { template as welcome } from './welcome.tsx'
 import { template as priceAlertMatch } from './price-alert-match.tsx'
 import { template as autoClaimConfirmation } from './auto-claim-confirmation.tsx'
 import { template as merchantOutreach } from './merchant-outreach.tsx'
+import { template as merchantInvitation } from './merchant-invitation.tsx'
 
 export const TEMPLATES: Record<string, TemplateEntry> = {
   'booking-confirmation': bookingConfirmation,
@@ -21,4 +22,5 @@ export const TEMPLATES: Record<string, TemplateEntry> = {
   'price-alert-match': priceAlertMatch,
   'auto-claim-confirmation': autoClaimConfirmation,
   'merchant-outreach': merchantOutreach,
+  'merchant-invitation': merchantInvitation,
 }
