@@ -218,6 +218,7 @@ const Admin = () => {
                 <TabsTrigger value="merchants"><Store className="w-4 h-4 mr-1" />Merchants</TabsTrigger>
                 <TabsTrigger value="slots"><CalendarPlus className="w-4 h-4 mr-1" />Add Slot</TabsTrigger>
                 <TabsTrigger value="commissions"><DollarSign className="w-4 h-4 mr-1" />Commissions</TabsTrigger>
+                <TabsTrigger value="subscribers"><Mail className="w-4 h-4 mr-1" />Subscribers</TabsTrigger>
               </>
             )}
             <TabsTrigger value="alerts"><Bell className="w-4 h-4 mr-1" />Price Alerts</TabsTrigger>
