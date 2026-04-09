@@ -15,6 +15,7 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <HeroSection />
+      <ClaimsBanner />
       <div id="slots" className="relative">
         <Suspense fallback={null}>
           <GlobeBackground />
