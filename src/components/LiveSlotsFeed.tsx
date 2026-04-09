@@ -432,6 +432,20 @@ const MOCK_SLOTS: Slot[] = [
   { id: "fg10", merchant: "Abel & Cole Organic", vertical: "Food", location: "Bristol, UK", region: "UK", time: "Organic box — subscriber pause", originalPrice: 28, currentPrice: 10, urgency: "critical", timeLeft: 30 },
   { id: "fg11", merchant: "Carrefour Clearance", vertical: "Food", location: "Paris, FR", region: "Europe", time: "Short-date premium goods", originalPrice: 45, currentPrice: 15, urgency: "critical", timeLeft: 22 },
   { id: "fg12", merchant: "Spinneys Surplus", vertical: "Food", location: "Dubai, AE", region: "Middle East", time: "Gourmet deli clearance", originalPrice: 70, currentPrice: 25, urgency: "high", timeLeft: 110 },
+
+  // ===== Electronics & Tech =====
+  { id: "el01", merchant: "Apple Refurbished", vertical: "Electronics", location: "London, UK", region: "UK", time: "MacBook Pro — open-box return", originalPrice: 2499, currentPrice: 1699, urgency: "critical", timeLeft: 20 },
+  { id: "el02", merchant: "Samsung Outlet", vertical: "Electronics", location: "Manchester, UK", region: "UK", time: "Galaxy S24 Ultra — refurbished", originalPrice: 1299, currentPrice: 749, urgency: "high", timeLeft: 90 },
+  { id: "el03", merchant: "Amazon Warehouse", vertical: "Electronics", location: "New York, NY", region: "North America", time: "Sony WH-1000XM5 — open box", originalPrice: 399, currentPrice: 219, urgency: "critical", timeLeft: 15 },
+  { id: "el04", merchant: "Currys Clearance", vertical: "Electronics", location: "Birmingham, UK", region: "UK", time: "LG OLED TV — ex-display", originalPrice: 1899, currentPrice: 1099, urgency: "high", timeLeft: 120 },
+  { id: "el05", merchant: "Back Market Verified", vertical: "Electronics", location: "Paris, FR", region: "Europe", time: "iPhone 15 Pro — Grade A refurb", originalPrice: 1199, currentPrice: 699, urgency: "critical", timeLeft: 25 },
+  { id: "el06", merchant: "Best Buy Open Box", vertical: "Electronics", location: "Los Angeles, CA", region: "North America", time: "iPad Air — returned unused", originalPrice: 799, currentPrice: 529, urgency: "high", timeLeft: 150 },
+  { id: "el07", merchant: "John Lewis Returns", vertical: "Electronics", location: "Leeds, UK", region: "UK", time: "Dyson V15 — customer return", originalPrice: 699, currentPrice: 399, urgency: "high", timeLeft: 180 },
+  { id: "el08", merchant: "MediaMarkt Flash", vertical: "Electronics", location: "Berlin, DE", region: "Europe", time: "PS5 bundle — flash sale", originalPrice: 599, currentPrice: 389, urgency: "critical", timeLeft: 18 },
+  { id: "el09", merchant: "Micro Center Deals", vertical: "Electronics", location: "Chicago, IL", region: "North America", time: "RTX 4080 — overstock", originalPrice: 1199, currentPrice: 749, urgency: "high", timeLeft: 95 },
+  { id: "el10", merchant: "Argos Refurbished", vertical: "Electronics", location: "Bristol, UK", region: "UK", time: "Nintendo Switch OLED — refurb", originalPrice: 349, currentPrice: 219, urgency: "medium", timeLeft: 280 },
+  { id: "el11", merchant: "JB Hi-Fi Clearance", vertical: "Electronics", location: "Sydney, AU", region: "Asia Pacific", time: "Bose QC Ultra — ex-demo", originalPrice: 549, currentPrice: 329, urgency: "high", timeLeft: 110 },
+  { id: "el12", merchant: "Virgin Megastore", vertical: "Electronics", location: "Dubai, AE", region: "Middle East", time: "DJI Mini 4 Pro — open box", originalPrice: 899, currentPrice: 549, urgency: "critical", timeLeft: 30 },
 ];
 
 
@@ -587,6 +601,11 @@ const SLOT_DETAILS: Record<string, { description: string; includes: string[]; id
     description: "Restaurant surplus, cancelled meal kits, and wholesale grocery clearance at massive savings.",
     includes: ["Quality guaranteed", "Same-day collection", "Full product details", "Freshness assured"],
     ideal: "Great for food lovers wanting premium groceries and meals at a fraction of the price.",
+  },
+  Electronics: {
+    description: "Refurbished gadgets, open-box returns, and flash sales on top tech brands at steep discounts.",
+    includes: ["Manufacturer warranty", "Full inspection report", "Original accessories", "Return guarantee"],
+    ideal: "Perfect for tech enthusiasts wanting premium electronics without the premium price tag.",
   },
 };
 
@@ -1129,8 +1148,10 @@ const LiveSlotsFeed = () => {
                               : slot.vertical === "Luxury"
                                 ? "border-amber-400/30 hover:border-amber-400/50 shadow-[0_0_15px_-3px_rgba(251,191,36,0.2)]"
                                 : slot.vertical === "Food"
-                                  ? "border-lime-400/30 hover:border-lime-400/50 shadow-[0_0_15px_-3px_rgba(163,230,53,0.15)]"
-                                  : isGated ? "opacity-80" : "hover:border-primary/30"
+                                   ? "border-lime-400/30 hover:border-lime-400/50 shadow-[0_0_15px_-3px_rgba(163,230,53,0.15)]"
+                                   : slot.vertical === "Electronics"
+                                     ? "border-cyan-400/30 hover:border-cyan-400/50 shadow-[0_0_15px_-3px_rgba(34,211,238,0.15)]"
+                                     : isGated ? "opacity-80" : "hover:border-primary/30"
                   }`}
                 >
                   <div
@@ -1152,13 +1173,15 @@ const LiveSlotsFeed = () => {
                                   : slot.vertical === "Luxury"
                                     ? "bg-gradient-to-br from-amber-500/20 to-yellow-400/20 ring-1 ring-amber-400/30"
                                     : slot.vertical === "Food"
-                                      ? "bg-gradient-to-br from-lime-500/20 to-green-400/20 ring-1 ring-lime-400/30"
-                                      : isUnicorn
-                                        ? "bg-gradient-to-br from-purple-500/20 to-pink-500/20"
-                                        : "bg-muted"
+                                       ? "bg-gradient-to-br from-lime-500/20 to-green-400/20 ring-1 ring-lime-400/30"
+                                       : slot.vertical === "Electronics"
+                                         ? "bg-gradient-to-br from-cyan-500/20 to-teal-400/20 ring-1 ring-cyan-400/30"
+                                         : isUnicorn
+                                           ? "bg-gradient-to-br from-purple-500/20 to-pink-500/20"
+                                           : "bg-muted"
                       }`}>
                         <span className="text-lg font-bold text-primary">
-                          {slot.vertical === "Holiday" ? "🌴" : slot.vertical === "Wedding" ? "💒" : slot.vertical === "Cars" ? "🚘" : slot.vertical === "Gym" ? "🏋️" : slot.vertical === "Flights" ? "✈️" : slot.vertical === "Luxury" ? "💎" : slot.vertical === "Food" ? "🥗" : isUnicorn ? "🦄" : slot.vertical[0]}
+                          {slot.vertical === "Holiday" ? "🌴" : slot.vertical === "Wedding" ? "💒" : slot.vertical === "Cars" ? "🚘" : slot.vertical === "Gym" ? "🏋️" : slot.vertical === "Flights" ? "✈️" : slot.vertical === "Luxury" ? "💎" : slot.vertical === "Food" ? "🥗" : slot.vertical === "Electronics" ? "📱" : isUnicorn ? "🦄" : slot.vertical[0]}
                         </span>
                       </div>
                       <div>
@@ -1202,10 +1225,15 @@ const LiveSlotsFeed = () => {
                             </Badge>
                           )}
                           {slot.vertical === "Luxury" && (
-                            <Badge className="bg-gradient-to-r from-amber-500/20 to-yellow-400/20 text-amber-300 border-amber-400/30 text-[9px] py-0 px-1.5 animate-pulse">
-                              💎 Luxury Deal
-                            </Badge>
-                          )}
+                             <Badge className="bg-gradient-to-r from-amber-500/20 to-yellow-400/20 text-amber-300 border-amber-400/30 text-[9px] py-0 px-1.5 animate-pulse">
+                               💎 Luxury Deal
+                             </Badge>
+                           )}
+                          {slot.vertical === "Electronics" && (
+                             <Badge className="bg-gradient-to-r from-cyan-500/20 to-teal-400/20 text-cyan-300 border-cyan-400/30 text-[9px] py-0 px-1.5 animate-pulse">
+                               📱 Tech Deal
+                             </Badge>
+                           )}
                           {slot.isLive && (
                             <Badge variant="outline" className="bg-green-400/10 text-green-400 border-green-400/30 text-[9px] py-0 px-1.5 gap-0.5">
                               <Radio className="w-2.5 h-2.5 animate-countdown" /> {slot.source}

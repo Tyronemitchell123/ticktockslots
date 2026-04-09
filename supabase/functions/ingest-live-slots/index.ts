@@ -156,6 +156,15 @@ function generateSlots(): SlotRow[] {
     { name: "Gousto Box Cancel", vertical: "Food", location: "London, UK", region: "UK", base: 35, hours: [0, 24] },
     { name: "Carrefour Short-Date", vertical: "Food", location: "Paris, FR", region: "Europe", base: 45, hours: [7, 22] },
     { name: "Instacart Flash", vertical: "Food", location: "Los Angeles, CA", region: "North America", base: 85, hours: [15, 2] },
+    // Electronics & Tech
+    { name: "Apple Refurbished", vertical: "Electronics", location: "London, UK", region: "UK", base: 2499, hours: [0, 24] },
+    { name: "Samsung Outlet", vertical: "Electronics", location: "Manchester, UK", region: "UK", base: 1299, hours: [8, 22] },
+    { name: "Amazon Warehouse", vertical: "Electronics", location: "New York, NY", region: "North America", base: 399, hours: [0, 24] },
+    { name: "Back Market Verified", vertical: "Electronics", location: "Paris, FR", region: "Europe", base: 1199, hours: [7, 23] },
+    { name: "Best Buy Open Box", vertical: "Electronics", location: "Los Angeles, CA", region: "North America", base: 799, hours: [14, 2] },
+    { name: "Currys Clearance", vertical: "Electronics", location: "Birmingham, UK", region: "UK", base: 1899, hours: [8, 21] },
+    { name: "MediaMarkt Flash", vertical: "Electronics", location: "Berlin, DE", region: "Europe", base: 599, hours: [7, 22] },
+    { name: "JB Hi-Fi Clearance", vertical: "Electronics", location: "Sydney, AU", region: "Asia Pacific", base: 549, hours: [22, 10] },
   ];
 
   // Pick merchants whose business hours overlap current UTC hour
@@ -178,6 +187,7 @@ function generateSlots(): SlotRow[] {
       : m.vertical === "Storage" ? 0.4 + Math.random() * 0.2
       : m.vertical === "Luxury" ? 0.45 + Math.random() * 0.25
       : m.vertical === "Food" ? 0.5 + Math.random() * 0.3
+      : m.vertical === "Electronics" ? 0.25 + Math.random() * 0.2
       : 0.2 + Math.random() * 0.35;
     const urgencies: Array<"critical" | "high" | "medium"> = ["critical", "high", "medium"];
     const urgency = urgencies[Math.floor(Math.random() * 3)];
@@ -197,6 +207,8 @@ function generateSlots(): SlotRow[] {
       ? ["Sample sale", "Authenticated return", "Price drop", "Consignment deal", "Ex-display item"]
       : m.vertical === "Food"
       ? ["Restaurant surplus", "Meal kit cancelled", "Short-date clearance", "Bulk overstock", "Subscriber pause"]
+      : m.vertical === "Electronics"
+      ? ["Open-box return", "Refurbished unit", "Flash sale", "Ex-display model", "Overstock clearance"]
       : ["Last-minute cancellation", "Schedule gap", "No-show opening", "Rescheduled client"];
     const reason = reasons[Math.floor(Math.random() * reasons.length)];
 

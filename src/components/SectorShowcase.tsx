@@ -163,6 +163,12 @@ const sectors = [
     description: "Restaurant surplus, cancelled meal kits, and wholesale grocery clearance at up to 75% off.",
     stat: "15K deals/day",
   },
+  {
+    icon: Laptop,
+    title: "Electronics & Tech",
+    description: "Refurbished gadgets, open-box returns, and flash sales on top tech brands at up to 45% off.",
+    stat: "7.8K deals/day",
+  },
 ];
 
 const SectorShowcase = () => {
